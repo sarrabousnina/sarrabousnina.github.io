@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === "production";
+const repo = "Sarra_Bousnina_Portfolio"; // 👈 your repo name
+
 const nextConfig = {
+  output: "export", // for static export
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -7,8 +11,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // required for next export
   },
-}
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `/${repo}/` : "",
+};
 
-export default nextConfig
+export default nextConfig;
