@@ -82,7 +82,7 @@ demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
 {
   id: 2,
   title: "TimeForge",
-  subtitle: "AI-Powered Productivity App",
+  subtitle: "AI-Powered Productivity App (Award-Winning)",
   description:
     "Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.",
   longDescription:
