@@ -5,11 +5,11 @@
 "scripts": {
   "dev": "next dev",
   "build": "next build",
-  "export": "next export",
-  "build:static": "next build && next export",
-  "start": "next start",
-  "deploy": "next build && next export && gh-pages -d out"
-},
+  "export": "next export",          
+  "build:static": "next build",
+  "deploy": "next build && gh-pages -d out"
+}
+,
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.10.0",
