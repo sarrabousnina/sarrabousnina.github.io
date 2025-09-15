@@ -117,7 +117,7 @@ export function Footer() {
           {/* Copyright */}
           <motion.div variants={itemVariants} className="pt-8 border-t border-border/50">
             <p className="text-muted-foreground text-sm flex items-center justify-center gap-2">
-              © 2024 Sarra Bousnina. Built with
+              © 2025 Sarra Bousnina. Built with
               <Heart className="h-4 w-4 text-red-500 fill-current" />
               using Next.js, Tailwind CSS, and Framer Motion.
             </p>
