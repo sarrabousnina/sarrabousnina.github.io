@@ -3,6 +3,8 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Award } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { getAssetPath } from "@/lib/asset";
+
 
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
 const certifications = [
@@ -10,7 +12,7 @@ const certifications = [
     title: "Rapid Application Development with Large Language Models (LLMs)",
     issuer: "NVIDIA",
     date: "06/2025",
-    logo: "/logos/rapidLLM.png",
+logo: getAssetPath("/logos/rapidLLM.png"),
     tags: ["LLMs", "Prototyping", "RAG"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=uMJ7N_LVSkubv8t3mJ6Iag",
   },
@@ -18,7 +20,7 @@ const certifications = [
     title: "Building AI Agents with Multimodal Models",
     issuer: "NVIDIA",
     date: "06/2025",
-    logo: "/logos/AIagent.png",
+logo: getAssetPath("/logos/AIagent.png"),
     tags: ["Agents", "Multimodal", "Vision+LLM"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=14xeyRKPQXi5rxi4FhLpmA",
   },
@@ -26,7 +28,7 @@ const certifications = [
     title: "Building LLM Applications with Prompt Engineering",
     issuer: "NVIDIA",
     date: "06/2025",
-    logo: "/logos/LLMprompt.png",
+logo: getAssetPath("/logos/LLMprompt.png"),
     tags: ["Prompt Engineering", "LLMs"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=7Sdwdy9yS3-_RazfdvF-kg",
   },
@@ -34,7 +36,7 @@ const certifications = [
     title: "Building Transformer-Based Natural Language Processing Applications",
     issuer: "NVIDIA",
     date: "06/2025",
-    logo: "/logos/transformerNLP.png",
+logo: getAssetPath("/logos/transformerNLP.png"),
     tags: ["Transformers", "NLP"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=tUl-7lrXT_6VYQ61bdEbWA",
   },
@@ -42,7 +44,7 @@ const certifications = [
     title: "Evaluation and Light Customization of Large Language Models",
     issuer: "NVIDIA",
     date: "06/2025",
-    logo: "/logos/evalLLM.png",
+    logo: getAssetPath("/logos/evalLLM.png"),
     tags: ["Evaluation", "Fine-tuning", "LoRA"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=g2RO6yzzQ2SzOvpWb7bcag",
   },
@@ -50,7 +52,7 @@ const certifications = [
     title: "Fundamentals of Deep Learning",
     issuer: "NVIDIA",
     date: "03/2025",
-    logo: "/logos/DL.png",
+    logo: getAssetPath("/logos/DL.png"),
     tags: ["Deep Learning", "Neural Networks", "AI"],
     credentialUrl: "https://learn.nvidia.com/certificates?id=KBA4J8RJS-a7BrB5DLoswQ",
   },
@@ -58,7 +60,7 @@ const certifications = [
     title: "Scrum Fundamentals Certified (SFC)",
     issuer: "SCRUMstudy",
     date: "12/2024",
-    logo: "/logos/SCRUM.png",
+    logo: getAssetPath("/logos/SCRUM.png"),
     tags: ["Scrum", "Agile", "Project Management"],
     credentialUrl: "https://www.scrumstudy.com/certification/verify?type=SFC&number=1059261",
   },
@@ -66,7 +68,7 @@ const certifications = [
     title: "The Git & GitHub BootCamp",
     issuer: "Udemy",
     date: "11/2024",
-    logo: "/logos/Git.png",
+    logo: getAssetPath("/logos/Git.png"),
     tags: ["Git", "GitHub", "Version Control"],
     credentialUrl: "https://www.udemy.com/certificate/UC-2b4a1591-7027-487c-8832-1e6577da90fa/",
   },
@@ -74,7 +76,7 @@ const certifications = [
     title: "Supervised Machine Learning: Regression and Classification",
     issuer: "DeepLearning.AI (Stanford) / Coursera",
     date: "03/2024",
-    logo: "/logos/ML.png",
+    logo: getAssetPath("/logos/ML.png"),
     tags: ["Machine Learning", "Python", "Algorithms"],
     credentialUrl: "https://www.coursera.org/account/accomplishments/verify/R5HUEBEZXLBV",
   },
@@ -82,7 +84,7 @@ const certifications = [
     title: "Introduction to Front-End Development",
     issuer: "Meta / Coursera",
     date: "04/2024",
-    logo: "/logos/front.png",
+    logo: getAssetPath("/logos/front.png"),
     tags: ["HTML", "CSS", "JavaScript", "React"],
     credentialUrl: "https://www.coursera.org/account/accomplishments/verify/26W5W3GA7WR4",
   },

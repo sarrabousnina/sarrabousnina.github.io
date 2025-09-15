@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
+import { getAssetPath } from "@/lib/asset";
 import { Variants, easeOut, easeInOut } from "framer-motion"
 
 
@@ -53,7 +54,7 @@ const projects = [
     "Web application that automates exam correction using OCR, LLMs, and agentic reasoning. Provides per-question and overall feedback with a grade out of 20.",
   longDescription:
     "CorrectMeAI is an AI-based web application developed during my internship at Mahd.Group. It leverages OCR to extract answers from scanned exams and integrates the Qwen3 LLM to compare student responses with the teacher’s key, generating both per-question feedback and an overall grade. To enhance usability, the system includes a chatbot powered by Retrieval-Augmented Generation (RAG) and a ReAct-style agent with memory, allowing teachers to query and interact with exam data naturally. The platform combines a React.js frontend with a Python Flask backend and MongoDB for data management, showcasing how AI can make exam correction faster, fairer, and smarter.",
-  image: "/images/correctme.png",
+image: getAssetPath("/images/correctme.png"),
   technologies: [
     "React.js",
     "Python",
@@ -76,7 +77,7 @@ const projects = [
     "Data management with MongoDB"
   ],
   github: "https://github.com/sarrabousnina/CorrectMeAi",
-  demo: "/videos/CorrectMeAi-demo.mp4"
+demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
 },
 {
   id: 2,
@@ -86,8 +87,8 @@ const projects = [
     "Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.",
   longDescription:
     "TimeForge helps individuals and teams manage projects and recurring tasks (daily/weekly/monthly) with reminders. It detects distractions in real time (inactivity & tab switching), analyzes mood via quiz, text (LLM), and photo (DeepFace), and computes a stress index to personalize advice. Points-based gamification unlocks rewards and Pro access; an Enterprise version adds team management and dashboards.",
-  image: "/images/timeforge.jpg",              // ✅ lives in /public/images
-  video: "/videos/timeforge-demo.mp4",         // ✅ lives in /public/videos
+image: getAssetPath("/images/timeforge.jpg"), // ✅ correct in dev + GitHub Pages
+    video: getAssetPath("/videos/timeforge-demo.mp4"),         // ✅ lives in /public/videos
   technologies: [
     "Angular",
     "Spring Boot",
@@ -108,7 +109,7 @@ const projects = [
     "Secure auth & roles with Keycloak"
   ],
   github: "https://github.com/BHAmna/PI", 
-  demo: "/videos/timeforge-demo.mp4"                
+    demo: getAssetPath("/videos/timeforge-demo.mp4")                
 },
 {
   id: 3,
@@ -118,7 +119,7 @@ const projects = [
     "Simple full-stack CRUD app to manage employees with search by name.",
   longDescription:
     "Employee Manager is a learning project built to practice Angular + Spring Boot. It exposes a REST API for employees and a reactive Angular UI to list, create, update, and delete records. It also supports quick search by name.",
-  image: "/images/EmployeeManager.png", 
+image: getAssetPath("/images/EmployeeManager.png"),
   technologies: ["Angular", "TypeScript", "Spring Boot", "Java", "MySQL", "REST API"],
   category: "Full-Stack",
   features: [
@@ -138,7 +139,7 @@ const projects = [
     "Full-stack university platform built in a team of four. I owned the Clubs module (CRUD, join/leave, ratings, SMS).",
   longDescription:
     "University is a campus management web app developed by a team of four using Symfony + MySQL. My scope was the Clubs module: create/edit clubs, view details, member counts, join/leave with Twilio SMS notifications, search & filters, and club ratings. The app also includes events, trainings, and library management.",
-  image: "/images/university.jpg",
+image: getAssetPath("/images/university.jpg"),
   technologies: ["Symfony (PHP)", "MySQL", "Twig", "REST API", "Twilio SMS"],
   category: "Web Platform",
   features: [
@@ -160,7 +161,7 @@ const projects = [
     "Cross-platform app to request insurance quotes and find nearby CTAMA agencies on a map.",
   longDescription:
     "Built with .NET MAUI for Android/iOS. Users can request quotes for Home, Car, Agriculture, and Health, browse a news feed on the home screen, and locate agencies on an interactive map. Some static pages were implemented with embedded HTML/CSS.",
-  image: "/images/ctama.png", 
+image: getAssetPath("/images/ctama.png"),
   technologies: [
     ".NET MAUI",
     "C#",

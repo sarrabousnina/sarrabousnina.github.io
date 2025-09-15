@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Download, Mail } from "lucide-react"
 import Image from "next/image"
+import { getAssetPath } from "@/lib/asset";
 import { Variants, easeOut, easeInOut } from "framer-motion"
 
 
@@ -191,13 +192,14 @@ export function HeroSection() {
                   <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden ring-2 ring-transparent bg-gradient-to-r from-emerald-500 to-teal-500 p-1 shadow-lg">
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-background">
                       <Image
-                        src="/sarra.jpg"
+                        src={getAssetPath("/sarra.jpg")}
                         alt="Sarra Bousnina - AI Software Engineer"
                         width={320}
                         height={320}
                         className="w-full h-full object-cover"
                         priority
                       />
+
                     </div>
                   </div>
 
