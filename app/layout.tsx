@@ -58,7 +58,9 @@ export default function RootLayout({
       <body className={`font-sans ${plusJakartaSans.variable} ${inter.variable} antialiased`}>
         <Suspense fallback={null}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
+            <>
+              {children}
+            </>
           </ThemeProvider>
         </Suspense>
         <Analytics />

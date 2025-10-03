@@ -8,6 +8,7 @@ import CertificationsSection from "@/components/sections/certifications-section"
 import CommunitySection from "@/components/sections/community-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { Footer } from "@/components/footer"
+import { PrizesSection } from "@/components/sections/prizes-section"
 
 export default function Home() {
   return (
@@ -31,6 +32,8 @@ export default function Home() {
       </div>
 
       <CertificationsSection />
+
+      <PrizesSection />
 
       <div className="section-surface mx-4 sm:mx-6 lg:mx-8">
         <CommunitySection />

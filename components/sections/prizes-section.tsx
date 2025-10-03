@@ -45,149 +45,68 @@ const overlayVariants = {
   },
 }
 
-const projects = [
-{
-  id: 1,
-  title: "CorrectMe AI",
-  subtitle: "AI-powered Exam Corrector (Internship)",
-  description:
-    "Web application that automates exam correction using OCR, LLMs, and agentic reasoning. Provides per-question and overall feedback with a grade out of 20.",
-  longDescription:
-    "CorrectMeAI is an AI-based web application developed during my internship at Mahd.Group. It leverages OCR to extract answers from scanned exams and integrates the Qwen3 LLM to compare student responses with the teacher’s key, generating both per-question feedback and an overall grade. To enhance usability, the system includes a chatbot powered by Retrieval-Augmented Generation (RAG) and a ReAct-style agent with memory, allowing teachers to query and interact with exam data naturally. The platform combines a React.js frontend with a Python Flask backend and MongoDB for data management, showcasing how AI can make exam correction faster, fairer, and smarter.",
-image: getAssetPath("/images/correctme.png"),
-  technologies: [
-    "React.js",
-    "Python",
-    "Flask",
-    "MongoDB",
-    "JWT Auth",
-    "Google Auth",
-    "OCR",
-    "Qwen3 LLM",
-    "RAG",
-    "ReAct Agent"
-  ],
-  category: "AI/ML",
-  features: [
-    "OCR-based extraction of answers from scanned exams",
-    "Automated grading with Qwen3 LLM",
-    "Detailed per-question and overall feedback",
-    "Grade assignment out of 20",
-    "Chatbot with RAG + ReAct agent for interactive queries",
-    "Data management with MongoDB"
-  ],
-  github: "https://github.com/sarrabousnina/CorrectMeAi",
-demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
-},
-{
-  id: 2,
-  title: "TimeForge (Award-Winning)",
-  subtitle: "AI-Powered Productivity App",
-  description:
-    "Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.",
-  longDescription:
-    "TimeForge helps individuals and teams manage projects and recurring tasks (daily/weekly/monthly) with reminders. It detects distractions in real time (inactivity & tab switching), analyzes mood via quiz, text (LLM), and photo (DeepFace), and computes a stress index to personalize advice. Points-based gamification unlocks rewards and Pro access; an Enterprise version adds team management and dashboards.",
-image: getAssetPath("/images/timeforge.jpg"), // ✅ correct in dev + GitHub Pages
-    video: getAssetPath("/videos/timeforge-demo.mp4"),         // ✅ lives in /public/videos
-  technologies: [
-    "Angular",
-    "Spring Boot",
-    "MySQL",
-    "Keycloak",
-    "Stripe",
-    "DeepFace",
-    "Ollama (LLaMA3)"
-  ],
-  category: "AI/ML",
-  features: [
-    "Projects & tasks with one-time or recurring schedules (daily/weekly/monthly) + reminders",
-    "Real-time distraction detection (inactivity + tab switching) during active tasks",
-    "Mood tracking: quiz, image pick, text analysis (LLM), and photo emotions (DeepFace)",
-    "Stress level computed from mood + inactivity signals",
-    "Gamification with points and rewards; unlocks Pro access",
-    "Stripe payments (Pro) and Enterprise dashboards with batch employee import",
-    "Secure auth & roles with Keycloak"
-  ],
-  github: "https://github.com/BHAmna/PI", 
-    demo: getAssetPath("/videos/timeforge-demo.mp4")                
-},
-{
-  id: 3,
-  title: "Employee Manager",
-  subtitle: "Employee Records (CRUD) System",
-  description:
-    "Simple full-stack CRUD app to manage employees with search by name.",
-  longDescription:
-    "Employee Manager is a learning project built to practice Angular + Spring Boot. It exposes a REST API for employees and a reactive Angular UI to list, create, update, and delete records. It also supports quick search by name.",
-image: getAssetPath("/images/EmployeeManager.png"),
-  technologies: ["Angular", "TypeScript", "Spring Boot", "Java", "MySQL", "REST API"],
-  category: "Full-Stack",
-  features: [
-    "Create / Read / Update / Delete employees",
-    "Search by name",
-    "Form validation and error handling",
-    "API-first design with REST endpoints"
-  ],
-  github: "https://github.com/sarrabousnina/EmployeeManagerApp", 
-},
+const prizes = [
+  {
+    id: 1,
+    title: "1st Prize at INSAT Hackathon",
+    subtitle: "INSAT Hackathon for drug discovery",
+    description:
+      "Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme 'Hack for Drug Discovery'. Our team was awarded 1st place for developing 'Your Lab Twin AI', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.",
+    longDescription:
+      "1𝐬𝐭 𝐏𝐫𝐢𝐳𝐞 at INSAT Hackathon! 🏆 \n\n" +
+      "An incredible experience taking part in Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB at INSAT under the theme “Hack for Drug Discovery.” After an intense weekend, our team won 1st place among many brilliant minds. Grateful for the support, collaboration, and innovation shared throughout this journey. Huge thanks to my teammate Yassine Kharrat for dedication and creativity, and to the organizers, jury, and inspiring participants.\n\n" +
+      "Our idea, 'Your Lab Twin AI', improves the speed of drug discovery by combining existing solutions that automate each step of the procedure into a single platform using agentic AI.",
+    image: getAssetPath("/images/hack.jpg"), // add your actual image
+    technologies: [
+      "AI/ML",
+      "Agentic Reasoning",
+      "Web Platform Integration",
+      "Drug Discovery Automation"
+    ],
+    category: "Hackathon/AI",
+    features: [
+      "Integrates multiple drug discovery tools into one platform",
+      "Accelerates experimental workflows",
+      "Agentic AI system for intelligent interactions",
+      "Supports collaborative research"
+    ],
+  },
+  {
+    id: 2,
+    title: "1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)",
+    subtitle: "TimeForge - AI-Powered Productivity App",
+    description:
+      "Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.",
+    longDescription:
+      "TimeForge won 1st Prize among all classes of our Software Engineering specialty at Bal des Projets 2025. Collaborating in a team of five, we developed a modular application using Spring Boot, Angular, Python, and MySQL. The platform provides advanced analytics including screen-time tracking, distraction detection, mood analysis via DeepFace, and personalized recommendations using NLP. This project highlights full-stack development skills, AI-driven analytics, and teamwork.",
+    image: getAssetPath("/images/bal.jpg"), // add your actual image
+    technologies: [
+      "Spring Boot",
+      "Angular",
+      "Python",
+      "MySQL",
+      "DeepFace",
+      "NLP"
+    ],
+    category: "Software Engineering / AI",
+    features: [
+      "Screen-time analytics",
+      "Distraction detection",
+      "Mood analysis with DeepFace",
+      "Personalized advice using NLP",
+      "Modular and scalable full-stack architecture"
+    ],
+    github: "https://github.com/BHAmna/PI",
+    demo: getAssetPath("/videos/timeforge-demo.mp4"), // optional
+  }
+];
 
-{
-  id: 4,
-  title: "University",
-  subtitle: "Clubs & Campus Management (Symfony)",
-  description:
-    "Full-stack university platform built in a team of four. I owned the Clubs module (CRUD, join/leave, ratings, SMS).",
-  longDescription:
-    "University is a campus management web app developed by a team of four using Symfony + MySQL. My scope was the Clubs module: create/edit clubs, view details, member counts, join/leave with Twilio SMS notifications, search & filters, and club ratings. The app also includes events, trainings, and library management.",
-image: getAssetPath("/images/university.jpg"),
-  technologies: ["Symfony (PHP)", "MySQL", "Twig", "REST API", "Twilio SMS"],
-  category: "Web Platform",
-  features: [
-    "Clubs CRUD + detail pages",
-    "Join/Leave with live member count",
-    "Club ratings & reviews",
-    "Search & filters (by name/category)",
-    "Twilio SMS on join/leave",
-    "Events & trainings (team features)",
-    "Library/books management (team feature)"
-  ],
-  github: "https://github.com/S1merbnb/ProjetSymfony", 
-},
-   {
-  id: 5,
-  title: "MyCTAMA Insurance App",
-  subtitle: ".NET MAUI Mobile App (Internship)",
-  description:
-    "Cross-platform app to request insurance quotes and find nearby CTAMA agencies on a map.",
-  longDescription:
-    "Built with .NET MAUI for Android/iOS. Users can request quotes for Home, Car, Agriculture, and Health, browse a news feed on the home screen, and locate agencies on an interactive map. Some static pages were implemented with embedded HTML/CSS.",
-image: getAssetPath("/images/ctama.png"),
-  technologies: [
-    ".NET MAUI",
-    "C#",
-    "XAML",
-    "Maps",
-    "HTML",
-    "CSS"
-  ],
-  category: "Mobile",
-  features: [
-    "Quote requests: Home / Car / Agriculture / Health",
-    "Agency locator with map and GPS",
-    "Home screen news feed",
-    "Form validation & API submission",
-    "Hybrid pages using embedded HTML/CSS"
-  ],
-  github: "https://github.com/sarrabousnina/MyCTAMA",  
-  demo: "https://github.com/user-attachments/assets/f62af4be-3fd2-490b-8661-78d6df427005"       
-}
-]
 
-export function ProjectsSection() {
-  const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null)
+export function PrizesSection() {
+  const [selectedProject, setSelectedProject] = useState<(typeof prizes)[0] | null>(null)
 
   return (
-    <section id="projects" className="py-20 bg-muted/30">
+    <section id="prizes" className="py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -199,7 +118,7 @@ export function ProjectsSection() {
           <motion.h2 variants={cardVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
             Featured{" "}
             <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-              Projects
+              Prizes
             </span>
           </motion.h2>
 
@@ -216,7 +135,7 @@ export function ProjectsSection() {
           variants={containerVariants}
           className="grid md:grid-cols-2 gap-8"
         >
-          {projects.map((project) => (
+          {prizes.map((project) => (
             <motion.div key={project.id} variants={cardVariants}>
               <Card className="glass glass-dark rounded-xl border-2 border-white/10 overflow-hidden group cursor-pointer h-full">
                 <div className="relative overflow-hidden" onClick={() => setSelectedProject(project)}>
