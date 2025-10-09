@@ -99,7 +99,7 @@ export function Footer() {
               className="glass glass-dark border-2 bg-transparent hover:bg-gradient-to-r hover:from-gradient-from hover:to-gradient-to hover:text-white hover:border-transparent transition-all duration-300"
               asChild
             >
-              <a href="/Sarra-Bousnina-CV.pdf" download className="flex items-center gap-2">
+              <a href="/CV-Sarra-Bousnina.pdf" download className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Download Resume
               </a>
