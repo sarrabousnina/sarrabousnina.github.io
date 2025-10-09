@@ -169,7 +169,7 @@ export function HeroSection() {
                   className="text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors"
                   asChild
                 >
-                  <a href="/Sarra-Bousnina-CV.pdf" download className="flex items-center">
+                  <a href="/CV-Sarra-Bousnina.pdf" download className="flex items-center">
                     <Download className="mr-2 h-4 w-4" />
                     Download Resume
                   </a>
