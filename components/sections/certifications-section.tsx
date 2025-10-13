@@ -8,6 +8,14 @@ import { getAssetPath } from "@/lib/asset";
 
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
 const certifications = [
+    {
+    title: "Attendance Hashgraph Developer Course",
+    issuer: "The Hashgraph Association",
+    date: "10/2025",
+logo: getAssetPath("/logos/blockchain.png"),
+    tags: ["Blockchain", "Hashgraph"],
+    credentialUrl: "https://certs.hashgraphdev.com/de967611-56da-48f9-91b3-621e6f7ef8a4.pdf",
+  },
   {
     title: "Rapid Application Development with Large Language Models (LLMs)",
     issuer: "NVIDIA",
