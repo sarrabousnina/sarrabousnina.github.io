@@ -48,17 +48,17 @@ const skillCategories = [
   },
   {
     title: "Frameworks",
-    skills: ["Spring Boot", "Angular", "React js", "Symfony", ".NET"],
+    skills: ["Spring Boot", "Angular", "React", "Symfony", ".NET"],
     color: "from-teal-500 to-emerald-600",
   },
   {
     title: "Databases",
-    skills: ["MySQL", "MongoDB"],
+    skills: ["MySQL", "MongoDB","PostgreSQL"],
     color: "from-emerald-400 to-teal-400",
   },
   {
     title: "AI/ML",
-    skills: ["PyTorch", "NLP", "DeepFace", "Ollama"],
+    skills: ["Agentic", "NLP", "DeepFace", "Ollama","OpenRouter","Groq"],
     color: "from-teal-600 to-emerald-600",
   },
   {

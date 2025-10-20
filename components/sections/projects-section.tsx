@@ -46,8 +46,39 @@ const overlayVariants = {
 }
 
 const projects = [
-{
+  {
   id: 1,
+  title: "inspireAI",
+  subtitle: "AI-Powered Content Studio (Personal Project)",
+  description:
+    "A multi-tenant SaaS platform that empowers creators and brands to generate, manage, and refine AI-driven content using intelligent agentic workflows.",
+longDescription:
+  "inspireAI is a SaaS content studio that lets creators manage blog posts, social captions, and ad copy through a clean, futuristic interface. It features AI-powered image analysis and a ReAct-style agent that answers natural-language queries about your content—like 'How many posts do I have?' or 'Summarize my latest draft.' Built with React and Python, it uses JWT-based authentication and is designed around the idea of AI as a helpful, conversational assistant—not an autonomous editor.",
+  image: getAssetPath("/images/inspire.png"), // Make sure this image exists in your assets
+  technologies: [
+    "React.js",
+    "TypeScript",
+    "Python",
+    "FastAPI / Flask",
+    "JWT Authentication",
+    "LLMs Groq",
+    "Open Router",
+    "ReAct Agent Framework",
+    "PostgreSQL / MongoDB"
+  ],
+  category: "AI/ML",
+  features: [
+    "Intelligent content generation via agentic reasoning",
+    "ReAct-style agent ",
+    "Secure multi-tenant isolation",
+    "Intelligent Image analysis",
+    "RESTful API with token-based auth for third-party integrations"
+  ],
+  github: "https://github.com/sarrabousnina/InspireAI.git", // Update if repo exists
+  demo: getAssetPath("/videos/inspire2.mp4") // Optional: add a demo video path
+},
+{
+  id: 2,
   title: "CorrectMe AI",
   subtitle: "AI-powered Exam Corrector (Internship)",
   description:
@@ -80,7 +111,7 @@ image: getAssetPath("/images/correctme.png"),
 demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
 },
 {
-  id: 2,
+  id: 3,
   title: "TimeForge (Award-Winning)",
   subtitle: "AI-Powered Productivity App",
   description:
@@ -112,7 +143,7 @@ image: getAssetPath("/images/timeforge.jpg"), // ✅ correct in dev + GitHub Pag
     demo: getAssetPath("/videos/timeforge-demo.mp4")                
 },
 {
-  id: 3,
+  id: 4,
   title: "Employee Manager",
   subtitle: "Employee Records (CRUD) System",
   description:
@@ -132,7 +163,7 @@ image: getAssetPath("/images/EmployeeManager.png"),
 },
 
 {
-  id: 4,
+  id: 5,
   title: "University",
   subtitle: "Clubs & Campus Management (Symfony)",
   description:
@@ -154,7 +185,7 @@ image: getAssetPath("/images/university.jpg"),
   github: "https://github.com/S1merbnb/ProjetSymfony", 
 },
    {
-  id: 5,
+  id:   6,
   title: "MyCTAMA Insurance App",
   subtitle: ".NET MAUI Mobile App (Internship)",
   description:
