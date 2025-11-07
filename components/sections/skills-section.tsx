@@ -43,7 +43,7 @@ const floatingVariants: Variants = {
 const skillCategories = [
   {
     title: "Languages",
-    skills: ["Java", "Python", "JavaScript", "TypeScript", "PHP", "C", "HTML/CSS"],
+    skills: ["Python", "Java", "JavaScript", "TypeScript", "PHP", "C", "HTML/CSS"],
     color: "from-emerald-500 to-teal-500",
   },
   {
@@ -58,12 +58,12 @@ const skillCategories = [
   },
   {
     title: "AI/ML",
-    skills: ["Agentic", "NLP", "DeepFace", "Ollama","OpenRouter","Groq"],
+    skills: ["Agentic AI","RAG", "NLP", "Ollama", "OpenRouter", "Groq API", "DeepFace"],
     color: "from-teal-600 to-emerald-600",
   },
   {
     title: "Tools",
-    skills: ["Git", "Docker", "Linux", "FlutterFlow", "Postman"],
+    skills: ["Git", "Docker", "Power BI", "Linux", "FlutterFlow", "Postman"],
     color: "from-emerald-300 to-teal-300",
   },
 ]

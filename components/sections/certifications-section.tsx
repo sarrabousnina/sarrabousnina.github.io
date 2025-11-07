@@ -8,6 +8,23 @@ import { getAssetPath } from "@/lib/asset";
 
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
 const certifications = [
+
+        {
+    title: " AWS Academy Graduate - Cloud Foundations - Training Badge",
+    issuer: "AWS Academy",
+    date: "11/2025",
+    logo: getAssetPath("/logos/aws badge.png"),
+    tags: ["AWS", "Cloud"],
+    credentialUrl: "https://www.credly.com/badges/3f4af3e0-7d15-43b8-bb52-0f002b11ca8d/print",
+  },
+      {
+    title: "Applications of AI for Anomaly Detection",
+    issuer: "NVIDIA",
+    date: "11/2025",
+    logo: getAssetPath("/logos/anomaly detection.png"),
+    tags: ["XgBoost", "AI", "Anomaly Detection"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=uOx2JSYPRembVJns9mY88Q",
+  },
     {
     title: "Attendance Hashgraph Developer Course",
     issuer: "The Hashgraph Association",
