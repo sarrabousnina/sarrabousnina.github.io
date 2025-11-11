@@ -1,0 +1,140 @@
+// components/FloatingChatbot.tsx
+'use client';
+import { useState, useEffect } from 'react';
+
+export default function FloatingChatbot() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = { text: input, sender: 'user' };
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
+    setInput('');
+
+    try {
+      const response = await fetch('https://sarra-chatbot-api.netlify.app/.netlify/functions/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input, userId: 'sarrabousnina' }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
+    }
+
+    setIsLoading(false);
+  };
+
+  // Close chat when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const chatContainer = document.getElementById('floating-chat');
+      if (isOpen && chatContainer && !chatContainer.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Chat Window */}
+      {isOpen && (
+        <div 
+          id="floating-chat"
+          className="w-96 h-[400px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col mb-4 transition-all duration-300 ease-in-out transform translate-y-0 opacity-100"
+        >
+          <div className="bg-emerald-600 text-white p-4 rounded-t-2xl flex justify-between items-center font-medium">
+            <span>Ask Me Anything!</span>
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:text-gray-200 transition-colors duration-200"
+            >
+              ✕
+            </button>
+          </div>
+          
+          <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`p-3 rounded-2xl max-w-[80%] leading-relaxed ${
+                  msg.sender === 'user'
+                    ? 'bg-emerald-600 text-white ml-auto rounded-br-none'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 mr-auto rounded-bl-none'
+                } transition-all duration-200 ease-in-out transform ${
+                  messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+            
+            {isLoading && (
+              <div className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 mr-auto text-left p-3 rounded-2xl rounded-bl-none">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+            <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about my projects..."
+                className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                disabled={isLoading}
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-70 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center min-w-[40px]"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  '➤'
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+          isOpen 
+            ? 'bg-red-500 text-white animate-pulse' 
+            : 'bg-emerald-600 text-white hover:bg-emerald-700'
+        }`}
+        aria-label="Open AI assistant"
+      >
+        {isOpen ? '✕' : '🤖'}
+      </button>
+    </div>
+  );
+}
+

@@ -40,10 +40,6 @@ export default function Home() {
         <CommunitySection />
       </div>
 
-      <div className="mx-4 sm:mx-6 lg:mx-8 my-12">
-        <Chatbot />
-      </div>
-
       <ContactSection />
       <Footer />
     </main>
