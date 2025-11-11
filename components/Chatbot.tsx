@@ -1,8 +1,8 @@
-// components/Chatbot.tsx
+// components/Chatbot.tsx (or FloatingChatbot.tsx)
 'use client';
 import { useState } from 'react';
 
-export default function Chatbot() {
+export default function Chatbot() { // Or FloatingChatbot
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -16,26 +16,34 @@ export default function Chatbot() {
     setInput('');
 
     try {
-      // Call your Netlify function (replace URL with your Netlify URL)
-      const response = await fetch('https://your-netlify-site.netlify.app/.netlify/functions/chat', {
+      // Replace 'https://your-vercel-app.vercel.app/api/chat' with your actual Vercel URL later
+      const response = await fetch('https://your-vercel-app.vercel.app/api/chat', { // <--- CHANGE THIS URL LATER
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input })
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input, userId: 'sarrabousnina' }), // You can add context like userId
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
       setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
     } catch (error) {
+      console.error('Chat error:', error);
       setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
     }
 
     setIsLoading(false);
   };
 
+  // ... Rest of your UI code (same as before)
   return (
     <div className="chatbot-container p-4 border rounded-lg bg-white shadow-md">
       <h3 className="text-lg font-bold mb-4">Ask Me Anything!</h3>
-      
+
       <div className="messages space-y-2 mb-4 h-64 overflow-y-auto">
         {messages.map((msg, i) => (
           <div
@@ -56,7 +64,7 @@ export default function Chatbot() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Type your question..."
+          placeholder="Ask about my projects, skills, or GitHub..."
           className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={isLoading}
         />
