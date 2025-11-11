@@ -16,7 +16,7 @@ export default function Chatbot() { // Or FloatingChatbot
     setInput('');
 
     try {
-      const response = await fetch('https://your-netlify-site-name.netlify.app/.netlify/functions/chat', { // <--- REPLACE WITH YOUR ACTUAL NETLIFY URL
+      const response = await fetch('https://sarra-chatbot-api.netlify.app/.netlify/functions/chat', { // <--- REPLACE WITH YOUR ACTUAL NETLIFY URL
         headers: {
           'Content-Type': 'application/json',
         },
