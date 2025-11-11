@@ -1,12 +1,16 @@
 // components/FloatingChatbot.tsx
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -42,7 +46,7 @@ export default function FloatingChatbot() {
   // Close chat when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const chatContainer = document.getElementById('floating-chat');
+      const chatContainer = modalRef.current;
       if (isOpen && chatContainer && !chatContainer.contains(e.target as Node)) {
         setIsOpen(false);
       }
@@ -52,25 +56,127 @@ export default function FloatingChatbot() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  // Initialize position
+  useEffect(() => {
+    if (modalRef.current) {
+      const rect = modalRef.current.getBoundingClientRect();
+      const x = window.innerWidth - rect.width - 24; // 24px from right
+      const y = window.innerHeight - rect.height - 24; // 24px from bottom
+      setPosition({ x, y });
+    }
+  }, []);
+
+  // Handle drag start
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!modalRef.current) return;
+    
+    const rect = modalRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  // Handle mouse move
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !modalRef.current) return;
+      
+      const x = e.clientX - dragOffset.x;
+      const y = e.clientY - dragOffset.y;
+      
+      // Constrain to viewport
+      const maxX = window.innerWidth - modalRef.current.offsetWidth;
+      const maxY = window.innerHeight - modalRef.current.offsetHeight;
+      
+      setPosition({
+        x: Math.max(0, Math.min(x, maxX)),
+        y: Math.max(0, Math.min(y, maxY))
+      });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
+
+  // Reset position
+  const resetPosition = () => {
+    if (modalRef.current) {
+      const rect = modalRef.current.getBoundingClientRect();
+      const x = window.innerWidth - rect.width - 24;
+      const y = window.innerHeight - rect.height - 24;
+      setPosition({ x, y });
+    }
+  };
+
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {/* Chat Window */}
-      {isOpen && (
-        <div 
-          id="floating-chat"
-          className="w-96 h-[400px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col mb-4 transition-all duration-300 ease-in-out transform translate-y-0 opacity-100"
+    <div className="fixed inset-0 z-50">
+      {/* Floating Button */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+            isOpen 
+              ? 'bg-red-500 text-white animate-pulse' 
+              : 'bg-emerald-600 text-white hover:bg-emerald-700'
+          }`}
+          aria-label="Open AI assistant"
         >
-          <div className="bg-emerald-600 text-white p-4 rounded-t-2xl flex justify-between items-center font-medium">
-            <span>Ask Me Anything!</span>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="text-white hover:text-gray-200 transition-colors duration-200"
-            >
-              ✕
-            </button>
+          {isOpen ? '✕' : '🤖'}
+        </button>
+      )}
+
+      {/* Draggable Chat Window */}
+      {isOpen && (
+        <div
+          ref={modalRef}
+          className="absolute w-96 h-[400px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col transition-all duration-300 ease-in-out transform"
+          style={{
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            cursor: isDragging ? 'grabbing' : 'grab',
+          }}
+        >
+          {/* Header with draggable area */}
+          <div 
+            className="bg-emerald-600 text-white p-4 rounded-t-3xl flex justify-between items-center font-medium cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+          >
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">Drag me</span>
+              <span className="text-lg"> Drag the modal</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button 
+                onClick={resetPosition}
+                className="text-xs bg-emerald-700 hover:bg-emerald-800 px-2 py-1 rounded transition-colors"
+              >
+                Reset
+              </button>
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="text-white hover:text-gray-200 transition-colors duration-200"
+              >
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
+                  <path d="m2 2 12 12m0-12-12 12" className="stroke-2 stroke-current" />
+                </svg>
+              </button>
+            </div>
           </div>
           
-          <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -121,20 +227,6 @@ export default function FloatingChatbot() {
           </div>
         </div>
       )}
-
-      {/* Floating Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 transform hover:scale-110 active:scale-95 ${
-          isOpen 
-            ? 'bg-red-500 text-white animate-pulse' 
-            : 'bg-emerald-600 text-white hover:bg-emerald-700'
-        }`}
-        aria-label="Open AI assistant"
-      >
-        {isOpen ? '✕' : '🤖'}
-      </button>
     </div>
   );
 }
-
