@@ -57,8 +57,13 @@ const skillCategories = [
     color: "from-emerald-400 to-teal-400",
   },
   {
-    title: "AI/ML",
-    skills: ["Agentic AI","RAG", "NLP", "Ollama", "OpenRouter", "Groq API", "DeepFace"],
+    title: "Generative AI",
+    skills: ["Agentic AI","RAG", "LLM", "API Integrations (groq, ollama, openrouter)", "Prompt Engineering","Context Engineering","Vector Databases"],
+    color: "from-teal-600 to-emerald-600",
+  },
+    {
+    title: "AI Frameworks",
+    skills: ["FastAPI","Flask", "LangChain"],
     color: "from-teal-600 to-emerald-600",
   },
   {

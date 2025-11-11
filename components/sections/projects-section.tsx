@@ -45,44 +45,44 @@ const overlayVariants = {
   },
 }
 
-const projects = [
-  {
+const projects = [{
   id: 1,
   title: "inspireAI",
   subtitle: "AI-Powered Content Studio (Personal Project)",
   description:
-    "A multi-tenant SaaS platform that empowers creators and brands to generate, manage, and refine AI-driven content using intelligent agentic workflows.",
-longDescription:
-  "inspireAI is a SaaS content studio that lets creators manage blog posts, social captions, and ad copy through a clean, futuristic interface. It features AI-powered image analysis and a ReAct-style agent that answers natural-language queries about your content—like 'How many posts do I have?' or 'Summarize my latest draft.' Built with React and Python, it uses JWT-based authentication and is designed around the idea of AI as a helpful, conversational assistant—not an autonomous editor.",
-  image: getAssetPath("/images/inspire.png"), // Make sure this image exists in your assets
+    "A platform that helps creators generate, organize, and refine social media content and blog posts using AI and a ReAct-style AI agent for conversational interaction.",
+  longDescription:
+    "inspireAI is my personal AI content studio — built with React and FastAPI — that helps creators write blog posts and social media captions without losing control. You tell it your audience, tone, and platform; upload an image if you want context; and it crafts tailored content using Groq’s LLMs, enhanced by image analysis via OpenRouter.\n\nAll your posts are saved in a history panel — pin, delete, or revisit them anytime. The real magic? A ReAct-style chat agent that answers natural questions like “How many posts do I have?” or “Summarize my latest draft.” It doesn’t edit for you — it helps you think.\n\nSecure, scalable, and built with JWT auth and PostgreSQL, it’s designed to grow with creators — not replace them.",
+  image: getAssetPath("/images/inspire.png"),
   technologies: [
     "React.js",
     "TypeScript",
     "Python",
-    "FastAPI / Flask",
+    "FastAPI",
     "JWT Authentication",
-    "LLMs Groq",
-    "Open Router",
-    "ReAct Agent Framework",
-    "PostgreSQL / MongoDB"
+    "Groq API",
+    "OpenRouter",
+    "ReAct Agent",
+    "PostgreSQL"
   ],
   category: "AI/ML",
   features: [
-    "Intelligent content generation via agentic reasoning",
-    "ReAct-style agent ",
-    "Secure multi-tenant isolation",
-    "Intelligent Image analysis",
-    "RESTful API with token-based auth for third-party integrations"
+    "AI-generated blog & social media posts tailored to audience and platform",
+    "Image understanding via Llama models (OpenRouter) for contextual content generation",
+    "Conversational ReAct agent for querying content history and summaries",
+    "Secure multi-tenant architecture with JWT authentication",
+    "Content history with pinning, deletion, and quick preview options",
+    "RESTful API for future third-party integrations"
   ],
-  github: "https://github.com/sarrabousnina/InspireAI.git", // Update if repo exists
-  demo: getAssetPath("/videos/inspire2.mp4") // Optional: add a demo video path
+  github: "https://github.com/sarrabousnina/InspireAI.git",
+  demo: getAssetPath("/videos/inspire2.mp4")
 },
 {
   id: 2,
   title: "CorrectMe AI",
   subtitle: "AI-powered Exam Corrector (Internship)",
   description:
-    "Web application that automates exam correction using OCR, LLMs, and agentic reasoning. Provides per-question and overall feedback with a grade out of 20.",
+    "Web application that automates exam correction using computer vision, LLMs, and a ReAct agent with RAG. Provides feedback per question and generates new exams from course material.",
   longDescription:
     "CorrectMeAI is an AI-based web application developed during my internship at Mahd.Group. It leverages OCR to extract answers from scanned exams and integrates the Qwen3 LLM to compare student responses with the teacher’s key, generating both per-question feedback and an overall grade. To enhance usability, the system includes a chatbot powered by Retrieval-Augmented Generation (RAG) and a ReAct-style agent with memory, allowing teachers to query and interact with exam data naturally. The platform combines a React.js frontend with a Python Flask backend and MongoDB for data management, showcasing how AI can make exam correction faster, fairer, and smarter.",
 image: getAssetPath("/images/correctme.png"),
@@ -95,6 +95,7 @@ image: getAssetPath("/images/correctme.png"),
     "Google Auth",
     "OCR",
     "Qwen3 LLM",
+    "Groq API",
     "RAG",
     "ReAct Agent"
   ],
@@ -104,7 +105,8 @@ image: getAssetPath("/images/correctme.png"),
     "Automated grading with Qwen3 LLM",
     "Detailed per-question and overall feedback",
     "Grade assignment out of 20",
-    "Chatbot with RAG + ReAct agent for interactive queries",
+    "Chatbot with RAG + ReAct agent for queries and exam generation",
+    "Exam and student result management",
     "Data management with MongoDB"
   ],
   github: "https://github.com/sarrabousnina/CorrectMeAi",
@@ -112,7 +114,7 @@ demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
 },
 {
   id: 3,
-  title: "TimeForge (Award-Winning)",
+  title: "TimeForge (Award-Winning)🥇​",
   subtitle: "AI-Powered Productivity App",
   description:
     "Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.",
@@ -145,7 +147,7 @@ image: getAssetPath("/images/timeforge.jpg"), // ✅ correct in dev + GitHub Pag
 {
   id: 4,
   title: "Employee Manager",
-  subtitle: "Employee Records (CRUD) System",
+  subtitle: "Employee Records (CRUD) System (Personal Project)",
   description:
     "Simple full-stack CRUD app to manage employees with search by name.",
   longDescription:
