@@ -16,9 +16,7 @@ export default function Chatbot() { // Or FloatingChatbot
     setInput('');
 
     try {
-      // Replace 'https://your-vercel-app.vercel.app/api/chat' with your actual Vercel URL later
-      const response = await fetch('https://your-vercel-app.vercel.app/api/chat', { // <--- CHANGE THIS URL LATER
-        method: 'POST',
+      const response = await fetch('https://your-netlify-site-name.netlify.app/.netlify/functions/chat', { // <--- REPLACE WITH YOUR ACTUAL NETLIFY URL
         headers: {
           'Content-Type': 'application/json',
         },
