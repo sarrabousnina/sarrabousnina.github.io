@@ -56,16 +56,6 @@ export default function FloatingChatbot() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // Initialize position
-  useEffect(() => {
-    if (modalRef.current) {
-      const rect = modalRef.current.getBoundingClientRect();
-      const x = window.innerWidth - rect.width - 24; // 24px from right
-      const y = window.innerHeight - rect.height - 24; // 24px from bottom
-      setPosition({ x, y });
-    }
-  }, []);
-
   // Handle drag start
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!modalRef.current) return;
@@ -111,7 +101,7 @@ export default function FloatingChatbot() {
     };
   }, [isDragging, dragOffset]);
 
-  // Reset position
+  // Reset position to bottom-right corner
   const resetPosition = () => {
     if (modalRef.current) {
       const rect = modalRef.current.getBoundingClientRect();
@@ -121,18 +111,49 @@ export default function FloatingChatbot() {
     }
   };
 
+  // Set initial position when chat is opened for the first time
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      // Wait for next frame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        const rect = modalRef.current?.getBoundingClientRect();
+        if (rect) {
+          const x = window.innerWidth - rect.width - 24;
+          const y = window.innerHeight - rect.height - 24;
+          setPosition({ x, y });
+        }
+      });
+    }
+  }, [isOpen]);
+
+  // Also update position on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpen && modalRef.current) {
+        const rect = modalRef.current.getBoundingClientRect();
+        const x = window.innerWidth - rect.width - 24;
+        const y = window.innerHeight - rect.height - 24;
+        setPosition({ x, y });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
+
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-50 pointer-events-none">
       {/* Floating Button */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           className={`fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 transform hover:scale-110 active:scale-95 ${
             isOpen 
               ? 'bg-red-500 text-white animate-pulse' 
               : 'bg-emerald-600 text-white hover:bg-emerald-700'
           }`}
           aria-label="Open AI assistant"
+          style={{ pointerEvents: 'auto' }} // Allow button clicks
         >
           {isOpen ? '✕' : '🤖'}
         </button>
@@ -147,6 +168,7 @@ export default function FloatingChatbot() {
             left: `${position.x}px`,
             top: `${position.y}px`,
             cursor: isDragging ? 'grabbing' : 'grab',
+            pointerEvents: 'auto' // Allow chat interactions
           }}
         >
           {/* Header with draggable area */}
@@ -155,8 +177,7 @@ export default function FloatingChatbot() {
             onMouseDown={handleMouseDown}
           >
             <div className="flex items-center space-x-2">
-              <span className="text-lg">Drag me</span>
-              <span className="text-lg"> Drag the modal</span>
+              <span className="text-sm">Drag me</span>
             </div>
             <div className="flex items-center space-x-2">
               <button 
