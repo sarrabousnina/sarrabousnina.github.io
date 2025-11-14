@@ -3,6 +3,32 @@
 import { useState, useEffect, useRef } from 'react';
 import { marked } from 'marked'; // ✅ Import marked
 
+// Configure marked to open links in new tab + add emoji before links
+// Configure marked to open links in new tab + add emoji before links
+const renderer = new marked.Renderer();
+// Accept the token-style signature ({ href, title, tokens }) used by newer marked types
+renderer.link = (link: { href: string | null; title?: string | null; text?: string; tokens?: any[] }): string => {
+  const href = link?.href ?? null;
+
+  // Reconstruct text: prefer explicit text, otherwise join token texts/raw
+  let text = link?.text ?? '';
+  if (!text && Array.isArray(link?.tokens)) {
+    text = link.tokens.map((t: any) => {
+      if (typeof t === 'string') return t;
+      if ('text' in t && t.text) return t.text;
+      if ('raw' in t && t.raw) return t.raw;
+      return '';
+    }).join('');
+  }
+
+  if (!href) return text; // Si pas de lien, retourne le texte brut
+  const title = link.title ?? '';
+  return `<a href="${href}" title="${title}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800 transition-colors duration-200">🔗 ${text}</a>`;
+};
+marked.setOptions({
+  renderer,
+});
+
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
@@ -215,7 +241,7 @@ export default function FloatingChatbot() {
                 } transition-all duration-200 ease-in-out transform ${
                   messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
                 }`}
-                // ✅ Affichage formaté via marked
+                // ✅ Affichage formaté via marked avec emoji 🔗
                 dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }}
               />
             ))}
@@ -257,4 +283,4 @@ export default function FloatingChatbot() {
       )}
     </div>
   );
-} 
+}
