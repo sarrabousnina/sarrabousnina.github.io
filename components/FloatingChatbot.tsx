@@ -39,6 +39,26 @@ export default function FloatingChatbot() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
 
+  // ✅ Synchronise le thème sombre avec le site
+  useEffect(() => {
+    const updateTheme = () => {
+      if (document.documentElement.classList.contains('dark')) {
+        modalRef.current?.parentElement?.classList.add('dark');
+      } else {
+        modalRef.current?.parentElement?.classList.remove('dark');
+      }
+    };
+
+    // Appliquer au chargement
+    updateTheme();
+
+    // Observer les changements (ex: toggle manuel sur le site)
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -50,7 +70,7 @@ export default function FloatingChatbot() {
 
     try {
       // Envoyer l'historique des messages
-      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
+      const response = await fetch('https://sarrabousnina.github.io/api/chat', { // ✅ Remplacez par votre URL API
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
