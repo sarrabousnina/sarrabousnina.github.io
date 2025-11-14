@@ -262,7 +262,10 @@ export default function FloatingChatbot() {
                   {["Mes projets", "Mon CV", "Compétences IA", "Expérience"].map((q) => (
                     <button
                       key={q}
-                      onClick={() => setInput(q)}
+                      onClick={() => {
+                        setInput(q);
+                        sendMessage(); // ✅ Envoi automatique
+                      }}
                       className="text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 px-3 py-1 rounded-full hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-colors duration-200"
                     >
                       {q}
@@ -295,7 +298,10 @@ export default function FloatingChatbot() {
                   {generateSuggestions(messages).map((q, i) => (
                     <button
                       key={i}
-                      onClick={() => setInput(q)}
+                      onClick={() => {
+                        setInput(q);
+                        sendMessage(); // ✅ Envoi automatique
+                      }}
                       className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
                     >
                       {q}
