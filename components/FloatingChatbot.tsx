@@ -70,7 +70,7 @@ export default function FloatingChatbot() {
 
     try {
       // Envoyer l'historique des messages
-      const response = await fetch('https://sarrabousnina.github.io/api/chat', { // ✅ Remplacez par votre URL API
+      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', { // ✅ Remplacez par votre URL API
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
