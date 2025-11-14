@@ -21,7 +21,7 @@ export default function FloatingChatbot() {
     setInput('');
 
     try {
-      const response = await fetch('https://sarra-chatbot-api.netlify.app/.netlify/functions/chat', {
+      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
