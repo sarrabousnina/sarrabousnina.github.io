@@ -48,7 +48,7 @@ const skillCategories = [
   },
   {
     title: "Frameworks",
-    skills: ["Spring Boot", "Angular", "React", "Symfony", ".NET"],
+    skills: ["Spring Boot", "Angular", "React", "Symfony", ".NET","JWT"],
     color: "from-teal-500 to-emerald-600",
   },
   {
@@ -68,7 +68,7 @@ const skillCategories = [
   },
   {
     title: "Tools",
-    skills: ["Git", "Docker", "Power BI", "Linux", "FlutterFlow", "Postman"],
+    skills: ["Git","Github", "Docker", "Power BI", "Linux", "FlutterFlow", "Postman"],
     color: "from-emerald-300 to-teal-300",
   },
 ]
