@@ -24,7 +24,7 @@ marked.setOptions({ renderer });
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
+  const [messages, setMessages] = useState<{ text: string; sender: string; suggestions?: string[] }[]>([]); // ✅ Ajout du champ suggestions
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -49,28 +49,6 @@ export default function FloatingChatbot() {
     return () => observer.disconnect();
   }, []);
 
-  // ✅ Suggestions contextuelles basées sur la conversation
-  const generateSuggestions = (messages: { text: string; sender: string }[]): string[] => {
-    const lastBotMessage = [...messages].reverse().find(m => m.sender === 'bot')?.text.toLowerCase();
-
-    if (!lastBotMessage) return [];
-
-    if (lastBotMessage.includes('project') || lastBotMessage.includes('inspireai')) {
-      return ['Détails CorrectMe AI', 'TimeForge features', 'MyCTAMA description'];
-    }
-    if (lastBotMessage.includes('cv') || lastBotMessage.includes('certification')) {
-      return ['Mes compétences IA', 'Mes certifications NVIDIA', 'Bal des Projets'];
-    }
-    if (lastBotMessage.includes('expérience') || lastBotMessage.includes('internship')) {
-      return ['CorrectMeAI tech stack', 'MyCTAMA mobile app', 'DeepFlow mentorship'];
-    }
-    if (lastBotMessage.includes('skills') || lastBotMessage.includes('compétence')) {
-      return ['LangChain & RAG', 'Groq API integration', 'OCR avec Qwen3'];
-    }
-
-    return [];
-  };
-
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -94,7 +72,12 @@ export default function FloatingChatbot() {
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
-      setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
+      // ✅ Ajouter les suggestions reçues du backend
+      setMessages(prev => [...prev, { 
+        text: data.response, 
+        sender: 'bot',
+        suggestions: data.suggestions || [] // Stocker les suggestions
+      }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
@@ -290,12 +273,12 @@ export default function FloatingChatbot() {
               />
             ))}
             
-            {/* ✅ Suggestions contextuelles */}
+            {/* ✅ Suggestions contextuelles (générées par le backend) */}
             {!isLoading && messages.length > 0 && input.trim() === '' && (
               <div className="mt-2 text-center text-gray-500 dark:text-gray-400 space-y-1">
                 <p className="text-xs">👉 Vous pourriez aussi demander :</p>
                 <div className="space-x-1 flex flex-wrap justify-center gap-1">
-                  {generateSuggestions(messages).map((q, i) => (
+                  {messages[messages.length - 1]?.suggestions?.map((q, i) => (
                     <button
                       key={i}
                       onClick={() => {
