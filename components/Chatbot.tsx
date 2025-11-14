@@ -17,7 +17,7 @@ export default function Chatbot() { // Or FloatingChatbot
 
     try {
       // Ensure method is POST and headers are set correctly
-      const response = await fetch('https://sarra-chatbot-api.netlify.app/.netlify/functions/chat', { // <--- REPLACE WITH YOUR ACTUAL NETLIFY URL
+      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', { // <--- REPLACE WITH YOUR ACTUAL NETLIFY URL
         method: 'POST', // Explicitly set method to POST
         headers: {
           'Content-Type': 'application/json',

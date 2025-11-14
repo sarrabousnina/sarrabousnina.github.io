@@ -16,17 +16,23 @@ export default function FloatingChatbot() {
     if (!input.trim()) return;
 
     const userMessage = { text: input, sender: 'user' };
-    setMessages(prev => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setIsLoading(true);
     setInput('');
 
     try {
+      // Envoyer l'historique des messages
       const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: input, userId: 'sarrabousnina' }),
+        body: JSON.stringify({
+          message: input,
+          userId: 'sarrabousnina',
+          history: newMessages.map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }))
+        }),
       });
 
       if (!response.ok) {
@@ -209,7 +215,18 @@ export default function FloatingChatbot() {
                   messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
                 }`}
               >
-                {msg.text}
+                {/* Affichage du texte avec des sauts de ligne */}
+                {msg.text.split('\n').map((line, idx) => (
+                  <div key={idx}>
+                    {line.split('• ').map((bullet, bIdx) => (
+                      bIdx === 0 ? bullet : (
+                        <div key={bIdx} className="ml-4 pl-2 border-l-2 border-emerald-500">
+                          • {bullet}
+                        </div>
+                      )
+                    ))}
+                  </div>
+                ))}
               </div>
             ))}
             
