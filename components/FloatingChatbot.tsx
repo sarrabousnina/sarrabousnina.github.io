@@ -4,13 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { marked } from 'marked'; // ✅ Import marked
 
 // Configure marked to open links in new tab + add emoji before links
-// Configure marked to open links in new tab + add emoji before links
 const renderer = new marked.Renderer();
-// Accept the token-style signature ({ href, title, tokens }) used by newer marked types
 renderer.link = (link: { href: string | null; title?: string | null; text?: string; tokens?: any[] }): string => {
   const href = link?.href ?? null;
-
-  // Reconstruct text: prefer explicit text, otherwise join token texts/raw
   let text = link?.text ?? '';
   if (!text && Array.isArray(link?.tokens)) {
     text = link.tokens.map((t: any) => {
@@ -20,14 +16,11 @@ renderer.link = (link: { href: string | null; title?: string | null; text?: stri
       return '';
     }).join('');
   }
-
-  if (!href) return text; // Si pas de lien, retourne le texte brut
+  if (!href) return text;
   const title = link.title ?? '';
   return `<a href="${href}" title="${title}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800 transition-colors duration-200">🔗 ${text}</a>`;
 };
-marked.setOptions({
-  renderer,
-});
+marked.setOptions({ renderer });
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,15 +42,34 @@ export default function FloatingChatbot() {
       }
     };
 
-    // Appliquer au chargement
     updateTheme();
 
-    // Observer les changements (ex: toggle manuel sur le site)
     const observer = new MutationObserver(updateTheme);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
     return () => observer.disconnect();
   }, []);
+
+  // ✅ Suggestions contextuelles basées sur la conversation
+  const generateSuggestions = (messages: { text: string; sender: string }[]): string[] => {
+    const lastBotMessage = [...messages].reverse().find(m => m.sender === 'bot')?.text.toLowerCase();
+
+    if (!lastBotMessage) return [];
+
+    if (lastBotMessage.includes('project') || lastBotMessage.includes('inspireai')) {
+      return ['Détails CorrectMe AI', 'TimeForge features', 'MyCTAMA description'];
+    }
+    if (lastBotMessage.includes('cv') || lastBotMessage.includes('certification')) {
+      return ['Mes compétences IA', 'Mes certifications NVIDIA', 'Bal des Projets'];
+    }
+    if (lastBotMessage.includes('expérience') || lastBotMessage.includes('internship')) {
+      return ['CorrectMeAI tech stack', 'MyCTAMA mobile app', 'DeepFlow mentorship'];
+    }
+    if (lastBotMessage.includes('skills') || lastBotMessage.includes('compétence')) {
+      return ['LangChain & RAG', 'Groq API integration', 'OCR avec Qwen3'];
+    }
+
+    return [];
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -69,12 +81,9 @@ export default function FloatingChatbot() {
     setInput('');
 
     try {
-      // Envoyer l'historique des messages
-      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', { // ✅ Remplacez par votre URL API
+      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: input,
           userId: 'sarrabousnina',
@@ -82,9 +91,7 @@ export default function FloatingChatbot() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
       setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
@@ -129,7 +136,6 @@ export default function FloatingChatbot() {
       const x = e.clientX - dragOffset.x;
       const y = e.clientY - dragOffset.y;
       
-      // Constrain to viewport
       const maxX = window.innerWidth - modalRef.current.offsetWidth;
       const maxY = window.innerHeight - modalRef.current.offsetHeight;
       
@@ -139,9 +145,7 @@ export default function FloatingChatbot() {
       });
     };
 
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
+    const handleMouseUp = () => setIsDragging(false);
 
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
@@ -167,7 +171,6 @@ export default function FloatingChatbot() {
   // Set initial position when chat is opened for the first time
   useEffect(() => {
     if (isOpen && modalRef.current) {
-      // Wait for next frame to ensure DOM is ready
       requestAnimationFrame(() => {
         const rect = modalRef.current?.getBoundingClientRect();
         if (rect) {
@@ -206,7 +209,7 @@ export default function FloatingChatbot() {
               : 'bg-emerald-600 text-white hover:bg-emerald-700'
           }`}
           aria-label="Open AI assistant"
-          style={{ pointerEvents: 'auto' }} // Allow button clicks
+          style={{ pointerEvents: 'auto' }}
         >
           {isOpen ? '✕' : '🤖'}
         </button>
@@ -216,12 +219,12 @@ export default function FloatingChatbot() {
       {isOpen && (
         <div
           ref={modalRef}
-          className="absolute w-96 h-[400px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col transition-all duration-300 ease-in-out transform"
+          className="absolute w-96 h-[500px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col transition-all duration-300 ease-in-out transform"
           style={{
             left: `${position.x}px`,
             top: `${position.y}px`,
             cursor: isDragging ? 'grabbing' : 'grab',
-            pointerEvents: 'auto' // Allow chat interactions
+            pointerEvents: 'auto'
           }}
         >
           {/* Header with draggable area */}
@@ -251,6 +254,25 @@ export default function FloatingChatbot() {
           </div>
           
           <div className="flex-1 p-4 overflow-y-auto space-y-3">
+            {/* ✅ Suggestions initiales (quand le chat est vide) */}
+            {messages.length === 0 && (
+              <div className="text-center text-gray-500 dark:text-gray-400 space-y-2">
+                <p className="text-sm">Demandez-moi :</p>
+                <div className="space-x-2">
+                  {["Mes projets", "Mon CV", "Compétences IA", "Expérience"].map((q) => (
+                    <button
+                      key={q}
+                      onClick={() => setInput(q)}
+                      className="text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 px-3 py-1 rounded-full hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-colors duration-200"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Messages */}
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -261,11 +283,28 @@ export default function FloatingChatbot() {
                 } transition-all duration-200 ease-in-out transform ${
                   messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
                 }`}
-                // ✅ Affichage formaté via marked avec emoji 🔗
                 dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }}
               />
             ))}
             
+            {/* ✅ Suggestions contextuelles */}
+            {!isLoading && messages.length > 0 && input.trim() === '' && (
+              <div className="mt-2 text-center text-gray-500 dark:text-gray-400 space-y-1">
+                <p className="text-xs">👉 Vous pourriez aussi demander :</p>
+                <div className="space-x-1 flex flex-wrap justify-center gap-1">
+                  {generateSuggestions(messages).map((q, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setInput(q)}
+                      className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {isLoading && (
               <div className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 mr-auto text-left p-3 rounded-2xl rounded-bl-none">
                 <div className="flex items-center space-x-2">
