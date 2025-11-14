@@ -1,6 +1,7 @@
 // components/FloatingChatbot.tsx
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { marked } from 'marked'; // ✅ Import marked
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -214,20 +215,9 @@ export default function FloatingChatbot() {
                 } transition-all duration-200 ease-in-out transform ${
                   messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
                 }`}
-              >
-                {/* Affichage du texte avec des sauts de ligne */}
-                {msg.text.split('\n').map((line, idx) => (
-                  <div key={idx}>
-                    {line.split('• ').map((bullet, bIdx) => (
-                      bIdx === 0 ? bullet : (
-                        <div key={bIdx} className="ml-4 pl-2 border-l-2 border-emerald-500">
-                          • {bullet}
-                        </div>
-                      )
-                    ))}
-                  </div>
-                ))}
-              </div>
+                // ✅ Affichage formaté via marked
+                dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }}
+              />
             ))}
             
             {isLoading && (
@@ -267,4 +257,4 @@ export default function FloatingChatbot() {
       )}
     </div>
   );
-}
+} 
