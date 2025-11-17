@@ -40,32 +40,32 @@ export function Navigation() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="font-heading font-bold text-xl bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent"
-          >
-            Sarra Bousnina
-          </motion.div>
+<div className="flex justify-between items-center h-16">
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="font-heading font-bold text-2xl bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent" // Changed text-xl to text-2xl
+  >
+    Sarra Bousnina
+  </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="relative text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors font-medium group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 group-hover:w-full" />
-              </motion.a>
-            ))}
-            <ThemeToggle />
-          </div>
+  {/* Desktop Navigation */}
+  <div className="hidden md:flex items-center space-x-4">
+    {navItems.map((item, index) => (
+      <motion.a
+        key={item.name}
+        href={item.href}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        className="relative text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors font-medium text-sm group"
+      >
+        {item.name}
+        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 group-hover:w-full" />
+      </motion.a>
+    ))}
+    <ThemeToggle />
+  </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
@@ -94,7 +94,7 @@ export function Navigation() {
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block py-2 text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors font-medium"
+                className="block py-1.5 text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors font-medium text-sm" // Added text-sm and reduced py from 2 to 1.5
               >
                 {item.name}
               </a>

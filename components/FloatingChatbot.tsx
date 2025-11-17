@@ -200,7 +200,7 @@ export default function FloatingChatbot() {
     <img 
       src="/images/chatbot.png" 
       alt="AI Assistant" 
-      className="w-12 h-12 object-contain filter drop-shadow-lg"
+      className="w-16 h-16 object-contain filter drop-shadow-lg"
     />
   )}
 </button>
