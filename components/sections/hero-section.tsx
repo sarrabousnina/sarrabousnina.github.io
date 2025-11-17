@@ -5,9 +5,42 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Download, Mail } from "lucide-react"
 import Image from "next/image"
-import { getAssetPath } from "@/lib/asset";
+import { getAssetPath } from "@/lib/asset"
 import { Variants, easeOut, easeInOut } from "framer-motion"
+import { useState, useEffect } from "react" // ✅ Import React hooks
 
+// ✅ TypingText component inlined (Next.js compatible)
+function TypingText({ text, delay = 0, speed = 50, className = '' }: { text: string, delay?: number, speed?: number, className?: string }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+
+  useEffect(() => {
+    setIsTyping(true)
+    let i = 0
+    const typingInterval = setInterval(() => {
+      if (i <= text.length) {
+        setDisplayedText(text.slice(0, i))
+        i++
+      } else {
+        clearInterval(typingInterval)
+        setIsTyping(false)
+      }
+    }, speed)
+
+    return () => clearInterval(typingInterval)
+  }, [text, speed])
+
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay }}
+      className={className}
+    >
+      {displayedText}
+    </motion.span>
+  )
+}
 
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -17,7 +50,8 @@ const textVariants = {
     transition: {
       delay: i * 0.1,
       duration: 0.6,
-      ease: easeOut,    },
+      ease: easeOut,    
+    },
   }),
 }
 
@@ -29,7 +63,8 @@ const buttonVariants = {
     transition: {
       delay: 0.8,
       duration: 0.5,
-      ease: easeOut,    },
+      ease: easeOut,    
+    },
   },
   hover: {
     scale: 1.05,
@@ -52,7 +87,8 @@ const avatarVariants = {
     transition: {
       delay: 0.5,
       duration: 0.8,
-      ease: easeOut,    },
+      ease: easeOut,    
+    },
   },
   hover: {
     rotateY: 5,
@@ -63,12 +99,13 @@ const avatarVariants = {
     },
   },
 }
+
 const meshVariants: Variants = {
   animate: {
     backgroundPosition: ["0% 0%", "100% 100%"],
     transition: {
       duration: 20,
-      ease: [0, 0, 1, 1] as [number, number, number, number], // ✅ fixed
+      ease: [0, 0, 1, 1] as [number, number, number, number],
       repeat: Number.POSITIVE_INFINITY,
       repeatType: "reverse" as const,
     },
@@ -126,13 +163,17 @@ export function HeroSection() {
                 AI Software Engineer • Final-year Student at ESPRIT
               </motion.p>
 
+              {/* ✅ Updated bio with typing animation */}
               <motion.p
                 custom={3}
                 variants={textVariants}
                 className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
               >
-                Building intelligent, user-centric software with AI and creativity. Passionate about
-                full-stack development, generative AI and creating innovative solutions that make a difference.
+                <TypingText 
+                  text="Building intelligent, user-centric software with AI and creativity. Passionate about full-stack development, generative AI and creating innovative solutions that make a difference."
+                  delay={0.8} 
+                  speed={30}  
+                />
               </motion.p>
 
               <motion.div
@@ -199,7 +240,6 @@ export function HeroSection() {
                         className="w-full h-full object-cover"
                         priority
                       />
-
                     </div>
                   </div>
 

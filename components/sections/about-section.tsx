@@ -36,7 +36,7 @@ const highlights = [
   {
     icon: Brain,
     title: "AI Enthusiast",
-    description: "Machine Learning & Deep Learning",
+    description: "Generative AI",
   },
   {
     icon: Users,
@@ -101,8 +101,8 @@ export function AboutSection() {
           className="mt-16 text-center"
         >
           <motion.div variants={itemVariants}>
-            <Badge variant="secondary" className="glass glass-dark px-4 py-2 text-sm font-medium">
-              Currently seeking opportunities in AI and Full-Stack Development
+            <Badge variant="secondary" className="glass glass-dark px-4 py-2 text-sm font-medium" style={{ borderColor: "red" }}>
+              Currently seeking internship opportunities in AI and Full-Stack Development
             </Badge>
           </motion.div>
         </motion.div>
