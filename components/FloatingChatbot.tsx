@@ -184,18 +184,26 @@ export default function FloatingChatbot() {
     <div className="fixed inset-0 z-50 pointer-events-none">
       {/* Floating Button */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className={`fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 transform hover:scale-110 active:scale-95 ${
-            isOpen 
-              ? 'bg-red-500 text-white animate-pulse' 
-              : 'bg-emerald-600 text-white hover:bg-emerald-700'
-          }`}
-          aria-label="Open AI assistant"
-          style={{ pointerEvents: 'auto' }}
-        >
-          {isOpen ? '✕' : '🤖'}
-        </button>
+<button
+  onClick={() => setIsOpen(true)}
+  className={`fixed bottom-6 right-6 w-16 h-16 flex items-center justify-center transition-all duration-300 ${
+    isOpen 
+      ? 'animate-pulse' 
+      : 'animate-bounce-once'
+  }`}
+  aria-label="Open AI assistant"
+  style={{ pointerEvents: 'auto', backgroundColor: 'transparent', border: 'none' }}
+>
+  {isOpen ? (
+    <span className="text-white text-2xl">✕</span>
+  ) : (
+    <img 
+      src="/images/chatbot.png" 
+      alt="AI Assistant" 
+      className="w-12 h-12 object-contain filter drop-shadow-lg"
+    />
+  )}
+</button>
       )}
 
       {/* Draggable Chat Window */}
@@ -276,7 +284,7 @@ export default function FloatingChatbot() {
             {/* ✅ Suggestions contextuelles (générées par le backend) */}
             {!isLoading && messages.length > 0 && input.trim() === '' && (
               <div className="mt-2 text-center text-gray-500 dark:text-gray-400 space-y-1">
-                <p className="text-xs">👉 Vous pourriez aussi demander :</p>
+                <p className="text-xs">👉 You can also ask :</p>
                 <div className="space-x-1 flex flex-wrap justify-center gap-1">
                   {messages[messages.length - 1]?.suggestions?.map((q, i) => (
                     <button
