@@ -68,7 +68,7 @@ const skillCategories = [
   },
   {
     title: "Tools",
-    skills: ["Git","Github", "Docker", "Power BI", "Linux", "FlutterFlow", "Postman"],
+    skills: ["Git","Github","Rest API", "Docker", "Power BI", "Linux", "FlutterFlow", "Postman"],
     color: "from-emerald-300 to-teal-300",
   },
 ]

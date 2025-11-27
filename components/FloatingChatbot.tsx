@@ -49,14 +49,34 @@ export default function FloatingChatbot() {
     return () => observer.disconnect();
   }, []);
 
- const sendMessage = async () => {
+const sendMessage = async () => {
   if (!input.trim()) return;
 
   const userMessage = { text: input, sender: 'user' };
-  const newMessages = [...messages, userMessage];
-  setMessages(newMessages);
-  setIsLoading(true);
+  setMessages((prev) => [...prev, userMessage]);
   setInput('');
+  setIsLoading(true);
+
+  // ✅ Step 1: Generate a "thinking" message based on user intent
+  const lowerInput = input.toLowerCase();
+  let thinkingMessage = "🔍 Thinking...";
+
+  if (lowerInput.includes('certification') || lowerInput.includes('nvidia') || lowerInput.includes('coursera')) {
+    thinkingMessage = "🔍 Looking in Sarra’s **Certifications** section...";
+  } else if (lowerInput.includes('project') || lowerInput.includes('inspireai') || lowerInput.includes('correctme') || lowerInput.includes('timeforge')) {
+    thinkingMessage = "🔍 Checking Sarra’s **Featured Projects**...";
+  } else if (lowerInput.includes('experience') || lowerInput.includes('intern') || lowerInput.includes('mahd') || lowerInput.includes('ctama')) {
+    thinkingMessage = "🔍 Reviewing Sarra’s **Experience & Education**...";
+  } else if (lowerInput.includes('skill') || lowerInput.includes('framework') || lowerInput.includes('langchain') || lowerInput.includes('pytorch')) {
+    thinkingMessage = "🔍 Scanning Sarra’s **Technical Skills**...";
+  } else if (lowerInput.includes('award') || lowerInput.includes('prize') || lowerInput.includes('hackathon') || lowerInput.includes('bal des projets')) {
+    thinkingMessage = "🔍 Checking Sarra’s **Featured Prizes**...";
+  } else if (lowerInput.includes('community') || lowerInput.includes('volunteer') || lowerInput.includes('mentor')) {
+    thinkingMessage = "🔍 Looking at Sarra’s **Community & Volunteering**...";
+  }
+
+  // Show the "thinking" message immediately
+  setMessages((prev) => [...prev, { text: thinkingMessage, sender: 'bot', isThinking: true }]);
 
   try {
     const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
@@ -65,10 +85,10 @@ export default function FloatingChatbot() {
       body: JSON.stringify({
         message: input,
         userId: 'sarrabousnina',
-        history: newMessages.map(m => ({
+        history: [...messages, userMessage].map(m => ({
           role: m.sender === 'user' ? 'user' : 'assistant',
           content: m.text
-        })),
+        }))
       }),
     });
 
@@ -76,9 +96,27 @@ export default function FloatingChatbot() {
 
     const data = await response.json();
 
-    // ✅ Handle action-based scrolling
+    // ✅ Step 2: Replace the "thinking" message with the real response
+    setMessages((prev) => {
+      const updated = [...prev];
+      // Remove the last "thinking" message
+      if (updated.length > 0 && updated[updated.length - 1].isThinking) {
+        updated.pop();
+      }
+      // Add the real bot response
+      updated.push({
+        text: data.response,
+        sender: 'bot',
+        suggestions: data.suggestions || [],
+        source: data.source || null,
+        action: data.action || null
+      });
+      return updated;
+    });
+
+    // ✅ Optional: Trigger scroll if action exists (keep your existing logic)
     if (data.action) {
-      const actionToSectionId: Record<string, string> = {
+      const actionToId: Record<string, string> = {
         scrollToCertifications: 'certifications',
         scrollToProjects: 'featured-projects',
         scrollToExperience: 'experience',
@@ -87,27 +125,22 @@ export default function FloatingChatbot() {
         scrollToAwards: 'featured-prizes',
         scrollToCommunity: 'community',
       };
-
-      const targetId = actionToSectionId[data.action];
-      if (targetId) {
-        const element = document.getElementById(targetId);
-        if (element) {
-          // Scroll smoothly to the section
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      const id = actionToId[data.action];
+      if (id) {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
-    // ✅ Update messages with response & suggestions
-    setMessages(prev => [...prev, {
-      text: data.response || "I'm not sure how to help with that.",
-      sender: 'bot',
-      suggestions: data.suggestions || []
-    }]);
-
   } catch (error) {
     console.error('Chat error:', error);
-    setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
+    setMessages((prev) => {
+      const updated = [...prev];
+      if (updated.length > 0 && updated[updated.length - 1].isThinking) {
+        updated.pop();
+      }
+      updated.push({ text: 'Sorry, I failed to respond.', sender: 'bot' });
+      return updated;
+    });
   }
 
   setIsLoading(false);
