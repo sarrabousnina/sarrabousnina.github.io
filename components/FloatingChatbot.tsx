@@ -49,42 +49,69 @@ export default function FloatingChatbot() {
     return () => observer.disconnect();
   }, []);
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+ const sendMessage = async () => {
+  if (!input.trim()) return;
 
-    const userMessage = { text: input, sender: 'user' };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    setIsLoading(true);
-    setInput('');
+  const userMessage = { text: input, sender: 'user' };
+  const newMessages = [...messages, userMessage];
+  setMessages(newMessages);
+  setIsLoading(true);
+  setInput('');
 
-    try {
-      const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: input,
-          userId: 'sarrabousnina',
-          history: newMessages.map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }))
-        }),
-      });
+  try {
+    const response = await fetch('https://sarra-chatbot-api.vercel.app/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: input,
+        userId: 'sarrabousnina',
+        history: newMessages.map(m => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text
+        })),
+      }),
+    });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-      const data = await response.json();
-      // ✅ Ajouter les suggestions reçues du backend
-      setMessages(prev => [...prev, { 
-        text: data.response, 
-        sender: 'bot',
-        suggestions: data.suggestions || [] // Stocker les suggestions
-      }]);
-    } catch (error) {
-      console.error('Chat error:', error);
-      setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
+    const data = await response.json();
+
+    // ✅ Handle action-based scrolling
+    if (data.action) {
+      const actionToSectionId: Record<string, string> = {
+        scrollToCertifications: 'certifications',
+        scrollToProjects: 'featured-projects',
+        scrollToExperience: 'experience',
+        scrollToSkills: 'technical-skills',
+        scrollToContact: 'get-in-touch',
+        scrollToAwards: 'featured-prizes',
+        scrollToCommunity: 'community',
+      };
+
+      const targetId = actionToSectionId[data.action];
+      if (targetId) {
+        const element = document.getElementById(targetId);
+        if (element) {
+          // Scroll smoothly to the section
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     }
 
-    setIsLoading(false);
-  };
+    // ✅ Update messages with response & suggestions
+    setMessages(prev => [...prev, {
+      text: data.response || "I'm not sure how to help with that.",
+      sender: 'bot',
+      suggestions: data.suggestions || []
+    }]);
+
+  } catch (error) {
+    console.error('Chat error:', error);
+    setMessages(prev => [...prev, { text: 'Sorry, I failed to respond.', sender: 'bot' }]);
+  }
+
+  setIsLoading(false);
+};
 
   // Close chat when clicking outside
   useEffect(() => {
