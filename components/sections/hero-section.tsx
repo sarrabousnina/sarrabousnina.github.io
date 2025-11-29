@@ -7,7 +7,8 @@ import { ArrowRight, Download, Mail } from "lucide-react"
 import Image from "next/image"
 import { getAssetPath } from "@/lib/asset"
 import { Variants, easeOut, easeInOut } from "framer-motion"
-import { useState, useEffect } from "react" // ✅ Import React hooks
+import { useState, useEffect } from "react"
+import { useLanguageStore } from "@/stores/language-store"
 
 // ✅ TypingText component inlined (Next.js compatible)
 function TypingText({ text, delay = 0, speed = 50, className = '' }: { text: string, delay?: number, speed?: number, className?: string }) {
@@ -113,12 +114,23 @@ const meshVariants: Variants = {
 }
 
 export function HeroSection() {
+  const { t } = useLanguageStore()
+
   const handleScrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
   }
 
   const handleScrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const safeT = (section: string, key: string, fallback: string) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined && result !== key ? result : fallback
+    } catch (error) {
+      return fallback
+    }
   }
 
   return (
@@ -160,7 +172,7 @@ export function HeroSection() {
                 variants={textVariants}
                 className="text-xl sm:text-2xl font-medium text-muted-foreground"
               >
-                AI Software Engineer • Final-year Student at ESPRIT
+                {safeT('hero', 'title', 'AI Software Engineer')} • {safeT('hero', 'studentInfo', 'Final-year Student at ESPRIT')}
               </motion.p>
 
               {/* ✅ Updated bio with typing animation */}
@@ -169,10 +181,10 @@ export function HeroSection() {
                 variants={textVariants}
                 className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
               >
-                <TypingText 
-                  text="Building intelligent, user-centric software with AI and creativity. Passionate about full-stack development, generative AI and creating innovative solutions that make a difference."
-                  delay={0.8} 
-                  speed={30}  
+                <TypingText
+                  text={safeT('hero', 'subtitle', 'Building intelligent, user-centric software with AI and creativity. Passionate about full-stack development, generative AI and creating innovative solutions that make a difference.')}
+                  delay={0.8}
+                  speed={30}
                 />
               </motion.p>
 
@@ -186,7 +198,7 @@ export function HeroSection() {
                     onClick={handleScrollToProjects}
                     className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 dark:from-emerald-400 dark:to-teal-400 inline-flex items-center justify-center gap-2 h-12 px-8 py-3 font-semibold rounded-xl shadow-xl transition-all duration-200 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-emerald-500/20"
                   >
-                    <span>View Projects</span>
+                    <span>{safeT('hero', 'ctaButton', 'View Projects')}</span>
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </button>
                 </motion.div>
@@ -199,7 +211,7 @@ export function HeroSection() {
                     className="border-stone-300 text-stone-800 hover:border-emerald-400 dark:border-stone-600 dark:text-stone-200 font-semibold px-8 py-3 rounded-xl bg-transparent"
                   >
                     <Mail className="mr-2 h-5 w-5" />
-                    Contact Me
+                    {safeT('hero', 'contactMe', 'Contact Me')}
                   </Button>
                 </motion.div>
               </motion.div>

@@ -3,7 +3,8 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Award } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { getAssetPath } from "@/lib/asset";
+import { getAssetPath } from "@/lib/asset"
+import { useLanguageStore } from "@/stores/language-store"
 
 
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
@@ -116,6 +117,17 @@ logo: getAssetPath("/logos/transformerNLP.png"),
 ]
 
 export default function CertificationsSection() {
+  const { t, locale } = useLanguageStore()
+
+  const safeT = (section: string, key: string, fallback: string) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined && result !== key ? result : fallback
+    } catch (error) {
+      return fallback
+    }
+  }
+
   return (
     <section id="certifications" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -130,11 +142,11 @@ export default function CertificationsSection() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <Award className="w-8 h-8 text-emerald-500" />
             <h2 className="text-4xl font-bold font-heading bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
-              Certifications
+              {safeT('certifications', 'title', 'Certifications')}
             </h2>
           </div>
           <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
-            Professional certifications and continuous learning achievements that enhance my technical expertise.
+            {safeT('certifications', 'subtitle', 'Professional certifications and continuous learning achievements that enhance my technical expertise.')}
           </p>
         </motion.div>
 
@@ -166,7 +178,7 @@ export default function CertificationsSection() {
       {cert.title}
     </h3>
     <p className="text-stone-600 dark:text-stone-400 text-sm mb-2">
-      {cert.issuer} • {cert.date}
+      {safeT('certifications', 'issuedBy', 'Issued by')}: {cert.issuer} • {safeT('certifications', 'date', 'Date')}: {cert.date}
     </p>
 
     {/* Tags */}
@@ -188,7 +200,7 @@ export default function CertificationsSection() {
       rel="noopener noreferrer"
       className="text-emerald-600 text-sm font-medium hover:underline"
     >
-      View credential
+      {safeT('certifications', 'viewCredential', 'View credential')}
     </a>
   </div>
 </div>

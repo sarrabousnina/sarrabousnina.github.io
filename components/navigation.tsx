@@ -3,25 +3,47 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ThemeToggle } from "./theme-toggle"
+import { LanguageSwitcher } from "./language-switcher"
+import { useLanguageStore } from "@/stores/language-store"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
-
-const navItems = [
-  { name: "Home", href: "#hero" },
-  { name: "Projects", href: "#projects" },
-  { name: "Skills", href: "#skills" },
-  { name: "Experience", href: "#experience" },
-  { name: "Education", href: "#education" },
-  { name: "Certifications", href: "#certifications" },
-  { name: "Prizes", href: "#prizes" },
-  { name: "Community", href: "#community" },
-  { name: "Contact", href: "#contact" },
-]
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
+  const { locale, t } = useLanguageStore()
+
+  const getNavItems = () => {
+    try {
+      return [
+        { name: t('nav', 'home') || 'Home', href: "#hero" },
+        { name: t('nav', 'projects') || 'Projects', href: "#projects" },
+        { name: t('nav', 'skills') || 'Skills', href: "#skills" },
+        { name: t('nav', 'experience') || 'Experience', href: "#experience" },
+        { name: t('nav', 'education') || 'Education', href: "#education" },
+        { name: t('nav', 'certifications') || 'Certifications', href: "#certifications" },
+        { name: t('nav', 'prizes') || 'Prizes', href: "#prizes" },
+        { name: t('nav', 'community') || 'Community', href: "#community" },
+        { name: t('nav', 'contact') || 'Contact', href: "#contact" },
+      ]
+    } catch (error) {
+      // Fallback to English if translation fails
+      return [
+        { name: 'Home', href: "#hero" },
+        { name: 'Projects', href: "#projects" },
+        { name: 'Skills', href: "#skills" },
+        { name: 'Experience', href: "#experience" },
+        { name: 'Education', href: "#education" },
+        { name: 'Certifications', href: "#certifications" },
+        { name: 'Prizes', href: "#prizes" },
+        { name: 'Community', href: "#community" },
+        { name: 'Contact', href: "#contact" },
+      ]
+    }
+  }
+
+  const navItems = getNavItems()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,11 +86,13 @@ export function Navigation() {
         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 group-hover:w-full" />
       </motion.a>
     ))}
+    <LanguageSwitcher />
     <ThemeToggle />
   </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
+            <LanguageSwitcher />
             <ThemeToggle />
             <Button
               variant="ghost"

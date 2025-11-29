@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Award } from "lucide-react"
 import { Variants, easeOut, easeInOut } from "framer-motion"
+import { useLanguageStore } from "@/stores/language-store"
 
 
 const containerVariants = {
@@ -101,7 +102,7 @@ const education = [
   },
 ]
 
-function TimelineItem({ item, index }: { item: (typeof education)[0]; index: number }) {
+function TimelineItem({ item, index, safeT }: { item: (typeof education)[0]; index: number; safeT: (section: string, key: string, fallback: string) => string }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: false, margin: "-100px" })
 
@@ -140,7 +141,7 @@ function TimelineItem({ item, index }: { item: (typeof education)[0]; index: num
         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
           <div>
             <Badge variant="secondary" className={`bg-gradient-to-r ${getTypeColor(item.type)} text-white mb-2`}>
-              Education
+              {safeT('education', 'degree', 'Education')}
             </Badge>
             <h3 className="font-heading font-bold text-xl mb-1">{item.title}</h3>
             <p className="text-gradient-from font-semibold">{item.organization}</p>
@@ -154,7 +155,7 @@ function TimelineItem({ item, index }: { item: (typeof education)[0]; index: num
 
         {item.technologies && (
           <div className="mb-4">
-            <h4 className="font-semibold text-sm mb-2 text-muted-foreground">Focus Areas</h4>
+            <h4 className="font-semibold text-sm mb-2 text-muted-foreground">{safeT('education', 'focusAreas', 'Focus Areas')}</h4>
             <div className="flex flex-wrap gap-2">
               {item.technologies.map((tech) => (
                 <Badge
@@ -188,6 +189,17 @@ function TimelineItem({ item, index }: { item: (typeof education)[0]; index: num
 }
 
 export function EducationSection() {
+  const { t, locale } = useLanguageStore()
+
+  const safeT = (section: string, key: string, fallback: string) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined && result !== key ? result : fallback
+    } catch (error) {
+      return fallback
+    }
+  }
+
   return (
     <section id="education" className="py-20 bg-muted/30">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -199,15 +211,14 @@ export function EducationSection() {
           className="text-center mb-16"
         >
           <motion.h2 variants={itemVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
-            Academic{" "}
+            {safeT('education', 'academicJourney', 'Academic')}{" "}
             <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-              Journey
+              {safeT('education', 'journey', 'Journey')}
             </span>
           </motion.h2>
 
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A comprehensive educational foundation in software engineering, mathematics, and technology that drives my
-            passion for innovation.
+            {safeT('education', 'subtitle', 'A comprehensive educational foundation in software engineering, mathematics, and technology that drives my passion for innovation.')}
           </motion.p>
         </motion.div>
 
@@ -218,7 +229,7 @@ export function EducationSection() {
           {/* Timeline Items */}
           <div className="space-y-0">
             {education.map((item, index) => (
-              <TimelineItem key={item.id} item={item} index={index} />
+              <TimelineItem key={item.id} item={item} index={index} safeT={safeT} />
             ))}
           </div>
         </div>

@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Github, Linkedin, MapPin, Send, Check } from "lucide-react"
 import { easeOut } from "framer-motion"
+import { useLanguageStore } from "@/stores/language-store"
 
 // 🔗 Your Formspree endpoint
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovnzwoy"
@@ -54,6 +55,16 @@ export function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const { t, locale } = useLanguageStore()
+
+  const safeT = (section: string, key: string, fallback: string) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined && result !== key ? result : fallback
+    } catch (error) {
+      return fallback
+    }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -106,15 +117,14 @@ export function ContactSection() {
           className="text-center mb-16"
         >
           <motion.h2 variants={itemVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
-            Get In{" "}
+            {safeT('contact', 'title', 'Get In')}{" "}
             <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-              Touch
+              {safeT('contact', 'touch', 'Touch')}
             </span>
           </motion.h2>
 
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ready to collaborate on innovative AI projects or discuss opportunities in software engineering? I'd love to
-            hear from you!
+            {safeT('contact', 'subtitle', 'Ready to collaborate on innovative AI projects or discuss opportunities in software engineering? I\'d love to hear from you!')}
           </motion.p>
         </motion.div>
 
@@ -127,7 +137,7 @@ export function ContactSection() {
             variants={containerVariants}
           >
             <motion.h3 variants={itemVariants} className="font-heading font-bold text-2xl mb-8">
-              Let's Connect
+              {safeT('contact', 'letsConnect', 'Let\'s Connect')}
             </motion.h3>
 
             <div className="space-y-6">
@@ -161,7 +171,7 @@ export function ContactSection() {
 
             <motion.div variants={itemVariants} className="mt-8">
               <Badge variant="secondary" className="glass glass-dark px-4 py-2 text-sm font-medium">
-                Available for freelance projects and full-time opportunities
+                {safeT('contact', 'available', 'Available for freelance projects and full-time opportunities')}
               </Badge>
             </motion.div>
           </motion.div>
@@ -175,7 +185,7 @@ export function ContactSection() {
           >
             <Card className="glass glass-dark p-8 rounded-xl border-2 border-white/10">
               <motion.h3 variants={itemVariants} className="font-heading font-bold text-2xl mb-6">
-                Send a Message
+                {safeT('contact', 'sendButton', 'Send a Message')}
               </motion.h3>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -187,7 +197,7 @@ export function ContactSection() {
                     <Input
                       type="text"
                       name="name"
-                      placeholder="Your Name"
+                      placeholder={safeT('contact', 'name', 'Your Name')}
                       value={formData.name}
                       onChange={handleInputChange}
                       onFocus={() => setFocusedField("name")}
@@ -204,7 +214,7 @@ export function ContactSection() {
                     <Input
                       type="email"
                       name="email"
-                      placeholder="Your Email"
+                      placeholder={safeT('contact', 'email', 'Your Email')}
                       value={formData.email}
                       onChange={handleInputChange}
                       onFocus={() => setFocusedField("email")}
@@ -223,7 +233,7 @@ export function ContactSection() {
                   <Input
                     type="text"
                     name="subject"
-                    placeholder="Subject"
+                    placeholder={safeT('contact', 'subject', 'Subject')}
                     value={formData.subject}
                     onChange={handleInputChange}
                     onFocus={() => setFocusedField("subject")}
@@ -240,7 +250,7 @@ export function ContactSection() {
                 <motion.div variants={itemVariants}>
                   <Textarea
                     name="message"
-                    placeholder="Your Message"
+                    placeholder={safeT('contact', 'message', 'Your Message')}
                     value={formData.message}
                     onChange={handleInputChange}
                     onFocus={() => setFocusedField("message")}
@@ -283,7 +293,7 @@ export function ContactSection() {
                     ) : (
                       <div className="flex items-center gap-2">
                         <Send className="h-5 w-5" />
-                        Send Message
+                        {safeT('contact', 'sendButton', 'Send Message')}
                       </div>
                     )}
                   </Button>

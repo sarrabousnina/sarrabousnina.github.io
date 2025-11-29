@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Github, Linkedin, Mail, Download, Heart } from "lucide-react"
 import { Variants, easeOut, easeInOut } from "framer-motion"
+import { useLanguageStore } from "@/stores/language-store"
 
 
 const socialLinks = [
@@ -47,6 +48,17 @@ const itemVariants = {
 }
 
 export function Footer() {
+  const { t } = useLanguageStore()
+
+  const safeT = (section: string, key: string, fallback: string) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined && result !== key ? result : fallback
+    } catch (error) {
+      return fallback
+    }
+  }
+
   return (
     <footer className="py-16 border-t border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,8 +77,7 @@ export function Footer() {
               </span>
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              AI Software Engineer passionate about building intelligent, user-centric applications that make a
-              difference in the world.
+              {safeT('footer', 'bio', 'AI Software Engineer passionate about building intelligent, user-centric applications that make a difference in the world.')}
             </p>
           </motion.div>
 
@@ -101,7 +112,7 @@ export function Footer() {
             >
               <a href="/CV-Sarra-Bousnina.pdf" download className="flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                Download Resume
+                {safeT('footer', 'downloadResume', 'Download Resume')}
               </a>
             </Button>
           </motion.div>
@@ -110,16 +121,16 @@ export function Footer() {
           <motion.div variants={itemVariants} className="mb-8">
             <Badge variant="secondary" className="glass glass-dark px-4 py-2 text-sm font-medium">
               <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-              Available for new opportunities
+              {safeT('footer', 'available', 'Available for new opportunities')}
             </Badge>
           </motion.div>
 
           {/* Copyright */}
           <motion.div variants={itemVariants} className="pt-8 border-t border-border/50">
             <p className="text-muted-foreground text-sm flex items-center justify-center gap-2">
-              © 2025 Sarra Bousnina. Built with
+              © 2025 Sarra Bousnina. {safeT('footer', 'builtWith', 'Built with')}
               <Heart className="h-4 w-4 text-red-500 fill-current" />
-              using Next.js, Tailwind CSS, and Framer Motion.
+              Next.js, Tailwind CSS, and Framer Motion.
             </p>
           </motion.div>
         </motion.div>

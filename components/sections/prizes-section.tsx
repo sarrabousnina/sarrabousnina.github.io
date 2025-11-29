@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
-import { getAssetPath } from "@/lib/asset";
+import { getAssetPath } from "@/lib/asset"
 import { Variants, easeOut, easeInOut } from "framer-motion"
+import { useLanguageStore } from "@/stores/language-store"
 
 
 const containerVariants = {
@@ -41,69 +42,77 @@ const overlayVariants = {
     y: 0,
     transition: {
       duration: 0.3,
-      ease: easeOut,    },
+      ease: easeOut,
+    },
   },
 }
 
-const prizes = [
-  {
-    id: 1,
-    title: "1st Prize at INSAT Hackathon",
-    subtitle: "INSAT Hackathon for drug discovery",
-    description:
-      "Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme 'Hack for Drug Discovery'. Our team was awarded 1st place for developing 'Your Lab Twin AI', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.",
-    longDescription:
-      "1𝐬𝐭 𝐏𝐫𝐢𝐳𝐞 at INSAT Hackathon! 🏆 \n\n" +
-      "An incredible experience taking part in Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB at INSAT under the theme “Hack for Drug Discovery.” After an intense weekend, our team won 1st place among many brilliant minds. Grateful for the support, collaboration, and innovation shared throughout this journey. Huge thanks to my teammate Yassine Kharrat for dedication and creativity, and to the organizers, jury, and inspiring participants.\n\n" +
-      "Our idea, 'Your Lab Twin AI', improves the speed of drug discovery by combining existing solutions that automate each step of the procedure into a single platform using agentic AI.",
-    image: getAssetPath("/images/hack.jpg"), // add your actual image
-    technologies: [
-      "AI/ML",
-      "Agentic Reasoning",
-      "Web Platform Integration",
-      "Drug Discovery Automation"
-    ],
-    category: "Hackathon/AI",
-    features: [
-      "Integrates multiple drug discovery tools into one platform",
-      "Accelerates experimental workflows",
-      "Agentic AI system for intelligent interactions",
-      "Supports collaborative research"
-    ],
-  },
-  {
-    id: 2,
-    title: "1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)",
-    subtitle: "TimeForge - AI-Powered Productivity App",
-    description:
-      "Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.",
-    longDescription:
-      "TimeForge won 1st Prize among all classes of our Software Engineering specialty at Bal des Projets 2025. Collaborating in a team of five, we developed a modular application using Spring Boot, Angular, Python, and MySQL. The platform provides advanced analytics including screen-time tracking, distraction detection, mood analysis via DeepFace, and personalized recommendations using NLP. This project highlights full-stack development skills, AI-driven analytics, and teamwork.",
-    image: getAssetPath("/images/bal.jpg"), // add your actual image
-    technologies: [
-      "Spring Boot",
-      "Angular",
-      "Python",
-      "MySQL",
-      "DeepFace",
-      "NLP"
-    ],
-    category: "Software Engineering / AI",
-    features: [
-      "Screen-time analytics",
-      "Distraction detection",
-      "Mood analysis with DeepFace",
-      "Personalized advice using NLP",
-      "Modular and scalable full-stack architecture"
-    ],
-    github: "https://github.com/BHAmna/PI",
-    demo: getAssetPath("/videos/timeforge-demo.mp4"), // optional
-  }
-];
-
-
 export function PrizesSection() {
-  const [selectedProject, setSelectedProject] = useState<(typeof prizes)[0] | null>(null)
+  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const { t, locale } = useLanguageStore()
+
+  const safeT = (section: string, key: string, fallback: string | string[]) => {
+    try {
+      const result = t(section, key)
+      return result !== undefined ? result : fallback
+    } catch (error) {
+      return fallback
+    }
+  }
+
+  const getPrizes = () => {
+    return [
+      {
+        id: 1,
+        title: safeT('prizes', 'insatHackathon.title', '1st Prize at INSAT Hackathon'),
+        subtitle: safeT('prizes', 'insatHackathon.subtitle', 'INSAT Hackathon for drug discovery'),
+        description: safeT('prizes', 'insatHackathon.description', 'Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme \'Hack for Drug Discovery\'. Our team was awarded 1st place for developing \'Your Lab Twin AI\', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.'),
+        longDescription: safeT('prizes', 'insatHackathon.longDescription', '1𝐬𝐭 𝐏𝐫𝐢𝐳𝐞 at INSAT Hackathon! 🏆 \n\nAn incredible experience taking part in Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB at INSAT under the theme "Hack for Drug Discovery." After an intense weekend, our team won 1st place among many brilliant minds. Grateful for the support, collaboration, and innovation shared throughout this journey. Huge thanks to my teammate Yassine Kharrat for dedication and creativity, and to the organizers, jury, and inspiring participants.\n\nOur idea, \'Your Lab Twin AI\', improves the speed of drug discovery by combining existing solutions that automate each step of the procedure into a single platform using agentic AI.'),
+        image: getAssetPath("/images/hack.jpg"), // add your actual image
+        technologies: [
+          "AI/ML",
+          "Agentic Reasoning",
+          "Web Platform Integration",
+          "Drug Discovery Automation"
+        ],
+        category: safeT('prizes', 'insatHackathon.category', 'Hackathon/AI'),
+        features: safeT('prizes', 'insatHackathon.features', [
+          "Integrates multiple drug discovery tools into one platform",
+          "Accelerates experimental workflows",
+          "Agentic AI system for intelligent interactions",
+          "Supports collaborative research"
+        ]),
+      },
+      {
+        id: 2,
+        title: safeT('prizes', 'balDesProjets.title', '1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)'),
+        subtitle: safeT('prizes', 'balDesProjets.subtitle', 'TimeForge - AI-Powered Productivity App'),
+        description: safeT('prizes', 'balDesProjets.description', 'Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.'),
+        longDescription: safeT('prizes', 'balDesProjets.longDescription', 'TimeForge won 1st Prize among all classes of our Software Engineering specialty at Bal des Projets 2025. Collaborating in a team of five, we developed a modular application using Spring Boot, Angular, Python, and MySQL. The platform provides advanced analytics including screen-time tracking, distraction detection, mood analysis via DeepFace, and personalized recommendations using NLP. This project highlights full-stack development skills, AI-driven analytics, and teamwork.'),
+        image: getAssetPath("/images/bal.jpg"), // add your actual image
+        technologies: [
+          "Spring Boot",
+          "Angular",
+          "Python",
+          "MySQL",
+          "DeepFace",
+          "NLP"
+        ],
+        category: safeT('prizes', 'balDesProjets.category', 'Software Engineering / AI'),
+        features: safeT('prizes', 'balDesProjets.features', [
+          "Screen-time analytics",
+          "Distraction detection",
+          "Mood analysis with DeepFace",
+          "Personalized advice using NLP",
+          "Modular and scalable full-stack architecture"
+        ]),
+        github: "https://github.com/BHAmna/PI",
+        demo: getAssetPath("/videos/timeforge-demo.mp4"), // optional
+      }
+    ]
+  }
+
+  const prizes = getPrizes()
 
   return (
     <section id="prizes" className="py-20 bg-muted/30">
@@ -116,15 +125,14 @@ export function PrizesSection() {
           className="text-center mb-16"
         >
           <motion.h2 variants={cardVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
-            Featured{" "}
+            {safeT('prizes', 'featured', 'Featured')}{" "}
             <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-              Prizes
+              {safeT('prizes', 'title', 'Prizes')}
             </span>
           </motion.h2>
 
           <motion.p variants={cardVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A showcase of innovative applications combining full-stack development and AI to solve
-            real-world challenges.
+            {safeT('prizes', 'subtitle', 'A showcase of innovative applications combining full-stack development and AI to solve real-world challenges.')}
           </motion.p>
         </motion.div>
 
@@ -148,7 +156,7 @@ export function PrizesSection() {
                     >
                       <Image
                         src={project.image || "/placeholder.svg"}
-                        alt={project.title}
+                        alt={Array.isArray(project.title) ? project.title[0] : project.title}
                         fill
                         className="object-cover"
                       />
@@ -191,10 +199,10 @@ export function PrizesSection() {
                   {/* Project Info */}
                   <div className="p-6">
                     <h3 className="font-heading font-bold text-xl mb-2 group-hover:text-gradient-from transition-colors">
-                      {project.title}
+                      {Array.isArray(project.title) ? project.title[0] : project.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm mb-3">{project.subtitle}</p>
-                    <p className="text-foreground/80 text-sm leading-relaxed mb-4">{project.description}</p>
+                    <p className="text-muted-foreground text-sm mb-3">{Array.isArray(project.subtitle) ? project.subtitle[0] : project.subtitle}</p>
+                    <p className="text-foreground/80 text-sm leading-relaxed mb-4">{Array.isArray(project.description) ? project.description[0] : project.description}</p>
 
                     <div className="flex items-center justify-between">
                       <Button
@@ -206,7 +214,7 @@ export function PrizesSection() {
                           setSelectedProject(project)
                         }}
                       >
-                        Learn More →
+                        {safeT('prizes', 'learnMore', 'Learn More')} →
                       </Button>
 
                       <div className="flex gap-2">
@@ -248,8 +256,8 @@ export function PrizesSection() {
               <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass glass-dark border-2 border-white/20">
                 <DialogHeader>
                   <DialogTitle className="font-heading text-2xl mb-4">
-                    {selectedProject.title}
-                    <span className="text-muted-foreground text-lg font-normal ml-2">{selectedProject.subtitle}</span>
+                    {Array.isArray(selectedProject.title) ? selectedProject.title[0] : selectedProject.title}
+                    <span className="text-muted-foreground text-lg font-normal ml-2">{Array.isArray(selectedProject.subtitle) ? selectedProject.subtitle[0] : selectedProject.subtitle}</span>
                   </DialogTitle>
                 </DialogHeader>
 
@@ -258,7 +266,7 @@ export function PrizesSection() {
                   <div className="relative h-64 sm:h-80 rounded-xl overflow-hidden">
                     <Image
                       src={selectedProject.image || "/placeholder.svg"}
-                      alt={selectedProject.title}
+                      alt={Array.isArray(selectedProject.title) ? selectedProject.title[0] : selectedProject.title}
                       fill
                       className="object-cover"
                     />
@@ -266,15 +274,15 @@ export function PrizesSection() {
 
                   {/* Description */}
                   <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">About This Project</h3>
-                    <p className="text-foreground/80 leading-relaxed">{selectedProject.longDescription}</p>
+                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('prizes', 'aboutProject', 'About This Achievement')}</h3>
+                    <p className="text-foreground/80 leading-relaxed">{Array.isArray(selectedProject.longDescription) ? selectedProject.longDescription[0] : selectedProject.longDescription}</p>
                   </div>
 
                   {/* Features */}
                   <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">Key Features</h3>
+                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('prizes', 'keyFeatures', 'Key Features')}</h3>
                     <div className="grid sm:grid-cols-2 gap-2">
-                      {selectedProject.features.map((feature, index) => (
+                      {(Array.isArray(selectedProject.features) ? selectedProject.features : [selectedProject.features]).filter(Boolean).map((feature: string, index: number) => (
                         <div key={index} className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-gradient-to-r from-gradient-from to-gradient-to" />
                           <span className="text-sm text-foreground/80">{feature}</span>
@@ -285,9 +293,9 @@ export function PrizesSection() {
 
                   {/* Technologies */}
                   <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">Technologies Used</h3>
+                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('prizes', 'technologiesUsed', 'Technologies Used')}</h3>
                     <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map((tech) => (
+                      {selectedProject.technologies.map((tech: string) => (
                         <Badge
                           key={tech}
                           variant="secondary"
@@ -306,7 +314,7 @@ export function PrizesSection() {
                       onClick={() => window.open(selectedProject.demo, "_blank")}
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      View Demo
+                      {safeT('projects', 'liveDemo', 'View Demo')}
                     </Button>
                     <Button
                       variant="outline"
@@ -314,7 +322,7 @@ export function PrizesSection() {
                       onClick={() => window.open(selectedProject.github, "_blank")}
                     >
                       <Github className="mr-2 h-4 w-4" />
-                      View Code
+                      {safeT('projects', 'viewCode', 'View Code')}
                     </Button>
                   </div>
                 </div>
