@@ -45,8 +45,8 @@ export function LanguageSwitcher() {
       }}
     >
       {/* Flag only */}
-      <span className="text-xl leading-none filter hue-rotate-180">
-        {locale === 'en' ? 'EN' : 'FR'}
+      <span className="text-lg leading-none">
+        {locale === 'en' ? '🇪🇳' : '🇫🇷'}
       </span>
     </Button>
   )
