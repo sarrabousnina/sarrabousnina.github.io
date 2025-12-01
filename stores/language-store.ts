@@ -315,15 +315,7 @@ const translations = {
         ]
       }
     },
-    community: {
-      title: "Community Involvement",
-      subtitle: "Active participation in technical communities, mentorship, and knowledge sharing initiatives.",
-      role: "Role",
-      organization: "Organization",
-      volunteering: "Volunteering",
-      learnMore: "Learn more"
-    },
-    contact: {
+      contact: {
       title: "Get In",
       subtitle: "Let's connect and discuss opportunities for collaboration, mentorship, or just a friendly tech conversation.",
       name: "Your Name",
@@ -833,6 +825,27 @@ export const useLanguageStore = create<LanguageStore>()(
     }),
     {
       name: 'language-storage',
+      storage: typeof window !== 'undefined' ? {
+        getItem: (name) => {
+          const item = localStorage.getItem(name)
+          if (item === null) {
+            return null
+          }
+          try {
+            const parsed = JSON.parse(item)
+            // Always default to 'en' if no valid state exists
+            return parsed && parsed.locale ? parsed : { locale: 'en' }
+          } catch {
+            return { locale: 'en' }
+          }
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify(value))
+        },
+        removeItem: (name) => {
+          localStorage.removeItem(name)
+        },
+      } : undefined,
     }
   )
 )
