@@ -24,13 +24,29 @@ marked.setOptions({ renderer });
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; sender: string; suggestions?: string[] }[]>([]); // ✅ Ajout du champ suggestions
+  const [messages, setMessages] = useState<{ text: string; sender: string; suggestions?: string[]; isThinking?: boolean; source?: any; action?: string }[]>([]); // ✅ Ajout du champ suggestions, isThinking, source et action
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      const scrollToBottom = () => {
+        messagesContainerRef.current?.scrollTo({
+          top: messagesContainerRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      };
+
+      // Use a small timeout to ensure content is rendered before scrolling
+      setTimeout(scrollToBottom, 100);
+    }
+  }, [messages, isLoading]);
 
   // ✅ Synchronise le thème sombre avec le site
   useEffect(() => {
@@ -304,7 +320,7 @@ const sendMessage = async () => {
             </div>
           </div>
           
-          <div className="flex-1 p-4 overflow-y-auto space-y-3">
+          <div ref={messagesContainerRef} className="flex-1 p-4 overflow-y-auto space-y-3">
             {/* ✅ Suggestions initiales (quand le chat est vide) */}
             {messages.length === 0 && (
               <div className="text-center text-gray-500 dark:text-gray-400 space-y-2">
