@@ -10,6 +10,14 @@ import { useLanguageStore } from "@/stores/language-store"
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
 const certifications = [
 
+          {
+    title: "Building RAG Agents with LLMs",
+    issuer: "NVIDIA",
+    date: "11/2025",
+    logo: getAssetPath("/logos/RAG.png"),
+    tags: ["Generative AI", "RAG"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=4AXuu_46RJOCFJ6kStXG9A#",
+  },
         {
     title: " AWS Academy Graduate - Cloud Foundations - Training Badge",
     issuer: "AWS Academy",
