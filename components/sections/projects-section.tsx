@@ -11,37 +11,89 @@ import Image from "next/image"
 import { getAssetPath } from "@/lib/asset";
 import { Variants, easeOut, easeInOut } from "framer-motion"
 import { useLanguageStore } from "@/stores/language-store"
+import {
+  enhancedContainerVariants,
+  enhancedItemVariants,
+  floatingCardVariants,
+  slideInFromLeft,
+  slideInFromRight,
+  textRevealVariants
+} from "@/hooks/use-scroll-animation"
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
+const enhancedCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 60,
+    scale: 0.9,
+    rotateX: 15
+  },
+  visible: (i: number) => ({
     opacity: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
     transition: {
-      staggerChildren: 0.2,
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
+      delay: i * 0.15,
+      duration: 0.8,
+    },
+  }),
+  hover: {
+    y: -8,
+    scale: 1.02,
+    rotateX: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 20,
     },
   },
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 20 },
+const overlayVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    backdropFilter: "blur(0px)"
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    backdropFilter: "blur(8px)",
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 25,
+      duration: 0.4,
+    },
+  },
+}
+
+const modalVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.95,
+    y: 20,
+  },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: easeOut,    },
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+    },
   },
-}
-
-const overlayVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    y: 20,
     transition: {
-      duration: 0.3,
-      ease: easeOut,    },
+      duration: 0.2,
+    },
   },
 }
 
@@ -234,17 +286,20 @@ export function ProjectsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
+          variants={enhancedContainerVariants}
           className="text-center mb-16"
         >
-          <motion.h2 variants={cardVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
+          <motion.h2 variants={textRevealVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
             {safeT('projects', 'title', 'Featured')}{" "}
-            <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+            <motion.span
+              variants={textRevealVariants}
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent inline-block"
+            >
               {safeT('projects', 'projects', 'Projects')}
-            </span>
+            </motion.span>
           </motion.h2>
 
-          <motion.p variants={cardVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <motion.p variants={enhancedItemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {safeT('projects', 'subtitle', 'A showcase of innovative applications combining full-stack development and AI to solve real-world challenges.')}
           </motion.p>
         </motion.div>
@@ -253,12 +308,17 @@ export function ProjectsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
+          variants={enhancedContainerVariants}
           className="grid md:grid-cols-2 gap-8"
         >
-          {projects.map((project) => (
-            <motion.div key={project.id} variants={cardVariants}>
-              <Card className="glass glass-dark rounded-xl border-2 border-white/10 overflow-hidden group cursor-pointer h-full">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              custom={index}
+              variants={enhancedCardVariants}
+              whileHover="hover"
+            >
+              <Card className="glass glass-dark rounded-xl border-2 border-white/10 overflow-hidden group cursor-pointer h-full transform-gpu">
                 <div className="relative overflow-hidden" onClick={() => setSelectedProject(project)}>
                   {/* Project Image */}
                   <div className="relative h-64 overflow-hidden">
@@ -275,171 +335,279 @@ export function ProjectsSection() {
                       />
                     </motion.div>
 
-                    {/* Overlay */}
+                    {/* Enhanced Overlay with blur effect */}
                     <motion.div
                       initial="hidden"
                       whileHover="visible"
                       variants={overlayVariants}
-                      className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-end p-6"
+                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end p-6"
                     >
-                      <div className="w-full">
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {project.technologies.slice(0, 3).map((tech) => (
-                            <Badge
+                      <div className="w-full space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          {project.technologies.slice(0, 4).map((tech, techIndex) => (
+                            <motion.div
                               key={tech}
-                              variant="secondary"
-                              className="bg-slate-900/80 text-slate-100 border-slate-700 text-xs"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{
+                                delay: techIndex * 0.05,
+                                type: "spring",
+                                stiffness: 400,
+                              }}
                             >
-                              {tech}
-                            </Badge>
+                              <Badge
+                                variant="secondary"
+                                className="bg-slate-900/80 backdrop-blur-sm text-slate-100 border-slate-700 text-xs shadow-lg"
+                              >
+                                {tech}
+                              </Badge>
+                            </motion.div>
                           ))}
-                          {project.technologies.length > 3 && (
+                          {project.technologies.length > 4 && (
                             <Badge
                               variant="secondary"
-                              className="bg-slate-900/80 text-slate-100 border-slate-700 text-xs"
+                              className="bg-slate-900/80 backdrop-blur-sm text-slate-100 border-slate-700 text-xs"
                             >
-                              +{project.technologies.length - 3}
+                              +{project.technologies.length - 4}
                             </Badge>
                           )}
                         </div>
-                        <Badge className="bg-slate-900 text-slate-100 border-slate-700 text-xs">
-                          {project.category}
-                        </Badge>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 text-xs shadow-lg">
+                            {project.category}
+                          </Badge>
+                        </motion.div>
                       </div>
                     </motion.div>
                   </div>
 
                   {/* Project Info */}
-                  <div className="p-6">
-                    <h3 className="font-heading font-bold text-xl mb-2 group-hover:text-gradient-from transition-colors">
+                  <motion.div
+                    className="p-6"
+                    whileHover={{ y: -2 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <motion.h3
+                      className="font-heading font-bold text-xl mb-2 bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
                       {project.title}
-                    </h3>
+                    </motion.h3>
                     <p className="text-muted-foreground text-sm mb-3">{project.subtitle}</p>
                     <p className="text-foreground/80 text-sm leading-relaxed mb-4">{project.description}</p>
 
-                    <div className="flex items-center justify-between">
+                    <motion.div
+                      className="flex items-center justify-between"
+                      whileHover={{ scale: 1.01 }}
+                      transition={{ type: "spring", stiffness: 200 }}
+                    >
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-gradient-from hover:text-gradient-to transition-colors p-0"
+                        className="text-emerald-600 hover:text-teal-600 transition-all duration-300 p-0 hover:pl-2"
                         onClick={(e) => {
                           e.stopPropagation()
                           setSelectedProject(project)
                         }}
                       >
-                        {safeT('projects', 'learnMore', 'Learn More')} →
+                        {safeT('projects', 'learnMore', 'Learn More')}
+                        <motion.span
+                          className="inline-block ml-1"
+                          whileHover={{ x: 3 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          →
+                        </motion.span>
                       </Button>
 
                       <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            window.open(project.github, "_blank")
-                          }}
-                        >
-                          <Github className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            window.open(project.demo, "_blank")
-                          }}
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
+                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.github, "_blank")
+                            }}
+                          >
+                            <Github className="h-4 w-4" />
+                          </Button>
+                        </motion.div>
+                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.demo, "_blank")
+                            }}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </motion.div>
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 </div>
               </Card>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Project Modal */}
-        <AnimatePresence>
+        {/* Enhanced Project Modal */}
+        <AnimatePresence mode="wait">
           {selectedProject && (
             <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass glass-dark border-2 border-white/20">
-                <DialogHeader>
-                  <DialogTitle className="font-heading text-2xl mb-4">
-                    {selectedProject.title}
-                    <span className="text-muted-foreground text-lg font-normal ml-2">{selectedProject.subtitle}</span>
-                  </DialogTitle>
-                </DialogHeader>
+              <motion.div
+                variants={modalVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass glass-dark border-2 border-white/20">
+                  <motion.div variants={enhancedItemVariants}>
+                    <DialogHeader>
+                      <motion.div variants={textRevealVariants}>
+                        <DialogTitle className="font-heading text-2xl mb-4">
+                          {selectedProject.title}
+                          <span className="text-muted-foreground text-lg font-normal ml-2">{selectedProject.subtitle}</span>
+                        </DialogTitle>
+                      </motion.div>
+                    </DialogHeader>
+                  </motion.div>
 
-                <div className="space-y-6">
-                  {/* Project Image */}
-                  <div className="relative h-64 sm:h-80 rounded-xl overflow-hidden">
-                    <Image
-                      src={selectedProject.image || "/placeholder.svg"}
-                      alt={selectedProject.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                  <motion.div
+                    variants={enhancedContainerVariants}
+                    className="space-y-6"
+                  >
+                    {/* Project Image */}
+                    <motion.div
+                      variants={enhancedItemVariants}
+                      className="relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-2xl"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Image
+                        src={selectedProject.image || "/placeholder.svg"}
+                        alt={selectedProject.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </motion.div>
 
-                  {/* Description */}
-                  <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('projects', 'aboutProject', 'About This Project')}</h3>
-                    <p className="text-foreground/80 leading-relaxed">{selectedProject.longDescription}</p>
-                  </div>
+                    {/* Description */}
+                    <motion.div variants={enhancedItemVariants}>
+                      <motion.h3 variants={textRevealVariants} className="font-heading font-semibold text-lg mb-3">
+                        {safeT('projects', 'aboutProject', 'About This Project')}
+                      </motion.h3>
+                      <motion.p
+                        variants={enhancedItemVariants}
+                        className="text-foreground/80 leading-relaxed"
+                      >
+                        {selectedProject.longDescription}
+                      </motion.p>
+                    </motion.div>
 
-                  {/* Features */}
-                  <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('projects', 'keyFeatures', 'Key Features')}</h3>
-                    <div className="grid sm:grid-cols-2 gap-2">
-                      {selectedProject.features.map((feature: string, index: number) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-gradient-to-r from-gradient-from to-gradient-to" />
-                          <span className="text-sm text-foreground/80">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                    {/* Features */}
+                    <motion.div variants={enhancedItemVariants}>
+                      <motion.h3 variants={textRevealVariants} className="font-heading font-semibold text-lg mb-3">
+                        {safeT('projects', 'keyFeatures', 'Key Features')}
+                      </motion.h3>
+                      <motion.div
+                        variants={enhancedContainerVariants}
+                        className="grid sm:grid-cols-2 gap-3"
+                      >
+                        {selectedProject.features.map((feature: string, index: number) => (
+                          <motion.div
+                            key={index}
+                            variants={enhancedItemVariants}
+                            custom={index}
+                            className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                            whileHover={{ scale: 1.02, x: 5 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            <motion.div
+                              className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex-shrink-0"
+                              whileHover={{ scale: 1.5 }}
+                              transition={{ type: "spring", stiffness: 500 }}
+                            />
+                            <span className="text-sm text-foreground/80">{feature}</span>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </motion.div>
 
-                  {/* Technologies */}
-                  <div>
-                    <h3 className="font-heading font-semibold text-lg mb-3">{safeT('projects', 'technologiesUsed', 'Technologies Used')}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.technologies.map((tech: string) => (
-                        <Badge
-                          key={tech}
-                          variant="secondary"
-                          className="bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-200 border border-slate-300 dark:border-slate-600"
+                    {/* Technologies */}
+                    <motion.div variants={enhancedItemVariants}>
+                      <motion.h3 variants={textRevealVariants} className="font-heading font-semibold text-lg mb-3">
+                        {safeT('projects', 'technologiesUsed', 'Technologies Used')}
+                      </motion.h3>
+                      <motion.div
+                        variants={enhancedContainerVariants}
+                        className="flex flex-wrap gap-2"
+                      >
+                        {selectedProject.technologies.map((tech: string, techIndex: number) => (
+                          <motion.div
+                            key={tech}
+                            variants={enhancedItemVariants}
+                            custom={techIndex}
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <Badge
+                              variant="secondary"
+                              className="bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-200 border border-slate-300 dark:border-slate-600 hover:shadow-lg"
+                            >
+                              {tech}
+                            </Badge>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Enhanced Links */}
+                    <motion.div
+                      variants={enhancedItemVariants}
+                      className="flex gap-4 pt-4"
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <Button
+                          className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-lg hover:shadow-xl"
+                          onClick={() => window.open(selectedProject.demo, "_blank")}
                         >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex gap-4 pt-4">
-                    <Button
-                      className="bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white"
-                      onClick={() => window.open(selectedProject.demo, "_blank")}
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      {safeT('projects', 'viewDemo', 'View Demo')}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="border-slate-300 text-slate-800 hover:border-indigo-400 dark:border-slate-600 dark:text-slate-200 bg-transparent"
-                      onClick={() => window.open(selectedProject.github, "_blank")}
-                    >
-                      <Github className="mr-2 h-4 w-4" />
-                      {safeT('projects', 'viewCode', 'View Code')}
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          {safeT('projects', 'viewDemo', 'View Demo')}
+                        </Button>
+                      </motion.div>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <Button
+                          variant="outline"
+                          className="border-slate-300 text-slate-800 hover:border-emerald-400 dark:border-slate-600 dark:text-slate-200 bg-transparent hover:shadow-lg"
+                          onClick={() => window.open(selectedProject.github, "_blank")}
+                        >
+                          <Github className="mr-2 h-4 w-4" />
+                          {safeT('projects', 'viewCode', 'View Code')}
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+                </DialogContent>
+              </motion.div>
             </Dialog>
           )}
         </AnimatePresence>

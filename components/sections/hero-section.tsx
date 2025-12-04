@@ -9,6 +9,8 @@ import { getAssetPath } from "@/lib/asset"
 import { Variants, easeOut, easeInOut } from "framer-motion"
 import { useState, useEffect } from "react"
 import { useLanguageStore } from "@/stores/language-store"
+import { useParallax, enhancedContainerVariants, enhancedItemVariants } from "@/hooks/use-scroll-animation"
+import { ScrollProgress } from "@/components/ui/scroll-progress"
 
 // ✅ TypingText component inlined (Next.js compatible)
 function TypingText({ text, delay = 0, speed = 50, className = '' }: { text: string, delay?: number, speed?: number, className?: string }) {
@@ -116,6 +118,11 @@ const meshVariants: Variants = {
 export function HeroSection() {
   const { t } = useLanguageStore()
 
+  // Parallax effects for different elements
+  const backgroundY = useParallax([0, 1], 0.3)
+  const avatarY = useParallax([0, 1], 0.2)
+  const textY = useParallax([0, 1], 0.1)
+
   const handleScrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
   }
@@ -134,7 +141,11 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <>
+      {/* Add scroll progress indicator */}
+      <ScrollProgress />
+
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       <motion.div
         variants={meshVariants}
         animate="animate"
@@ -146,30 +157,32 @@ export function HeroSection() {
             radial-gradient(circle at 40% 40%, rgb(16, 185, 129) 0%, transparent 50%)
           `,
           backgroundSize: "100% 100%",
+          y: backgroundY,
         }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left">
-            <motion.div initial="hidden" animate="visible" className="space-y-6">
+          <div className="text-center lg:text-left" style={{ y: textY }}>
+            <motion.div initial="hidden" animate="visible" variants={enhancedContainerVariants} className="space-y-6">
               <motion.h1
-                custom={0}
-                variants={textVariants}
+                variants={enhancedItemVariants}
                 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight"
               >
-                <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
+                <motion.span
+                  variants={enhancedItemVariants}
+                  className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent inline-block"
+                >
                   Sarra
-                </span>{" "}
-                <motion.span custom={1} variants={textVariants} className="block text-foreground">
+                </motion.span>{" "}
+                <motion.span variants={enhancedItemVariants} className="block text-foreground">
                   Bousnina
                 </motion.span>
               </motion.h1>
 
               <motion.p
-                custom={2}
-                variants={textVariants}
+                variants={enhancedItemVariants}
                 className="text-xl sm:text-2xl font-medium text-muted-foreground"
               >
                 {safeT('hero', 'title', 'AI Software Engineer')} • {safeT('hero', 'studentInfo', 'Final-year Student at ESPRIT')}
@@ -177,8 +190,7 @@ export function HeroSection() {
 
               {/* ✅ Updated bio with typing animation */}
               <motion.p
-                custom={3}
-                variants={textVariants}
+                variants={enhancedItemVariants}
                 className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed"
               >
                 <TypingText
@@ -189,8 +201,7 @@ export function HeroSection() {
               </motion.p>
 
               <motion.div
-                custom={4}
-                variants={textVariants}
+                variants={enhancedItemVariants}
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
               >
                 <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
@@ -216,7 +227,7 @@ export function HeroSection() {
                 </motion.div>
               </motion.div>
 
-              <motion.div custom={5} variants={textVariants} className="pt-4">
+              <motion.div variants={enhancedItemVariants} className="pt-4">
                 <Button
                   variant="ghost"
                   className="text-emerald-600 hover:text-teal-600 dark:text-emerald-300 dark:hover:text-teal-300 transition-colors"
@@ -232,7 +243,7 @@ export function HeroSection() {
           </div>
 
           {/* Avatar Card */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center lg:justify-end" style={{ y: avatarY }}>
             <motion.div
               initial="hidden"
               animate="visible"
@@ -321,5 +332,6 @@ export function HeroSection() {
         </motion.div>
       </div>
     </section>
+    </>
   )
 }

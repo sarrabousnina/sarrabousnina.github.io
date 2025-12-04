@@ -8,6 +8,14 @@ import { Briefcase } from "lucide-react"
 import { GraduationCap, Users, Brain, Code, Award } from "lucide-react"
 import { Variants, easeOut, easeInOut } from "framer-motion"
 import { useLanguageStore } from "@/stores/language-store"
+import {
+  enhancedContainerVariants,
+  enhancedItemVariants,
+  slideInFromLeft,
+  slideInFromRight,
+  textRevealVariants,
+  scaleIn
+} from "@/hooks/use-scroll-animation"
 
 type TimelineItemData = {
   id: number
@@ -21,44 +29,97 @@ type TimelineItemData = {
   achievements?: string[] | string | undefined
 }
 
-const containerVariants = {
+const enhancedTimelineVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
+      staggerDirection: 1,
     },
   },
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
+const enhancedLeftVariants = {
+  hidden: {
+    opacity: 0,
+    x: -100,
+    scale: 0.9,
+    rotateY: -15
+  },
   visible: {
     opacity: 1,
     x: 0,
+    scale: 1,
+    rotateY: 0,
     transition: {
-      duration: 0.6,
-      ease: easeOut,
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
     },
   },
 }
 
-const dotVariants = {
-  hidden: { scale: 0.8, opacity: 0.5 },
+const enhancedRightVariants = {
+  hidden: {
+    opacity: 0,
+    x: 100,
+    scale: 0.9,
+    rotateY: 15
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    rotateY: 0,
+    transition: {
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
+    },
+  },
+}
+
+const enhancedDotVariants = {
+  hidden: {
+    scale: 0,
+    opacity: 0,
+    rotateZ: -180
+  },
   visible: {
     scale: 1,
     opacity: 1,
+    rotateZ: 0,
     transition: {
-      duration: 0.4,
-      ease: easeOut,
+      type: "spring",
+      stiffness: 200,
+      damping: 20,
+      duration: 0.6,
     },
   },
-  highlight: {
+  hover: {
     scale: 1.3,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 25,
+    },
+  },
+}
+
+const lineVariants = {
+  hidden: {
+    scaleY: 0,
+    opacity: 0
+  },
+  visible: {
+    scaleY: 1,
     opacity: 1,
     transition: {
-      duration: 0.3,
-      ease: easeOut,
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      duration: 1,
     },
   },
 }
@@ -219,41 +280,63 @@ export function ExperienceSection() {
       }
     }
 
+      const isLeft = index % 2 === 0
+
     return (
       <motion.div
         ref={ref}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        variants={itemVariants}
+        variants={isLeft ? enhancedLeftVariants : enhancedRightVariants}
         className="relative flex items-start gap-6 pb-12"
+        style={{ perspective: "1000px" }}
       >
         {/* Timeline Dot */}
-        <div className="relative flex-shrink-0">
+        <div className="relative flex-shrink-0 z-10">
           <motion.div
-            variants={dotVariants}
-            animate={isInView ? "highlight" : "visible"}
+            variants={enhancedDotVariants}
+            whileHover="hover"
             className={`w-12 h-12 rounded-full bg-gradient-to-r ${getTypeColor(
               item.type,
-            )} flex items-center justify-center shadow-lg`}
+            )} flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300`}
           >
-            <item.icon className="h-6 w-6 text-white" />
+            <motion.div
+              whileHover={{ scale: 1.2, rotate: 360 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <item.icon className="h-6 w-6 text-white" />
+            </motion.div>
           </motion.div>
 
-          {/* Connecting Line */}
+          {/* Enhanced Connecting Line */}
           {index < allItems.length - 1 && (
-            <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-0.5 h-12 bg-gradient-to-b from-muted-foreground/30 to-transparent" />
+            <motion.div
+              variants={lineVariants}
+              initial="hidden"
+              animate="visible"
+              className="absolute top-12 left-1/2 transform -translate-x-1/2 w-0.5 h-12 bg-gradient-to-b from-muted-foreground/30 to-transparent"
+              style={{ transformOrigin: "top" }}
+            />
           )}
         </div>
 
-        {/* Content Card */}
-        <Card className="glass glass-dark p-6 rounded-xl border-2 border-white/10 hover:border-white/20 transition-all duration-300 flex-1">
+        {/* Enhanced Content Card */}
+        <motion.div
+          whileHover={{
+            y: -5,
+            scale: 1.02,
+            transition: { type: "spring", stiffness: 300 }
+          }}
+          className="flex-1"
+        >
+          <Card className="glass glass-dark p-6 rounded-xl border-2 border-white/10 hover:border-emerald-500/50 transition-all duration-300 flex-1 transform-gpu">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
             <div>
               <Badge variant="secondary" className={`bg-gradient-to-r ${getTypeColor(item.type)} text-white mb-2`}>
                 {getTypeLabel(item.type)}
               </Badge>
               <h3 className="font-heading font-bold text-xl mb-1">{Array.isArray(item.title) ? item.title[0] : item.title}</h3>
-              <p className="text-gradient-from font-semibold">{Array.isArray(item.organization) ? item.organization[0] : item.organization}</p>
+              <p className="text-emerald-600 dark:text-emerald-400 font-semibold">{Array.isArray(item.organization) ? item.organization[0] : item.organization}</p>
             </div>
             <Badge variant="outline" className="glass glass-dark border border-white/20 text-sm">
               {Array.isArray(item.period) ? item.period[0] : item.period}
@@ -293,6 +376,7 @@ export function ExperienceSection() {
             </div>
           )}
         </Card>
+        </motion.div>
       </motion.div>
     )
   }
@@ -304,24 +388,34 @@ export function ExperienceSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
+          variants={enhancedContainerVariants}
           className="text-center mb-16"
         >
-          <motion.h2 variants={itemVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
+          <motion.h2 variants={textRevealVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
             {safeT('experience', 'currentPosition', 'Experience')} &{" "}
-            <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+            <motion.span
+              variants={textRevealVariants}
+              className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent"
+            >
               {safeT('education', 'title', 'Education')}
-            </span>
+            </motion.span>
           </motion.h2>
 
-          <motion.p variants={itemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <motion.p variants={enhancedItemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {safeT('experience', 'subtitle', 'A comprehensive journey through professional experience, academic achievements, certifications, and community involvement in the field of software engineering and AI.')}
           </motion.p>
         </motion.div>
 
         <div className="relative">
-          {/* Main Timeline Line */}
-          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gradient-from via-muted-foreground/30 to-gradient-to" />
+          {/* Enhanced Main Timeline Line */}
+          <motion.div
+            variants={lineVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gradient-from via-muted-foreground/30 to-gradient-to"
+            style={{ transformOrigin: "top" }}
+          />
 
           {/* Timeline Items */}
           <div className="space-y-0">
