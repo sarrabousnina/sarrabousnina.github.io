@@ -1,7 +1,7 @@
 "use client"
 
-import { useScroll, useTransform, useSpring, motion, MotionValue } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useScroll, useTransform, useSpring, motion, MotionValue, useAnimationControls } from "framer-motion"
+import { useEffect, useState, useRef } from "react"
 
 interface ScrollAnimationOptions {
   offset?: number[]
@@ -23,6 +23,83 @@ export const useScrollAnimation = (options: ScrollAnimationOptions = {}) => {
   const y = useTransform(smoothProgress, offset, [50, 0])
 
   return { scale, opacity, y, scrollYProgress: smoothProgress }
+}
+
+// Enhanced continuous scroll animations
+export const useContinuousScrollAnimation = () => {
+  const { scrollY, scrollYProgress } = useScroll()
+  const lastScrollY = useRef(0)
+  const scrollDirection = useRef<'up' | 'down' | null>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = scrollY.get()
+      const delta = currentScrollY - lastScrollY.current
+
+      if (Math.abs(delta) > 1) {
+        setIsScrolling(true)
+        scrollDirection.current = delta > 0 ? 'down' : 'up'
+
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current)
+        }
+
+        scrollTimeoutRef.current = setTimeout(() => {
+          setIsScrolling(false)
+          scrollDirection.current = null
+        }, 150)
+      }
+
+      lastScrollY.current = currentScrollY
+    }
+
+    const unsubscribe = scrollY.on("change", handleScroll)
+    return unsubscribe
+  }, [scrollY])
+
+  return { scrollY, scrollYProgress, isScrolling, scrollDirection }
+}
+
+// Bounce animation for continuous scroll
+export const useBounceAnimation = (factor: number = 0.1) => {
+  const { scrollY } = useScroll()
+
+  const bounce = useTransform(scrollY, [0, 1], [0, 0], [0, 0, 1])
+
+  // Create a sine wave effect
+  const bounceEffect = useTransform(scrollY, [0, 1], [0, 0], [
+    [0, 0, 1],
+    [0.25, -10 * factor, 1],
+    [0.5, 0, 1],
+    [0.75, 10 * factor, 1],
+    [1, 0, 1]
+  ])
+
+  return { bounce: bounceEffect, scrollY }
+}
+
+// Rotation animation based on scroll
+export const useRotateAnimation = (maxRotation: number = 5) => {
+  const { scrollY } = useScroll()
+
+  const rotateX = useTransform(scrollY, [0, 1], [-maxRotation, maxRotation])
+  const rotateY = useTransform(scrollY, [0, 1], [-maxRotation * 0.5, maxRotation * 0.5])
+  const rotateZ = useTransform(scrollY, [0, 1], [-maxRotation * 0.3, maxRotation * 0.3])
+
+  return { rotateX, rotateY, rotateZ, scrollY }
+}
+
+// Parallax with different speeds
+export const useMultiLayerParallax = () => {
+  const { scrollY } = useScroll()
+
+  const layer1 = useTransform(scrollY, [0, 1], [0, -50])
+  const layer2 = useTransform(scrollY, [0, 1], [0, -30])
+  const layer3 = useTransform(scrollY, [0, 1], [0, -10])
+
+  return { layer1, layer2, layer3, scrollY }
 }
 
 export const useParallax = (offset: number[] = [0, 1], speed: number = 0.5) => {
@@ -148,7 +225,7 @@ export const floatingCardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 120,
       damping: 20,
       delay: i * 0.1,
@@ -158,7 +235,7 @@ export const floatingCardVariants = {
     y: -5,
     scale: 1.02,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 400,
       damping: 25,
     },

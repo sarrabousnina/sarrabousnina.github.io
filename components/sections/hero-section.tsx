@@ -9,7 +9,7 @@ import { getAssetPath } from "@/lib/asset"
 import { Variants, easeOut, easeInOut } from "framer-motion"
 import { useState, useEffect } from "react"
 import { useLanguageStore } from "@/stores/language-store"
-import { useParallax, enhancedContainerVariants, enhancedItemVariants } from "@/hooks/use-scroll-animation"
+import { useParallax, enhancedContainerVariants, enhancedItemVariants, useContinuousScrollAnimation, useBounceAnimation, useRotateAnimation } from "@/hooks/use-scroll-animation"
 import { ScrollProgress } from "@/components/ui/scroll-progress"
 
 // ✅ TypingText component inlined (Next.js compatible)
@@ -118,6 +118,11 @@ const meshVariants: Variants = {
 export function HeroSection() {
   const { t } = useLanguageStore()
 
+  // Continuous scroll animations
+  const { scrollY, isScrolling, scrollDirection } = useContinuousScrollAnimation()
+  const { bounce } = useBounceAnimation(0.03)
+  const { rotateX, rotateY, rotateZ } = useRotateAnimation(2)
+
   // Parallax effects for different elements
   const backgroundY = useParallax([0, 1], 0.3)
   const avatarY = useParallax([0, 1], 0.2)
@@ -158,25 +163,46 @@ export function HeroSection() {
           `,
           backgroundSize: "100% 100%",
           y: backgroundY,
+          rotate: isScrolling ? rotateZ.get() * 2 : 0,
+          scale: isScrolling ? 1 + bounce.get() * 0.05 : 1,
         }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left" style={{ y: textY }}>
+          <div
+            className="text-center lg:text-left"
+            style={{
+              y: textY,
+              rotateY: isScrolling && scrollDirection === 'down' ? rotateY.get() * 0.5 : 0,
+              scale: isScrolling ? 1 + bounce.get() * 0.02 : 1
+            }}
+          >
             <motion.div initial="hidden" animate="visible" variants={enhancedContainerVariants} className="space-y-6">
               <motion.h1
                 variants={enhancedItemVariants}
                 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight"
+                animate={{
+                  y: isScrolling ? bounce.get() * 3 : 0,
+                }}
               >
                 <motion.span
                   variants={enhancedItemVariants}
                   className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent inline-block"
+                  animate={{
+                    rotate: isScrolling ? rotateZ.get() : 0,
+                  }}
                 >
                   Sarra
                 </motion.span>{" "}
-                <motion.span variants={enhancedItemVariants} className="block text-foreground">
+                <motion.span
+                  variants={enhancedItemVariants}
+                  className="block text-foreground"
+                  animate={{
+                    x: isScrolling && scrollDirection === 'down' ? 5 : 0,
+                  }}
+                >
                   Bousnina
                 </motion.span>
               </motion.h1>
@@ -243,18 +269,36 @@ export function HeroSection() {
           </div>
 
           {/* Avatar Card */}
-          <div className="flex justify-center lg:justify-end" style={{ y: avatarY }}>
+          <div
+            className="flex justify-center lg:justify-end"
+            style={{
+              y: avatarY,
+              rotateY: isScrolling && scrollDirection === 'up' ? rotateY.get() : 0,
+              scale: isScrolling ? 1 + bounce.get() * 0.03 : 1
+            }}
+          >
             <motion.div
               initial="hidden"
               animate="visible"
               whileHover="hover"
               variants={avatarVariants}
               className="relative"
+              style={{
+                rotateZ: isScrolling ? rotateZ.get() * 0.5 : 0,
+                transformPerspective: 1000,
+              }}
             >
               <Card className="glass glass-dark p-8 rounded-3xl shadow-2xl border-2 border-white/20 dark:border-white/10">
                 <div className="relative">
                   <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden ring-2 ring-transparent bg-gradient-to-r from-emerald-500 to-teal-500 p-1 shadow-lg">
-                    <div className="w-full h-full rounded-2xl overflow-hidden bg-background">
+                    <motion.div
+                      className="w-full h-full rounded-2xl overflow-hidden bg-background"
+                      animate={{
+                        scale: isScrolling ? 1 + bounce.get() * 0.02 : 1,
+                        rotateY: isScrolling && scrollDirection === 'down' ? rotateY.get() * 2 : 0,
+                      }}
+                      style={{ transformStyle: 'preserve-3d' }}
+                    >
                       <Image
                         src={getAssetPath("/sarra.jpg")}
                         alt="Sarra Bousnina - AI Software Engineer"
@@ -263,14 +307,15 @@ export function HeroSection() {
                         className="w-full h-full object-cover"
                         priority
                       />
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Floating Elements */}
                   <motion.div
                     animate={{
-                      y: [0, -10, 0],
-                      rotate: [0, 5, 0],
+                      y: isScrolling ? bounce.get() * 15 : [0, -10, 0],
+                      rotate: isScrolling ? rotateZ.get() * 5 : [0, 5, 0],
+                      scale: isScrolling ? 1 + bounce.get() * 0.2 : 1,
                     }}
                     transition={{
                       duration: 3,
@@ -279,13 +324,24 @@ export function HeroSection() {
                     }}
                     className="absolute -top-4 -right-4 glass glass-dark rounded-xl p-3 border border-white/20"
                   >
-                    <div className="w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full" />
+                    <motion.div
+                      animate={{
+                        rotate: isScrolling ? 360 : 0,
+                      }}
+                      transition={{
+                        duration: isScrolling ? 2 : 3,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "linear",
+                      }}
+                      className="w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+                    />
                   </motion.div>
 
                   <motion.div
                     animate={{
-                      y: [0, 10, 0],
-                      rotate: [0, -5, 0],
+                      y: isScrolling ? bounce.get() * -15 : [0, 10, 0],
+                      rotate: isScrolling ? -rotateZ.get() * 5 : [0, -5, 0],
+                      scale: isScrolling ? 1 + bounce.get() * 0.2 : 1,
                     }}
                     transition={{
                       duration: 4,
@@ -295,7 +351,17 @@ export function HeroSection() {
                     }}
                     className="absolute -bottom-4 -left-4 glass glass-dark rounded-xl p-3 border border-white/20"
                   >
-                    <div className="w-4 h-4 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full" />
+                    <motion.div
+                      animate={{
+                        rotate: isScrolling ? -360 : 0,
+                      }}
+                      transition={{
+                        duration: isScrolling ? 2.5 : 4,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "linear",
+                      }}
+                      className="w-4 h-4 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full"
+                    />
                   </motion.div>
                 </div>
               </Card>

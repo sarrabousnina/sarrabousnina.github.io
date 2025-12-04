@@ -5,6 +5,9 @@ import { ExternalLink, Award } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { getAssetPath } from "@/lib/asset"
 import { useLanguageStore } from "@/stores/language-store"
+import {
+  useMultiLayerParallax
+} from "@/hooks/use-scroll-animation"
 
 
 // 🟢 Update with actual logo image paths (e.g. in /public/logos/)
@@ -127,6 +130,9 @@ logo: getAssetPath("/logos/transformerNLP.png"),
 export default function CertificationsSection() {
   const { t, locale } = useLanguageStore()
 
+  // Background parallax effects
+  const { layer1, layer2, layer3 } = useMultiLayerParallax()
+
   const safeT = (section: string, key: string, fallback: string) => {
     try {
       const result = t(section, key)
@@ -137,13 +143,33 @@ export default function CertificationsSection() {
   }
 
   return (
-    <section id="certifications" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section id="certifications" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background layers */}
+      <motion.div
+        className="absolute inset-0 opacity-10 dark:opacity-5"
+        style={{ y: layer1 }}
+      >
+        <div className="absolute top-20 left-10 w-64 h-64 bg-emerald-500 rounded-full filter blur-3xl" />
+      </motion.div>
+      <motion.div
+        className="absolute inset-0 opacity-10 dark:opacity-5"
+        style={{ y: layer2 }}
+      >
+        <div className="absolute top-40 right-10 w-96 h-96 bg-teal-500 rounded-full filter blur-3xl" />
+      </motion.div>
+      <motion.div
+        className="absolute inset-0 opacity-10 dark:opacity-5"
+        style={{ y: layer3 }}
+      >
+        <div className="absolute bottom-20 left-1/2 w-80 h-80 bg-emerald-400 rounded-full filter blur-3xl" />
+      </motion.div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
@@ -160,63 +186,79 @@ export default function CertificationsSection() {
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certifications.map((cert, index) => (
-            <motion.div
-              key={cert.title}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.06 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-white/90 border border-stone-200 backdrop-blur-sm dark:bg-stone-900/70 dark:border-stone-700 h-full group hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                 <div className="flex flex-col mb-4">
-  {/* Big Logo on Top */}
-  <div className="w-full h-32 flex items-center justify-center bg-white dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700 rounded-t-md overflow-hidden">
-    <img
-      src={cert.logo}
-      alt={`${cert.issuer} logo`}
-      className="max-h-full max-w-full object-contain"
-    />
-  </div>
+          {certifications.map((cert, index) => {
+            const evenIndex = index % 2 === 0
+            return (
+              <motion.div
+                key={cert.title}
+                custom={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
+              >
+                <Card className="glass glass-dark h-full group border-2 border-white/20 dark:border-white/10 shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
+                  <CardContent className="p-0">
+                    {/* Professional Card Container */}
+                    <div className="relative h-full">
+                      {/* Logo Container */}
+                      <div className="relative h-40 overflow-hidden bg-gradient-to-br from-white/20 to-white/5 dark:from-stone-800/50 dark:to-stone-900/30 border-b border-white/20">
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="w-full h-full flex items-center justify-center p-4">
+                          <img
+                            src={cert.logo}
+                            alt={`${cert.issuer} logo`}
+                            className="max-h-full max-w-full object-contain filter drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
 
-  {/* Text Content */}
-  <div className="flex-1 p-4">
-    <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-      {cert.title}
-    </h3>
-    <p className="text-stone-600 dark:text-stone-400 text-sm mb-2">
-      {safeT('certifications', 'issuedBy', 'Issued by')}: {cert.issuer} • {safeT('certifications', 'date', 'Date')}: {cert.date}
-    </p>
+                        {/* Subtle corner accent */}
+                        <div className="absolute top-2 right-2 w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
 
-    {/* Tags */}
-    <div className="flex flex-wrap gap-2 mb-2">
-      {cert.tags?.map((tag, idx) => (
-        <span
-          key={idx}
-          className="px-2 py-1 rounded-md bg-stone-100 dark:bg-stone-700 text-xs text-stone-600 dark:text-stone-300"
-        >
-          {tag}
-        </span>
-      ))}
-    </div>
+                      {/* Content Container */}
+                      <div className="p-6">
+                        <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                          {cert.title}
+                        </h3>
 
-    {/* Credential Link */}
-    <a
-      href={cert.credentialUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-emerald-600 text-sm font-medium hover:underline"
-    >
-      {safeT('certifications', 'viewCredential', 'View credential')}
-    </a>
-  </div>
-</div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {safeT('certifications', 'issuedBy', 'Issued by')}: <span className="font-medium text-foreground">{cert.issuer}</span> • {safeT('certifications', 'date', 'Date')}: {cert.date}
+                        </p>
 
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+                        {/* Professional Tags */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {cert.tags?.map((tag, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-300 text-xs font-medium border border-emerald-500/20 transition-all duration-200 hover:bg-emerald-500/20 hover:scale-105"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Credential Link */}
+                        <a
+                          href={cert.credentialUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm font-medium hover:text-emerald-700 dark:hover:text-emerald-300 transition-all duration-200 hover:translate-x-1"
+                        >
+                          {safeT('certifications', 'viewCredential', 'View credential')}
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

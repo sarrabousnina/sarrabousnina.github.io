@@ -10,7 +10,11 @@ import {
   enhancedItemVariants,
   progressAnimation,
   textRevealVariants,
-  useScrollAnimation
+  useScrollAnimation,
+  useContinuousScrollAnimation,
+  useBounceAnimation,
+  useRotateAnimation,
+  useMultiLayerParallax
 } from "@/hooks/use-scroll-animation"
 
 const containerVariants = {
@@ -50,6 +54,12 @@ const floatingVariants: Variants = {
 
 export function SkillsSection() {
   const { t } = useLanguageStore()
+
+  // Continuous scroll animations
+  const { scrollY, isScrolling, scrollDirection } = useContinuousScrollAnimation()
+  const { bounce } = useBounceAnimation(0.02)
+  const { rotateX, rotateY, rotateZ } = useRotateAnimation(1.5)
+  const { layer1, layer2, layer3 } = useMultiLayerParallax()
 
   const safeT = (section: string, key: string, fallback: string | string[]) => {
     try {
@@ -127,20 +137,56 @@ export function SkillsSection() {
   }
 
   return (
-    <section id="skills" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="skills" className="py-20 relative overflow-hidden">
+      {/* Animated background layers */}
+      <motion.div
+        className="absolute inset-0 opacity-5 dark:opacity-3"
+        style={{ y: layer1 }}
+      >
+        <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500 rounded-full filter blur-3xl" />
+      </motion.div>
+      <motion.div
+        className="absolute inset-0 opacity-5 dark:opacity-3"
+        style={{ y: layer2 }}
+      >
+        <div className="absolute top-1/3 right-0 w-80 h-80 bg-teal-500 rounded-full filter blur-3xl" />
+      </motion.div>
+      <motion.div
+        className="absolute inset-0 opacity-5 dark:opacity-3"
+        style={{ y: layer3 }}
+      >
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-emerald-400 rounded-full filter blur-3xl" />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={enhancedContainerVariants}
           className="text-center mb-16"
+          style={{
+            rotateY: isScrolling && scrollDirection === 'down' ? rotateY.get() * 0.3 : 0,
+            scale: isScrolling ? 1 + bounce.get() * 0.01 : 1
+          }}
         >
-          <motion.h2 variants={textRevealVariants} className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
+          <motion.h2
+            variants={textRevealVariants}
+            className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl mb-6"
+            animate={{
+              y: isScrolling ? bounce.get() * 2 : 0,
+            }}
+          >
             {safeT('skills', 'title', 'Technical Skills')}
           </motion.h2>
 
-          <motion.p variants={enhancedItemVariants} className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <motion.p
+            variants={enhancedItemVariants}
+            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            animate={{
+              x: isScrolling && scrollDirection === 'down' ? 2 : 0,
+            }}
+          >
             {safeT('skills', 'subtitle', 'A comprehensive toolkit spanning multiple programming languages, frameworks, and cutting-edge AI technologies to build innovative solutions.')}
           </motion.p>
         </motion.div>
@@ -152,16 +198,26 @@ export function SkillsSection() {
           variants={enhancedContainerVariants}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={`skill-category-${categoryIndex}`}
-              custom={categoryIndex}
-              variants={enhancedItemVariants}
-              whileHover={{
-                y: -5,
-                transition: { type: "spring", stiffness: 300 }
-              }}
-            >
+          {skillCategories.map((category, categoryIndex) => {
+            const evenIndex = categoryIndex % 2 === 0
+            return (
+              <motion.div
+                key={`skill-category-${categoryIndex}`}
+                custom={categoryIndex}
+                variants={enhancedItemVariants}
+                whileHover={{
+                  y: -5,
+                  transition: { type: "spring", stiffness: 300 }
+                }}
+                style={{
+                  transformPerspective: 1000,
+                  transformStyle: 'preserve-3d',
+                  rotateY: isScrolling ? (evenIndex ? rotateY.get() * 0.5 : -rotateY.get() * 0.5) : 0,
+                  rotateX: isScrolling ? (evenIndex ? rotateX.get() * 0.3 : -rotateX.get() * 0.3) : 0,
+                  y: isScrolling ? bounce.get() * (evenIndex ? 1 : -1) * 3 : 0,
+                  scale: isScrolling ? 1 + bounce.get() * 0.01 : 1
+                }}
+              >
               <Card className="skill-group-card h-full hover:shadow-2xl hover:scale-[1.02] hover:ring-2 hover:ring-emerald-400/20 transition-all duration-300 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border-2 border-white/20">
                 <div className="p-6">
                   <motion.div
@@ -256,7 +312,8 @@ export function SkillsSection() {
                 </div>
               </Card>
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
 
         {/* Floating skill indicators */}
@@ -266,6 +323,9 @@ export function SkillsSection() {
           viewport={{ once: true, margin: "-100px" }}
           variants={enhancedContainerVariants}
           className="mt-16 flex justify-center gap-4 flex-wrap"
+          style={{
+            scale: isScrolling ? 1 + bounce.get() * 0.02 : 1
+          }}
         >
           {['Problem Solving', 'Team Collaboration', 'Agile Development', 'UI/UX Design'].map((softSkill, index) => (
             <motion.div
@@ -274,6 +334,14 @@ export function SkillsSection() {
               variants={enhancedItemVariants}
               whileHover={{ scale: 1.05, y: -3 }}
               transition={{ type: "spring", stiffness: 400 }}
+              animate={{
+                y: isScrolling ? bounce.get() * (index % 2 === 0 ? 1 : -1) * 5 : 0,
+                rotate: isScrolling ? (index % 2 === 0 ? rotateZ.get() : -rotateZ.get()) * 2 : 0,
+                scale: isScrolling ? 1 + bounce.get() * 0.03 : 1
+              }}
+              style={{
+                transformPerspective: 500,
+              }}
             >
               <Badge
                 variant="outline"
