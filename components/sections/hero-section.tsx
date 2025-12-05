@@ -90,11 +90,10 @@ const avatarVariants = {
     transition: {
       delay: 0.5,
       duration: 0.8,
-      ease: easeOut,    
+      ease: easeOut,
     },
   },
   hover: {
-    rotateY: 5,
     scale: 1.05,
     transition: {
       duration: 0.3,
@@ -273,8 +272,7 @@ export function HeroSection() {
             className="flex justify-center lg:justify-end"
             style={{
               y: avatarY,
-              rotateY: isScrolling && scrollDirection === 'up' ? rotateY.get() : 0,
-              scale: isScrolling ? 1 + bounce.get() * 0.03 : 1
+              scale: isScrolling ? 1 + bounce.get() * 0.02 : 1
             }}
           >
             <motion.div
@@ -283,22 +281,11 @@ export function HeroSection() {
               whileHover="hover"
               variants={avatarVariants}
               className="relative"
-              style={{
-                rotateZ: isScrolling ? rotateZ.get() * 0.5 : 0,
-                transformPerspective: 1000,
-              }}
             >
               <Card className="glass glass-dark p-8 rounded-3xl shadow-2xl border-2 border-white/20 dark:border-white/10">
                 <div className="relative">
                   <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden ring-2 ring-transparent bg-gradient-to-r from-emerald-500 to-teal-500 p-1 shadow-lg">
-                    <motion.div
-                      className="w-full h-full rounded-2xl overflow-hidden bg-background"
-                      animate={{
-                        scale: isScrolling ? 1 + bounce.get() * 0.02 : 1,
-                        rotateY: isScrolling && scrollDirection === 'down' ? rotateY.get() * 2 : 0,
-                      }}
-                      style={{ transformStyle: 'preserve-3d' }}
-                    >
+                    <div className="w-full h-full rounded-2xl overflow-hidden bg-background">
                       <Image
                         src={getAssetPath("/sarra.jpg")}
                         alt="Sarra Bousnina - AI Software Engineer"
@@ -307,7 +294,7 @@ export function HeroSection() {
                         className="w-full h-full object-cover"
                         priority
                       />
-                    </motion.div>
+                    </div>
                   </div>
 
                   {/* Floating Elements */}

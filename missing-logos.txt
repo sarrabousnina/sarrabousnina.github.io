@@ -1,0 +1,46 @@
+# Missing Skill Logos
+
+Here are the logos you need to add to your /public/logos/skills_logos/ folder for the skills section:
+
+## Languages
+- python.png
+- javascript.png
+- typescript.png
+- java.png
+- php.png
+- c.png
+- html-css.png
+
+## Frameworks
+- react.png (you might have this already)
+- angular.png (you have this already)
+- spring-boot.png
+- symfony.png
+- dotnet.png
+- jwt.png
+
+## Databases
+- mysql.png
+- mongodb.png
+- postgresql.png
+
+## AI Frameworks
+- fastapi.png
+- flask.png
+- langchain.png
+
+## Tools
+- git.png (you have this already)
+- github.png
+- rest-api.png
+- docker.png
+- power-bi.png
+- linux.png
+- flutterflow.png
+- postman.png
+
+## Notes:
+- Logo files should be in PNG format with transparent backgrounds
+- Recommended size: 64x64px or 128x128px
+- Use high-quality, official logos when possible
+- For missing logos, the system will show a fallback letter icon
