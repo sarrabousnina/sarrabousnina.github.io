@@ -124,7 +124,7 @@ export function ProjectsSection() {
       title: safeT('projects', 'inspireAI.title', 'inspireAI'),
       subtitle: safeT('projects', 'inspireAI.subtitle', 'AI-Powered Content Studio (Personal Project)'),
       description: safeT('projects', 'inspireAI.description', 'A platform that helps creators generate, organize, and refine social media content and blog posts using AI and a ReAct-style AI agent for conversational interaction.'),
-      longDescription: safeT('projects', 'inspireAI.longDescription', 'inspireAI is my personal AI content assistant built with React and FastAPI that helps creators write blog posts and social media captions without losing control. You tell it your audience tone and platform upload an image if you want context and it crafts tailored content using Groq\'s LLMs enhanced by image analysis via OpenRouter.\n\nAll your posts are saved in a history panel pin delete or revisit them anytime. The real magic A ReAct style chat agent that answers natural questions like "How many posts do I have?" or "Summarize my latest draft." It doesn\'t edit for you it helps you think.\n\nSecure scalable and built with JWT auth and PostgreSQL it\'s designed to grow with creators not replace them.'),
+      longDescription: safeT('projects', 'inspireAI.longDescription', 'inspireAI is my personal AI content studio built with React and FastAPI that helps creators write blog posts and social media captions without losing control.'),
       image: getAssetPath("/images/inspire.png"),
       technologies: [
         "React.js",
