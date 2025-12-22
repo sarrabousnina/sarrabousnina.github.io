@@ -64,6 +64,32 @@ export function PrizesSection() {
     return [
       {
         id: 1,
+        title: safeT('prizes', 'autoInsuranceHack.title', '2nd Place – AI for Automobile Insurance'),
+        subtitle: safeT('prizes', 'autoInsuranceHack.subtitle', 'Smart claims automation & fraud detection'),
+        description: safeT('prizes', 'autoInsuranceHack.description', 'Developed an end-to-end AI pipeline that automates automobile insurance claims by analyzing car damage photos, estimating repair costs in TND, and detecting fraudulent claims. Achieved 2nd place among 18 teams.'),
+        longDescription: safeT('prizes', 'autoInsuranceHack.longDescription', '🥈 2𝐧𝐝 𝐏𝐥𝐚𝐜𝐞 among 18 teams! \n\nOur team built an intelligent AI system to transform automobile insurance claims in Tunisia. When an accident occurs, the insurer uploads a photo of the damaged vehicle—and our pipeline instantly:\n\n• Segments the car into parts (e.g., front door, rear glass)\n• Classifies damage type across 6 categories (dent, scratch, shattered glass, etc.)\n• Combines location + damage to pinpoint exact affected components\n• Identifies car make, model, and year range\n• Scrapes trusted Tunisian sources to fetch real-time part prices in TND\n• Generates a detailed repair cost report for expert validation\n• Flags potential fraud (e.g., claimed 1000 TND vs. AI-estimated 750 TND)\n\nAdditionally, we integrated a juridic chatbot powered by RAG that monitors official legal websites for updates in insurance or traffic laws and keeps our knowledge base current.\n\nThis solution saves insurers hours per claim, reduces fraud, and ensures compliance—all through smart, localized AI.'),
+        image: getAssetPath("/images/dauph.jpeg"),
+        technologies: [
+          "Computer Vision (Segmentation & Classification)",
+          "Web Scraping",
+          "Fraud Detection",
+          "RAG (Retrieval-Augmented Generation)",
+          "Legal Tech / Juridic AI",
+          "Python",
+          "PyTorch / TensorFlow"
+        ],
+        category: safeT('prizes', 'autoInsuranceHack.category', 'Hackathon / AI for Insurance'),
+        features: safeT('prizes', 'autoInsuranceHack.features', [
+          "Automated car damage analysis from a single photo",
+          "Real-time repair cost estimation in Tunisian Dinar (TND)",
+          "AI-powered insurance fraud detection",
+          "RAG-based legal assistant with live regulatory updates"
+        ]),
+        github: "https://github.com/yassine-kharrat/dauph",
+        demo: getAssetPath("/videos/dauph.mp4"),
+      },
+      {
+        id: 2,
         title: safeT('prizes', 'insatHackathon.title', '1st Prize at INSAT Hackathon'),
         subtitle: safeT('prizes', 'insatHackathon.subtitle', 'INSAT Hackathon for drug discovery'),
         description: safeT('prizes', 'insatHackathon.description', 'Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme \'Hack for Drug Discovery\'. Our team was awarded 1st place for developing \'Your Lab Twin AI\', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.'),
@@ -84,7 +110,7 @@ export function PrizesSection() {
         ]),
       },
       {
-        id: 2,
+        id: 3,
         title: safeT('prizes', 'balDesProjets.title', '1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)'),
         subtitle: safeT('prizes', 'balDesProjets.subtitle', 'TimeForge - AI-Powered Productivity App'),
         description: safeT('prizes', 'balDesProjets.description', 'Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.'),

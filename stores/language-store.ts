@@ -287,6 +287,19 @@ const translations = {
       aboutProject: "About This Achievement",
       keyFeatures: "Key Features",
       technologiesUsed: "Technologies Used",
+      autoInsuranceHack: {
+        title: "2nd Place – AI for Automobile Insurance",
+        subtitle: "Smart claims automation & fraud detection",
+        description: "Developed an end-to-end AI pipeline that automates automobile insurance claims by analyzing car damage photos, estimating repair costs in TND, and detecting fraudulent claims. Achieved 2nd place among 18 teams.",
+        longDescription: "🥈 2𝐧𝐝 𝐏𝐥𝐚𝐜𝐞 among 18 teams! \n\nOur team built an intelligent AI system to transform automobile insurance claims in Tunisia. When an accident occurs, the insurer uploads a photo of the damaged vehicle—and our pipeline instantly:\n\n• Segments the car into parts (e.g., front door, rear glass)\n• Classifies damage type across 6 categories (dent, scratch, shattered glass, etc.)\n• Combines location + damage to pinpoint exact affected components\n• Identifies car make, model, and year range\n• Scrapes trusted Tunisian sources to fetch real-time part prices in TND\n• Generates a detailed repair cost report for expert validation\n• Flags potential fraud (e.g., claimed 1000 TND vs. AI-estimated 750 TND)\n\nAdditionally, we integrated a juridic chatbot powered by RAG that monitors official legal websites for updates in insurance or traffic laws and keeps our knowledge base current.\n\nThis solution saves insurers hours per claim, reduces fraud, and ensures compliance—all through smart, localized AI.",
+        category: "Hackathon / AI for Insurance",
+        features: [
+          "Automated car damage analysis from a single photo",
+          "Real-time repair cost estimation in Tunisian Dinar (TND)",
+          "AI-powered insurance fraud detection",
+          "RAG-based legal assistant with live regulatory updates"
+        ]
+      },
       insatHackathon: {
         title: "1st Prize at INSAT Hackathon",
         subtitle: "INSAT Hackathon for drug discovery",
@@ -673,6 +686,19 @@ const translations = {
       aboutProject: "À Propos de Cette Réalisation",
       keyFeatures: "Points Clés",
       technologiesUsed: "Technologies Utilisées",
+      autoInsuranceHack: {
+        title: "2ème Place – IA pour l'Assurance Automobile",
+        subtitle: "Automatisation intelligente des sinistres & détection de fraude",
+        description: "Développement d'un pipeline IA de bout en bout qui automatise les sinistres d'assurance automobile en analysant les photos de dommages, en estimant les coûts de réparation en TND et en détectant les fraudes. 2ème place parmi 18 équipes.",
+        longDescription: "🥈 2ᵉᵐᵉ Place parmi 18 équipes !\n\nNotre équipe a construit un système IA intelligent pour transformer les sinistres d'assurance automobile en Tunisie. Lorsqu'un accident survient, l'assureur télécharge une photo du véhicule endommagé—et notre pipeline instantanément :\n\n• Segment la voiture en pièces (ex: porte avant, vitre arrière)\n• Classifie le type de dommage en 6 catégories (dent, rayure, vitre brisée, etc.)\n• Combine localisation + dommage pour identifier les composants exacts affectés\n• Identifie la marque, le modèle et l'année du véhicule\n• Scrape des sources tunisiennes fiables pour obtenir les prix des pièces en temps réel en TND\n• Génère un rapport détaillé des coûts de réparation pour validation experte\n• Signale les fraudes potentielles (ex: réclamation 1000 TND vs estimation IA 750 TND)\n\nDe plus, nous avons intégré un chatbot juridique alimenté par RAG qui surveille les sites web officiels pour les mises à jour des lois d'assurance ou de circulation et maintient notre base de connaissances à jour.\n\nCette solution fait gagner des heures aux assureurs par sinistre, réduit la fraude et assure la conformité—le tout grâce à une IA localisée intelligente.",
+        category: "Hackathon / IA pour l'Assurance",
+        features: [
+          "Analyse automatisée des dommages automobiles à partir d'une seule photo",
+          "Estimation en temps réel des coûts de réparation en Dinar Tunisien (TND)",
+          "Détection de fraude d'assurance alimentée par l'IA",
+          "Assistant juridique basé sur RAG avec mises à jour réglementaires en direct"
+        ]
+      },
       insatHackathon: {
         title: "1er Prix au Hackathon INSAT",
         subtitle: "Hackathon INSAT pour la découverte de médicaments",
