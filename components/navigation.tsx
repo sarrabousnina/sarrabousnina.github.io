@@ -18,27 +18,27 @@ export function Navigation() {
     try {
       return [
         { name: t('nav', 'home') || 'Home', href: "#hero" },
-        { name: t('nav', 'projects') || 'Projects', href: "#projects" },
-        { name: t('nav', 'skills') || 'Skills', href: "#skills" },
+        { name: t('nav', 'prizes') || 'Prizes', href: "#prizes" },
+        { name: t('nav', 'projects') || 'Projects', href: "#featured-projects" },
+        { name: t('nav', 'skills') || 'Skills', href: "#technical-skills" },
         { name: t('nav', 'experience') || 'Experience', href: "#experience" },
         { name: t('nav', 'education') || 'Education', href: "#education" },
         { name: t('nav', 'certifications') || 'Certifications', href: "#certifications" },
-        { name: t('nav', 'prizes') || 'Prizes', href: "#prizes" },
         { name: t('nav', 'community') || 'Community', href: "#community" },
-        { name: t('nav', 'contact') || 'Contact', href: "#contact" },
+        { name: t('nav', 'contact') || 'Contact', href: "#get-in-touch" },
       ]
     } catch (error) {
       // Fallback to English if translation fails
       return [
         { name: 'Home', href: "#hero" },
-        { name: 'Projects', href: "#projects" },
-        { name: 'Skills', href: "#skills" },
+        { name: 'Prizes', href: "#prizes" },
+        { name: 'Projects', href: "#featured-projects" },
+        { name: 'Skills', href: "#technical-skills" },
         { name: 'Experience', href: "#experience" },
         { name: 'Education', href: "#education" },
         { name: 'Certifications', href: "#certifications" },
-        { name: 'Prizes', href: "#prizes" },
         { name: 'Community', href: "#community" },
-        { name: 'Contact', href: "#contact" },
+        { name: 'Contact', href: "#get-in-touch" },
       ]
     }
   }

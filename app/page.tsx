@@ -19,6 +19,10 @@ export default function Home() {
         <HeroSection />
       </div>
 
+      <div id="prizes">
+        <PrizesSection />
+      </div>
+
       <div id="about">
         <AboutSection />
       </div>
@@ -37,10 +41,6 @@ export default function Home() {
 
       <div id="certifications">
         <CertificationsSection />
-      </div>
-
-      <div id="featured-prizes">
-        <PrizesSection />
       </div>
 
       <div id="community" className="section-surface mx-4 sm:mx-6 lg:mx-8">
