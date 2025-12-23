@@ -24,7 +24,12 @@ marked.setOptions({ renderer });
 
 export default function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; sender: string; suggestions?: string[]; isThinking?: boolean; source?: any; action?: string }[]>([]); // ✅ Ajout du champ suggestions, isThinking, source et action
+  const [messages, setMessages] = useState<{ text: string; sender: string; suggestions?: string[]; isThinking?: boolean; source?: any; action?: string }[]>([
+    {
+      text: "👋 Hi! I'm Sarra's AI assistant.\n\nFeel free to ask me anything in **English** or **French** about Sarra — her projects, skills, experience, certifications, and more.\n\n💡 **Pro tip:** You can also ask me to scroll to any section for you! Try saying things like:\n- \"Scroll to projects\"\n- \"Show me skills\"\n- \"Go to experience\"\n- \"Scroll to contact\"",
+      sender: 'bot'
+    }
+  ]); // ✅ Initial welcome message
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -138,7 +143,7 @@ const sendMessage = async () => {
         scrollToExperience: 'experience',
         scrollToSkills: 'technical-skills',
         scrollToContact: 'get-in-touch',
-        scrollToAwards: 'featured-prizes',
+        scrollToAwards: 'prizes',
         scrollToCommunity: 'community',
       };
       const id = actionToId[data.action];
