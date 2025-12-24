@@ -108,6 +108,8 @@ export function PrizesSection() {
           "Agentic AI system for intelligent interactions",
           "Supports collaborative research"
         ]),
+        demo: getAssetPath("/videos/drug.mp4"),
+
       },
       {
         id: 3,
