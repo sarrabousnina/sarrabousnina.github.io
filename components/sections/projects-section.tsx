@@ -97,9 +97,25 @@ const modalVariants = {
   },
 }
 
+interface Project {
+  id: number
+  title: string
+  subtitle: string
+  description: string
+  longDescription: string
+  image: string
+  technologies: string[]
+  category: string
+  isHackathon?: boolean
+  features: string[]
+  github: string
+  demo?: string
+  video?: string
+}
+
 export function ProjectsSection() {
   const { t } = useLanguageStore()
-  const [selectedProject, setSelectedProject] = useState<any>(null)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
   const safeT = (section: string, key: string, fallback: string) => {
     try {
@@ -118,9 +134,78 @@ export function ProjectsSection() {
     }
   }
 
-  const getProjects = () => {
+  const getProjects = (): Project[] => {
     return [{
       id: 1,
+      title: safeT('projects', 'aiMinds.title', 'AI MINDS'),
+      subtitle: safeT('projects', 'aiMinds.subtitle', 'Data Ingestion Layer for MemoryOS (Hackathon Project)'),
+      description: safeT('projects', 'aiMinds.description', 'Multimodal personal knowledge assistant featuring privacy-first local storage, dual-vector semantic search, and ReAct agent framework for context-aware AI responses.'),
+      longDescription: safeT('projects', 'aiMinds.longDescription', 'AI MINDS is a comprehensive data ingestion layer for MemoryOS, a multimodal personal knowledge assistant. The system collects data from multiple sources including browser history, clipboard activity, Google Calendar events, emails, file systems, and documents. All data is processed through a multimodal embedding engine using BGE-M3 for text (1024d) and CLIP for images (512d), stored locally with FAISS vector indices and SQLite for metadata.'),
+      image: getAssetPath("/images/aiminds.png"),
+      technologies: [
+        "Python",
+        "FastAPI",
+        "BGE-M3",
+        "CLIP",
+        "FAISS",
+        "SQLite",
+        "Whisper",
+        "Ollama",
+        "Qwen 4B",
+        "ReAct Agent",
+        "Google APIs"
+      ],
+      category: "AI/ML",
+      isHackathon: true,
+      features: getTranslatedFeatures('aiMinds', [
+        "Multimodal data collection: browser history, clipboard, calendar, emails, file system",
+        "Dual-vector semantic search with BGE-M3 text (1024d) and CLIP image (512d) embeddings",
+        "Local LLM integration: Qwen 4B/Phi-2 via Ollama with ReAct agent framework",
+        "Privacy-first design: 100% local storage with FAISS + SQLite",
+        "Real-time context monitoring with background services (clipboard, file activity)",
+        "Hierarchical chunking for long document understanding",
+        "Cross-modal retrieval (search images with text, vice versa)",
+        "Audio transcription with Whisper and document processing (PDF, DOCX)",
+        "Chain-of-thought reasoning with tool use (email, calendar, file navigation)"
+      ]),
+      github: "https://github.com/AI-MINDS-Hackathon/MemoryOS-Data-Layer",
+      demo: getAssetPath("/videos/demo ai minds ‐ memoryAI.mp4")
+    },
+    {
+      id: 2,
+      title: safeT('projects', 'furniverse.title', 'Furniverse'),
+      subtitle: safeT('projects', 'furniverse.subtitle', 'AI-Powered Furniture E-Commerce Platform'),
+      description: safeT('projects', 'furniverse.description', 'Multimodal semantic search platform featuring room analysis, product comparison, and AR visualization powered by CLIP embeddings and Qdrant vector database.'),
+      longDescription: safeT('projects', 'furniverse.longDescription', 'Furniverse is an intelligent furniture recommendation system that works in three directions: User→Product (natural language + image queries), Product→User (collaborative recommendations), and Room→Products (upload room photo → detect furniture → recommend pieces). Each product is represented by four fused embeddings: CLIP text (512D), CLIP image (512D), Node2Vec graph (64D), and color clusters (548D), all stored in Qdrant for efficient retrieval.'),
+      image: getAssetPath("/images/furniverse.png"),
+      technologies: [
+        "React 18",
+        "FastAPI",
+        "Qdrant Vector DB",
+        "CLIP (OpenAI)",
+        "YOLOv8",
+        "Node2Vec",
+        "PyTorch",
+        "Tripo AI",
+        "AR/WebXR",
+        "K-means"
+      ],
+      category: "AI/ML",
+      isHackathon: true,
+      features: getTranslatedFeatures('furniverse', [
+        "Multimodal semantic search (text + image queries)",
+        "Room analysis: YOLO detects furniture → recommends missing pieces",
+        "AI-powered product comparison with trade-off explanations",
+        "AR visualization with 3D model generation (Tripo AI)",
+        "Embedding fusion: CLIP (30%) + Graph (30%) + Color (10%) + Image (30%)",
+        "Collaborative filtering via graph embeddings",
+        "Cross-modal text-image alignment in shared embedding space"
+      ]),
+      github: "https://github.com/sarrabousnina/Furniverse",
+      demo: getAssetPath("/videos/Pytorchi-Furniverse.mp4")
+    },
+    {
+      id: 3,
       title: safeT('projects', 'inspireAI.title', 'inspireAI'),
       subtitle: safeT('projects', 'inspireAI.subtitle', 'AI-Powered Content Studio (Personal Project)'),
       description: safeT('projects', 'inspireAI.description', 'A platform that helps creators generate, organize, and refine social media content and blog posts using AI and a ReAct-style AI agent for conversational interaction.'),
@@ -150,7 +235,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/inspire2.mp4")
     },
     {
-      id: 2,
+      id: 4,
       title: safeT('projects', 'correctMeAI.title', 'CorrectMe AI'),
       subtitle: safeT('projects', 'correctMeAI.subtitle', 'AI-powered Exam Corrector (Internship)'),
       description: safeT('projects', 'correctMeAI.description', 'Web application that automates exam correction using computer vision, LLMs, and a ReAct agent with RAG. Provides feedback per question and generates new exams from course material.'),
@@ -183,7 +268,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
     },
     {
-      id: 3,
+      id: 5,
       title: safeT('projects', 'timeForge.title', 'TimeForge (Award-Winning)🥇​'),
       subtitle: safeT('projects', 'timeForge.subtitle', 'AI-Powered Productivity App'),
       description: safeT('projects', 'timeForge.description', 'Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.'),
@@ -213,7 +298,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/timeforge-demo.mp4")
     },
     {
-      id: 4,
+      id: 6,
       title: safeT('projects', 'employeeManager.title', 'Employee Manager'),
       subtitle: safeT('projects', 'employeeManager.subtitle', 'Employee Records (CRUD) System (Personal Project)'),
       description: safeT('projects', 'employeeManager.description', 'Simple full-stack CRUD app to manage employees with search by name.'),
@@ -230,7 +315,7 @@ export function ProjectsSection() {
       github: "https://github.com/sarrabousnina/EmployeeManagerApp",
     },
     {
-      id: 5,
+      id: 7,
       title: safeT('projects', 'university.title', 'University'),
       subtitle: safeT('projects', 'university.subtitle', 'Clubs & Campus Management (Symfony)'),
       description: safeT('projects', 'university.description', 'Full-stack university platform built in a team of four. I owned the Clubs module (CRUD, join/leave, ratings, SMS).'),
@@ -250,7 +335,7 @@ export function ProjectsSection() {
       github: "https://github.com/S1merbnb/ProjetSymfony",
     },
     {
-      id: 6,
+      id: 8,
       title: safeT('projects', 'myCTAMA.title', 'MyCTAMA Insurance App'),
       subtitle: safeT('projects', 'myCTAMA.subtitle', '.NET MAUI Mobile App (Internship)'),
       description: safeT('projects', 'myCTAMA.description', 'Cross-platform app to request insurance quotes and find nearby CTAMA agencies on a map.'),
@@ -372,15 +457,28 @@ export function ProjectsSection() {
                             </Badge>
                           )}
                         </div>
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          whileHover={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 text-xs shadow-lg">
-                            {project.category}
-                          </Badge>
-                        </motion.div>
+                        <div className="flex flex-wrap gap-2">
+                          {project.isHackathon && (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ delay: 0.15 }}
+                            >
+                              <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 text-xs shadow-lg flex items-center gap-1">
+                                🏆 Hackathon
+                              </Badge>
+                            </motion.div>
+                          )}
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                          >
+                            <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 text-xs shadow-lg">
+                              {project.category}
+                            </Badge>
+                          </motion.div>
+                        </div>
                       </div>
                     </motion.div>
                   </div>
@@ -479,6 +577,16 @@ export function ProjectsSection() {
                           {selectedProject.title}
                           <span className="text-muted-foreground text-lg font-normal ml-2">{selectedProject.subtitle}</span>
                         </DialogTitle>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {selectedProject.isHackathon && (
+                            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 text-xs shadow-lg">
+                              🏆 Hackathon Project
+                            </Badge>
+                          )}
+                          <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 text-xs shadow-lg">
+                            {selectedProject.category}
+                          </Badge>
+                        </div>
                       </motion.div>
                     </DialogHeader>
                   </motion.div>

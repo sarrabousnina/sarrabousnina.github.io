@@ -189,6 +189,40 @@ const translations = {
           "Form validation & API submission",
           "Hybrid pages using embedded HTML/CSS"
         ]
+      },
+      furniverse: {
+        title: "Furniverse",
+        subtitle: "AI-Powered Furniture E-Commerce Platform (Hackathon Project)",
+        description: "Multimodal semantic search platform featuring room analysis, product comparison, and AR visualization powered by CLIP embeddings and Qdrant vector database.",
+        longDescription: "Furniverse is an intelligent furniture recommendation system that works in three directions: User→Product (natural language + image queries for semantic product matching), Product→User (finding users who'd want a product based on collaborative signals), and Room→Products (upload a room photo to detect existing furniture and recommend missing pieces). Each product is represented by four multimodal embeddings fused at query time: CLIP text (512D) for natural language understanding, CLIP image (512D) for visual understanding, Node2Vec graph embeddings (64D) for co-purchase patterns, and K-means color clusters (548D) for color palette similarity—all stored in Qdrant vector database for efficient retrieval. The system uses YOLOv8 for furniture detection, supports AR visualization with Tripo AI-generated 3D models, and provides AI-powered product comparison with trade-off explanations.",
+        features: [
+          "Multimodal semantic search combining text and image queries",
+          "Room analysis: YOLO detects existing furniture and recommends missing pieces",
+          "AI-powered product comparison with trade-off explanations",
+          "AR visualization with 3D model generation via Tripo AI",
+          "Embedding fusion: 30% CLIP text + 30% CLIP image + 30% Graph + 10% Color",
+          "Bidirectional recommendations: User→Product and Product→User",
+          "Cross-modal text-image alignment in shared embedding space",
+          "Collaborative filtering via Node2Vec graph embeddings",
+          "Behavioral pattern analysis for personalized suggestions"
+        ]
+      },
+      aiMinds: {
+        title: "AI MINDS",
+        subtitle: "Data Ingestion Layer for MemoryOS (Hackathon Project)",
+        description: "Multimodal personal knowledge assistant featuring privacy-first local storage, dual-vector semantic search, and ReAct agent framework for context-aware AI responses.",
+        longDescription: "AI MINDS is a comprehensive data ingestion layer for MemoryOS, a multimodal personal knowledge assistant. The system collects data from multiple sources including browser history, clipboard activity, Google Calendar events, emails, file systems, and documents. All data is processed through a multimodal embedding engine using BGE-M3 for text (1024d) and CLIP for images (512d), stored locally with FAISS vector indices and SQLite for metadata. Features include hierarchical chunking for long documents, OCR for image text extraction, Whisper for audio transcription, and a local SLM (Qwen 4B/Phi-2) with ReAct agent framework for intelligent task execution. The entire system is privacy-first with 100% local storage, no external API calls (except Google OAuth), and read-only access to user data.",
+        features: [
+          "Multimodal data collection: browser history, clipboard, calendar, emails, file system",
+          "Dual-vector semantic search with BGE-M3 text (1024d) and CLIP image (512d) embeddings",
+          "Local LLM integration: Qwen 4B/Phi-2 via Ollama with ReAct agent framework",
+          "Privacy-first design: 100% local storage with FAISS + SQLite",
+          "Real-time context monitoring with background services (clipboard, file activity)",
+          "Hierarchical chunking for long document understanding",
+          "Cross-modal retrieval (search images with text, vice versa)",
+          "Audio transcription with Whisper and document processing (PDF, DOCX)",
+          "Chain-of-thought reasoning with tool use (email, calendar, file navigation)"
+        ]
       }
     },
     experience: {
@@ -587,6 +621,40 @@ const translations = {
           "Fil d'actualités sur l'écran d'accueil",
           "Validation de formulaire et soumission API",
           "Pages hybrides utilisant HTML/CSS intégré"
+        ]
+      },
+      furniverse: {
+        title: "Furniverse",
+        subtitle: "Plateforme E-Commerce de Meubles Alimentée par l'IA (Projet Hackathon)",
+        description: "Plateforme de recherche sémantique multimodale avec analyse de pièce, comparaison de produits et visualisation AR, alimentée par les embeddings CLIP et la base de données vectorielle Qdrant.",
+        longDescription: "Furniverse est un système intelligent de recommandation de meubles qui fonctionne dans trois directions : Utilisateur→Produit (requêtes en langage naturel + images pour la correspondance sémantique de produits), Produit→Utilisateur (trouver les utilisateurs qui voudraient un produit basé sur des signaux collaboratifs), et Pièce→Produits (télécharger une photo de pièce pour détecter les meubles existants et recommander les pièces manquantes). Chaque produit est représenté par quatre embeddings multimodaux fusionnés au moment de la requête : texte CLIP (512D) pour la compréhension du langage naturel, image CLIP (512D) pour la compréhension visuelle, embeddings de graphe Node2Vec (64D) pour les modèles de co-achat, et clusters de couleur K-means (548D) pour la similarité de la palette de couleurs—tous stockés dans la base de données vectorielle Qdrant pour une récupération efficace. Le système utilise YOLOv8 pour la détection de meubles, prend en charge la visualisation AR avec des modèles 3D générés par Tripo AI, et fournit une comparaison de produits alimentée par l'IA avec des explications de compromis.",
+        features: [
+          "Recherche sémantique multimodale combinant requêtes texte et image",
+          "Analyse de pièce : YOLO détecte les meubles existants et recommande les pièces manquantes",
+          "Comparaison de produits alimentée par l'IA avec explications de compromis",
+          "Visualisation AR avec génération de modèles 3D via Tripo AI",
+          "Fusion d'embeddings : 30% texte CLIP + 30% image CLIP + 30% Graphe + 10% Couleur",
+          "Recommandations bidirectionnelles : Utilisateur→Produit et Produit→Utilisateur",
+          "Alignement texte-image cross-modal dans un espace d'embedding partagé",
+          "Filtrage collaboratif via embeddings de graphe Node2Vec",
+          "Analyse des schémas comportementaux pour suggestions personnalisées"
+        ]
+      },
+      aiMinds: {
+        title: "AI MINDS",
+        subtitle: "Couche d'Ingestion de Données pour MemoryOS (Projet Hackathon)",
+        description: "Assistant de connaissances personnel multimodal avec stockage local respectueux de la vie privée, recherche sémantique à vecteurs doubles et framework d'agent ReAct pour des réponses IA contextuelles.",
+        longDescription: "AI MINDS est une couche complète d'ingestion de données pour MemoryOS, un assistant de connaissances personnel multimodal. Le système collecte des données depuis plusieurs sources : historique de navigation, activité du presse-papiers, événements Google Calendar, e-mails, systèmes de fichiers et documents. Toutes les données sont traitées via un moteur d'embeddings multimodal utilisant BGE-M3 pour le texte (1024d) et CLIP pour les images (512d), stockées localement avec des indices vectoriels FAISS et SQLite pour les métadonnées. Les fonctionnalités incluent le découpage hiérarchique pour les longs documents, l'OCR pour l'extraction de texte d'images, Whisper pour la transcription audio et un SLM local (Qwen 4B/Phi-2) avec framework d'agent ReAct pour l'exécution intelligente de tâches. L'ensemble du système est axé sur la confidentialité avec 100% de stockage local, aucune appel API externe (sauf Google OAuth) et un accès en lecture seule aux données utilisateur.",
+        features: [
+          "Collecte de données multimodale : historique navigateur, presse-papiers, calendrier, e-mails, système de fichiers",
+          "Recherche sémantique à vecteurs doubles avec embeddings BGE-M3 texte (1024d) et CLIP image (512d)",
+          "Integration LLM local : Qwen 4B/Phi-2 via Ollama avec framework d'agent ReAct",
+          "Design respectueux de la vie privée : 100% stockage local avec FAISS + SQLite",
+          "Surveillance de contexte en temps réel avec services en arrière-plan (presse-papiers, activité fichiers)",
+          "Découpage hiérarchique pour la compréhension de longs documents",
+          "Récupération cross-modale (rechercher des images avec du texte et vice versa)",
+          "Transcription audio avec Whisper et traitement de documents (PDF, DOCX)",
+          "Raisonnement chaîne-de-pensée avec utilisation d'outils (e-mail, calendrier, navigation fichiers)"
         ]
       }
     },
