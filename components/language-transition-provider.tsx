@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, Variants } from "framer-motion"
 
 interface LanguageTransitionContextType {
   isTransitioning: boolean
@@ -22,7 +22,7 @@ export function useLanguageTransition() {
   return context
 }
 
-const transitionVariants = {
+const transitionVariants: Variants = {
   hidden: {
     opacity: 0,
     y: -20,
@@ -36,7 +36,7 @@ const transitionVariants = {
     filter: "blur(0px)",
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier for smooth easing
+      ease: [0.25, 0.1, 0.25, 1.0] as const,
       staggerChildren: 0.1
     }
   },

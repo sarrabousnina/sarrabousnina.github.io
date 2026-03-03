@@ -66,18 +66,10 @@ export const useContinuousScrollAnimation = () => {
 export const useBounceAnimation = (factor: number = 0.1) => {
   const { scrollY } = useScroll()
 
-  const bounce = useTransform(scrollY, [0, 1], [0, 0], [0, 0, 1])
+  // Create a sine wave effect using a simple transform
+  const bounce = useTransform(scrollY, [0, 1], [0, 10 * factor])
 
-  // Create a sine wave effect
-  const bounceEffect = useTransform(scrollY, [0, 1], [0, 0], [
-    [0, 0, 1],
-    [0.25, -10 * factor, 1],
-    [0.5, 0, 1],
-    [0.75, 10 * factor, 1],
-    [1, 0, 1]
-  ])
-
-  return { bounce: bounceEffect, scrollY }
+  return { bounce, scrollY }
 }
 
 // Rotation animation based on scroll
@@ -134,7 +126,7 @@ export const enhancedContainerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.15,
-      ease: [0.25, 0.1, 0.25, 1],
+      ease: [0.25, 0.1, 0.25, 1] as const,
       duration: 0.6,
     },
   },
@@ -151,7 +143,7 @@ export const enhancedItemVariants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
       mass: 1,
@@ -170,7 +162,7 @@ export const slideInFromLeft = {
     x: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
     },
@@ -188,7 +180,7 @@ export const slideInFromRight = {
     x: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
     },
@@ -206,7 +198,7 @@ export const scaleIn = {
     scale: 1,
     rotateX: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 25,
       delay: 0.1,
@@ -247,7 +239,7 @@ export const progressAnimation = {
   visible: (width: string) => ({
     width,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 50,
       damping: 20,
       duration: 1.5,
@@ -266,7 +258,7 @@ export const textRevealVariants = {
     y: 0,
     rotateY: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
       duration: 0.8,

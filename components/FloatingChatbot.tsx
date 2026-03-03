@@ -358,7 +358,7 @@ const sendMessage = async () => {
                 } transition-all duration-200 ease-in-out transform ${
                   messages.length - 1 === i ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
                 }`}
-                dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }}
+                dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) as string }}
               />
             ))}
             

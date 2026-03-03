@@ -28,7 +28,7 @@ const enhancedCardVariants = {
     scale: 1,
     rotateY: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
       delay: i * 0.15,
@@ -39,7 +39,7 @@ const enhancedCardVariants = {
     scale: 1.03,
     rotateY: 5,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 400,
       damping: 25,
     },
@@ -146,7 +146,7 @@ export function AboutSection() {
                       variants={scaleIn}
                       className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg hover:shadow-xl transition-shadow duration-300"
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 400 }}
+                      transition={{ type: "spring" as const, stiffness: 400 }}
                     >
                       <highlight.icon className="h-7 w-7 text-white" />
                     </motion.div>
@@ -176,7 +176,7 @@ export function AboutSection() {
           <motion.div
             variants={enhancedItemVariants}
             whileHover={{ scale: 1.05, y: -3 }}
-            transition={{ type: "spring", stiffness: 400 }}
+            transition={{ type: "spring" as const, stiffness: 400 }}
           >
             <Badge variant="secondary" className="glass glass-dark px-6 py-3 text-sm font-medium bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-2 border-emerald-500/50 hover:from-emerald-500/20 hover:to-teal-500/20 transition-all duration-300 shadow-lg hover:shadow-xl">
               {safeT('about', 'seeking', 'Currently seeking internship opportunities in AI and Full-Stack Development')}

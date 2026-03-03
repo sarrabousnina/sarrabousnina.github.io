@@ -53,7 +53,7 @@ const enhancedLeftVariants = {
     scale: 1,
     rotateY: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
     },
@@ -73,7 +73,7 @@ const enhancedRightVariants = {
     scale: 1,
     rotateY: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
     },
@@ -91,7 +91,7 @@ const enhancedDotVariants = {
     opacity: 1,
     rotateZ: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 200,
       damping: 20,
       duration: 0.6,
@@ -100,7 +100,7 @@ const enhancedDotVariants = {
   hover: {
     scale: 1.3,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 400,
       damping: 25,
     },
@@ -116,7 +116,7 @@ const lineVariants = {
     scaleY: 1,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
       duration: 1,
@@ -302,7 +302,7 @@ export function ExperienceSection() {
           >
             <motion.div
               whileHover={{ scale: 1.2, rotate: 360 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              transition={{ type: "spring" as const, stiffness: 300, damping: 20 }}
             >
               <item.icon className="h-6 w-6 text-white" />
             </motion.div>
@@ -325,7 +325,7 @@ export function ExperienceSection() {
           whileHover={{
             y: -5,
             scale: 1.02,
-            transition: { type: "spring", stiffness: 300 }
+            transition: { type: "spring" as const, stiffness: 300 }
           }}
           className="flex-1"
         >

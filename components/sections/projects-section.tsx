@@ -33,7 +33,7 @@ const enhancedCardVariants = {
     scale: 1,
     rotateX: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
       delay: i * 0.15,
@@ -45,7 +45,7 @@ const enhancedCardVariants = {
     scale: 1.02,
     rotateX: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 20,
     },
@@ -63,7 +63,7 @@ const overlayVariants = {
     y: 0,
     backdropFilter: "blur(8px)",
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 25,
       duration: 0.4,
@@ -82,7 +82,7 @@ const modalVariants = {
     scale: 1,
     y: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 30,
     },
@@ -436,7 +436,7 @@ export function ProjectsSection() {
                               whileHover={{ scale: 1.05 }}
                               transition={{
                                 delay: techIndex * 0.05,
-                                type: "spring",
+                                type: "spring" as const,
                                 stiffness: 400,
                               }}
                             >
@@ -487,12 +487,12 @@ export function ProjectsSection() {
                   <motion.div
                     className="p-6"
                     whileHover={{ y: -2 }}
-                    transition={{ type: "spring", stiffness: 300 }}
+                    transition={{ type: "spring" as const, stiffness: 300 }}
                   >
                     <motion.h3
                       className="font-heading font-bold text-xl mb-2 bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent"
                       whileHover={{ scale: 1.02 }}
-                      transition={{ type: "spring", stiffness: 400 }}
+                      transition={{ type: "spring" as const, stiffness: 400 }}
                     >
                       {project.title}
                     </motion.h3>
@@ -502,7 +502,7 @@ export function ProjectsSection() {
                     <motion.div
                       className="flex items-center justify-between"
                       whileHover={{ scale: 1.01 }}
-                      transition={{ type: "spring", stiffness: 200 }}
+                      transition={{ type: "spring" as const, stiffness: 200 }}
                     >
                       <Button
                         variant="ghost"
@@ -517,7 +517,7 @@ export function ProjectsSection() {
                         <motion.span
                           className="inline-block ml-1"
                           whileHover={{ x: 3 }}
-                          transition={{ type: "spring", stiffness: 400 }}
+                          transition={{ type: "spring" as const, stiffness: 400 }}
                         >
                           →
                         </motion.span>
@@ -600,7 +600,7 @@ export function ProjectsSection() {
                       variants={enhancedItemVariants}
                       className="relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-2xl"
                       whileHover={{ scale: 1.02 }}
-                      transition={{ type: "spring", stiffness: 300 }}
+                      transition={{ type: "spring" as const, stiffness: 300 }}
                     >
                       <Image
                         src={selectedProject.image || "/placeholder.svg"}
@@ -639,12 +639,12 @@ export function ProjectsSection() {
                             custom={index}
                             className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                             whileHover={{ scale: 1.02, x: 5 }}
-                            transition={{ type: "spring", stiffness: 300 }}
+                            transition={{ type: "spring" as const, stiffness: 300 }}
                           >
                             <motion.div
                               className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex-shrink-0"
                               whileHover={{ scale: 1.5 }}
-                              transition={{ type: "spring", stiffness: 500 }}
+                              transition={{ type: "spring" as const, stiffness: 500 }}
                             />
                             <span className="text-sm text-foreground/80">{feature}</span>
                           </motion.div>
@@ -667,7 +667,7 @@ export function ProjectsSection() {
                             variants={enhancedItemVariants}
                             custom={techIndex}
                             whileHover={{ scale: 1.1, y: -2 }}
-                            transition={{ type: "spring", stiffness: 400 }}
+                            transition={{ type: "spring" as const, stiffness: 400 }}
                           >
                             <Badge
                               variant="secondary"
@@ -688,7 +688,7 @@ export function ProjectsSection() {
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400 }}
+                        transition={{ type: "spring" as const, stiffness: 400 }}
                       >
                         <Button
                           className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-lg hover:shadow-xl"
@@ -701,7 +701,7 @@ export function ProjectsSection() {
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400 }}
+                        transition={{ type: "spring" as const, stiffness: 400 }}
                       >
                         <Button
                           variant="outline"
