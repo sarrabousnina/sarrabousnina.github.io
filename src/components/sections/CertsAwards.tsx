@@ -13,21 +13,28 @@ interface Award {
   image?: string;
 }
 
-const certs = [
-  { title: "Building RAG Agents with LLMs", org: "NVIDIA", date: "Nov 2025" },
-  { title: "AWS Academy Graduate – Cloud Foundations", org: "AWS Academy", date: "Nov 2025" },
-  { title: "Applications of AI for Anomaly Detection", org: "NVIDIA", date: "Nov 2025" },
-  { title: "Attendance Hashgraph Developer Course", org: "The Hashgraph Association", date: "Oct 2025" },
-  { title: "Rapid Application Development with LLMs", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building AI Agents with Multimodal Models", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building LLM Applications with Prompt Engineering", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building Transformer-Based NLP Applications", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Evaluation and Light Customization of LLMs", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Fundamentals of Deep Learning", org: "NVIDIA", date: "Mar 2025" },
-  { title: "Scrum Fundamentals Certified", org: "SCRUMstudy", date: "Dec 2024" },
-  { title: "The Git & GitHub BootCamp", org: "Udemy", date: "Nov 2024" },
-  { title: "Supervised ML: Regression and Classification", org: "DeepLearning.AI / Coursera", date: "Mar 2024" },
-  { title: "Introduction to Front-End Development", org: "Meta / Coursera", date: "Apr 2024" },
+interface Cert {
+  title: string;
+  org: string;
+  date: string;
+  image?: string;
+}
+
+const certs: Cert[] = [
+  { title: "Building RAG Agents with LLMs", org: "NVIDIA", date: "Nov 2025", image: "/images/certs/nvidia-rag.png" },
+  { title: "AWS Academy Graduate – Cloud Foundations", org: "AWS Academy", date: "Nov 2025", image: "/images/certs/aws-cloud.png" },
+  { title: "Applications of AI for Anomaly Detection", org: "NVIDIA", date: "Nov 2025", image: "/images/certs/nvidia-anomaly.png" },
+  { title: "Attendance Hashgraph Developer Course", org: "The Hashgraph Association", date: "Oct 2025", image: "/images/certs/hashgraph.png" },
+  { title: "Rapid Application Development with LLMs", org: "NVIDIA", date: "Jun 2025", image: "/images/certs/nvidia-rapid.png" },
+  { title: "Building AI Agents with Multimodal Models", org: "NVIDIA", date: "Jun 2025", image: "/images/certs/nvidia-multimodal.png" },
+  { title: "Building LLM Applications with Prompt Engineering", org: "NVIDIA", date: "Jun 2025", image: "/images/certs/nvidia-prompt.png" },
+  { title: "Building Transformer-Based NLP Applications", org: "NVIDIA", date: "Jun 2025", image: "/images/certs/nvidia-transformer.png" },
+  { title: "Evaluation and Light Customization of LLMs", org: "NVIDIA", date: "Jun 2025", image: "/images/certs/nvidia-eval.png" },
+  { title: "Fundamentals of Deep Learning", org: "NVIDIA", date: "Mar 2025", image: "/images/certs/nvidia-deep.png" },
+  { title: "Scrum Fundamentals Certified", org: "SCRUMstudy", date: "Dec 2024", image: "/images/certs/scrum.png" },
+  { title: "The Git & GitHub BootCamp", org: "Udemy", date: "Nov 2024", image: "/images/certs/udemy-git.png" },
+  { title: "Supervised ML: Regression and Classification", org: "DeepLearning.AI / Coursera", date: "Mar 2024", image: "/images/certs/coursera-ml.png" },
+  { title: "Introduction to Front-End Development", org: "Meta / Coursera", date: "Apr 2024", image: "/images/certs/coursera-frontend.png" },
 ];
 
 const awards = [
@@ -144,15 +151,27 @@ export const Certifications = ({ lang }: { lang: Lang }) => (
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: i * 0.04 }}
           whileHover={{ y: -4 }}
-          className="glass glass-hover rounded-2xl p-5 flex gap-4 items-start"
+          className="glass glass-hover rounded-2xl overflow-hidden flex flex-col"
         >
-          <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/30">
-            <Award className="w-5 h-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <div className="font-medium leading-snug">{c.title}</div>
-            <div className="text-xs text-muted-foreground mt-1 font-mono">
-              {c.org} · {c.date}
+          {c.image && (
+            <div className="relative h-32 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+              <img
+                src={c.image}
+                alt={c.org}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+            </div>
+          )}
+          <div className="p-5 flex gap-4 items-start flex-1">
+            <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/30 shrink-0">
+              <Award className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-medium leading-snug">{c.title}</div>
+              <div className="text-xs text-muted-foreground mt-1 font-mono">
+                {c.org} · {c.date}
+              </div>
             </div>
           </div>
         </motion.div>
