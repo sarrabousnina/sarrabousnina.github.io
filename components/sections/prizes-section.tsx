@@ -90,55 +90,6 @@ export function PrizesSection() {
       },
       {
         id: 2,
-        title: safeT('prizes', 'insatHackathon.title', '1st Prize at INSAT Hackathon'),
-        subtitle: safeT('prizes', 'insatHackathon.subtitle', 'INSAT Hackathon for drug discovery'),
-        description: safeT('prizes', 'insatHackathon.description', 'Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme \'Hack for Drug Discovery\'. Our team was awarded 1st place for developing \'Your Lab Twin AI\', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.'),
-        longDescription: safeT('prizes', 'insatHackathon.longDescription', '1𝐬𝐭 𝐏𝐫𝐢𝐳𝐞 at INSAT Hackathon! 🏆 \n\nAn incredible experience taking part in Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB at INSAT under the theme "Hack for Drug Discovery." After an intense weekend, our team won 1st place among many brilliant minds. Grateful for the support, collaboration, and innovation shared throughout this journey. Huge thanks to my teammate Yassine Kharrat for dedication and creativity, and to the organizers, jury, and inspiring participants.\n\nOur idea, \'Your Lab Twin AI\', improves the speed of drug discovery by combining existing solutions that automate each step of the procedure into a single platform using agentic AI.'),
-        image: getAssetPath("/images/hack.jpg"), // add your actual image
-        technologies: [
-          "AI/ML",
-          "Agentic Reasoning",
-          "Web Platform Integration",
-          "Drug Discovery Automation"
-        ],
-        category: safeT('prizes', 'insatHackathon.category', 'Hackathon/AI'),
-        features: safeT('prizes', 'insatHackathon.features', [
-          "Integrates multiple drug discovery tools into one platform",
-          "Accelerates experimental workflows",
-          "Agentic AI system for intelligent interactions",
-          "Supports collaborative research"
-        ]),
-        demo: getAssetPath("/videos/drug.mp4"),
-
-      },
-      {
-        id: 3,
-        title: safeT('prizes', 'balDesProjets.title', '1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)'),
-        subtitle: safeT('prizes', 'balDesProjets.subtitle', 'TimeForge - AI-Powered Productivity App'),
-        description: safeT('prizes', 'balDesProjets.description', 'Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.'),
-        longDescription: safeT('prizes', 'balDesProjets.longDescription', 'TimeForge won 1st Prize among all classes of our Software Engineering specialty at Bal des Projets 2025. Collaborating in a team of five, we developed a modular application using Spring Boot, Angular, Python, and MySQL. The platform provides advanced analytics including screen-time tracking, distraction detection, mood analysis via DeepFace, and personalized recommendations using NLP. This project highlights full-stack development skills, AI-driven analytics, and teamwork.'),
-        image: getAssetPath("/images/bal.jpg"), // add your actual image
-        technologies: [
-          "Spring Boot",
-          "Angular",
-          "Python",
-          "MySQL",
-          "DeepFace",
-          "NLP"
-        ],
-        category: safeT('prizes', 'balDesProjets.category', 'Software Engineering / AI'),
-        features: safeT('prizes', 'balDesProjets.features', [
-          "Screen-time analytics",
-          "Distraction detection",
-          "Mood analysis with DeepFace",
-          "Personalized advice using NLP",
-          "Modular and scalable full-stack architecture"
-        ]),
-        github: "https://github.com/BHAmna/PI",
-        demo: getAssetPath("/videos/timeforge-demo.mp4"), // optional
-      },
-      {
-        id: 4,
         title: safeT('prizes', 'finnovo.title', '2nd Place – Finnovo 1.0 Hackathon'),
         subtitle: safeT('prizes', 'finnovo.subtitle', 'BFF Loan Hub - AI-Powered Loan Application System'),
         description: safeT('prizes', 'finnovo.description', 'Built BFF Loan Hub, an AI-powered loan application system with automated document verification, fraud detection, and compliance checking for Tunisian banking regulations. Achieved 2nd place at Finnovo 1.0 Hackathon.'),
@@ -169,7 +120,7 @@ export function PrizesSection() {
         demo: getAssetPath("/videos/demo bffb.mp4"),
       },
       {
-        id: 5,
+        id: 3,
         title: safeT('prizes', 'cyberia.title', '2nd Place – CyberIA Hackathon at ESPRIT'),
         subtitle: safeT('prizes', 'cyberia.subtitle', 'EagleScout - AI-Powered Security Vulnerability Detection System'),
         description: safeT('prizes', 'cyberia.description', 'Built EagleScout, an intelligent security vulnerability detection system that analyzes infrastructure architecture using AI. Our solution combines local VLM analysis with cloud-based vulnerability scanning to provide comprehensive security assessments with reasoning traces and compliance classification. Achieved 2nd place among 33 teams at ESPRIT.'),
@@ -197,6 +148,54 @@ export function PrizesSection() {
         ]),
         github: "https://github.com/sarrabousnina/CyberIA_Hack_EagleScout",
         demo: getAssetPath("/videos/cyber_demo.mp4"),
+      },
+      {
+        id: 4,
+        title: safeT('prizes', 'balDesProjets.title', '1st Prize, Bal des Projets 2025 12ème édition (Software Engineering)'),
+        subtitle: safeT('prizes', 'balDesProjets.subtitle', 'TimeForge - AI-Powered Productivity App'),
+        description: safeT('prizes', 'balDesProjets.description', 'Built a modular app with a team of five, featuring screen-time analytics, distraction detection, mood analysis with DeepFace, and NLP-driven personalized advice.'),
+        longDescription: safeT('prizes', 'balDesProjets.longDescription', 'TimeForge won 1st Prize among all classes of our Software Engineering specialty at Bal des Projets 2025. Collaborating in a team of five, we developed a modular application using Spring Boot, Angular, Python, and MySQL. The platform provides advanced analytics including screen-time tracking, distraction detection, mood analysis via DeepFace, and personalized recommendations using NLP. This project highlights full-stack development skills, AI-driven analytics, and teamwork.'),
+        image: getAssetPath("/images/bal.jpg"),
+        technologies: [
+          "Spring Boot",
+          "Angular",
+          "Python",
+          "MySQL",
+          "DeepFace",
+          "NLP"
+        ],
+        category: safeT('prizes', 'balDesProjets.category', 'Software Engineering / AI'),
+        features: safeT('prizes', 'balDesProjets.features', [
+          "Screen-time analytics",
+          "Distraction detection",
+          "Mood analysis with DeepFace",
+          "Personalized advice using NLP",
+          "Modular and scalable full-stack architecture"
+        ]),
+        github: "https://github.com/BHAmna/PI",
+        demo: getAssetPath("/videos/timeforge-demo.mp4"),
+      },
+      {
+        id: 5,
+        title: safeT('prizes', 'insatHackathon.title', '1st Prize at INSAT Hackathon'),
+        subtitle: safeT('prizes', 'insatHackathon.subtitle', 'INSAT Hackathon for drug discovery'),
+        description: safeT('prizes', 'insatHackathon.description', 'Participated in the Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB under the theme \'Hack for Drug Discovery\'. Our team was awarded 1st place for developing \'Your Lab Twin AI\', a platform integrating multiple automated solutions to accelerate drug discovery using agentic reasoning.'),
+        longDescription: safeT('prizes', 'insatHackathon.longDescription', '1𝐬𝐭 𝐏𝐫𝐢𝐳𝐞 at INSAT Hackathon! 🏆 \n\nAn incredible experience taking part in Hackathon CTRL + Cure organized by IEEE EMBS ISI SBC & IEEE EMBS INSAT SB at INSAT under the theme "Hack for Drug Discovery." After an intense weekend, our team won 1st place among many brilliant minds. Grateful for the support, collaboration, and innovation shared throughout this journey. Huge thanks to my teammate Yassine Kharrat for dedication and creativity, and to the organizers, jury, and inspiring participants.\n\nOur idea, \'Your Lab Twin AI\', improves the speed of drug discovery by combining existing solutions that automate each step of the procedure into a single platform using agentic AI.'),
+        image: getAssetPath("/images/hack.jpg"),
+        technologies: [
+          "AI/ML",
+          "Agentic Reasoning",
+          "Web Platform Integration",
+          "Drug Discovery Automation"
+        ],
+        category: safeT('prizes', 'insatHackathon.category', 'Hackathon/AI'),
+        features: safeT('prizes', 'insatHackathon.features', [
+          "Integrates multiple drug discovery tools into one platform",
+          "Accelerates experimental workflows",
+          "Agentic AI system for intelligent interactions",
+          "Supports collaborative research"
+        ]),
+        demo: getAssetPath("/videos/drug.mp4"),
       }
     ]
   }
