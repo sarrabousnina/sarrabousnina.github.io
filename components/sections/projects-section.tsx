@@ -137,6 +137,71 @@ export function ProjectsSection() {
   const getProjects = (): Project[] => {
     return [{
       id: 1,
+      title: safeT('projects', 'eaglescout.title', 'EagleScout (Award-Winning)🥈​'),
+      subtitle: safeT('projects', 'eaglescout.subtitle', 'AI-Powered Security Vulnerability Detection System - CyberIA Hackathon'),
+      description: safeT('projects', 'eaglescout.description', 'AI-powered security vulnerability detection system that analyzes infrastructure architecture using local VLM and cloud-based scraping. Provides comprehensive security assessments with reasoning traces, risk scoring, and compliance classification. Won 2nd place among 33 teams at CyberIA Hackathon ESPRIT.'),
+      longDescription: safeT('projects', 'eaglescout.longDescription', '🥈 2nd Place at CyberIA Hackathon - ESPRIT!\n\nProject: EagleScout\n\nOur team built an innovative security vulnerability detection system that transforms how organizations identify and prioritize security risks. The platform combines multiple AI approaches to deliver comprehensive security analysis.\n\nKey Features:\n\n• Architecture Analysis: Users upload infrastructure architecture images analyzed by local VLM (foundation-sec-8b-reasoning) for privacy and security\n• Intelligent Vulnerability Scanning: Cloud-based scraper agent operates in sandboxed environment to detect vulnerabilities and outputs clean JSON results\n• AI-Powered Scoring: Foundation-sec-8b-reasoning model analyzes vulnerabilities alongside architecture and tech stack to generate risk scores with detailed reasoning traces\n• Smart Dashboard: Vulnerabilities sorted by score and priority with interactive visualization\n• Advanced Reasoning: Implements graph traversal and ReAct patterns for sophisticated security analysis\n• Compliance Classification: Categorizes vulnerabilities by compliance field (healthcare, banking, etc.) for regulatory adherence\n\nTechnical Implementation:\n\nThe system addresses local LLM context limitations by combining local VLM for sensitive data analysis with cloud-based scraping for comprehensive vulnerability detection. The AI layer provides detailed reasoning traces, making security analysis transparent and actionable.\n\nTeam Achievement:\n\nOur innovative approach to security analysis, combining multiple AI techniques and practical compliance features, earned us 2nd place among 33 competing teams at the CyberIA Hackathon held at ESPRIT.'),
+      image: getAssetPath("/images/cyberia.png"),
+      technologies: [
+        "AI/ML",
+        "VLM (Vision Language Model)",
+        "Foundation-sec-8b-reasoning",
+        "ReAct Pattern",
+        "Graph Traversal",
+        "Cloud Scraping",
+        "Sandboxed Security",
+        "Compliance Classification",
+        "Dashboard"
+      ],
+      category: "Cybersecurity",
+      isHackathon: true,
+      features: getTranslatedFeatures('eaglescout', [
+        "Architecture image analysis with local VLM for privacy",
+        "Sandboxed cloud scraper agent for vulnerability detection",
+        "AI-powered risk scoring with reasoning traces",
+        "Interactive dashboard sorted by priority and score",
+        "Compliance classification (healthcare, banking, etc.)",
+        "Graph traversal and ReAct patterns for advanced analysis"
+      ]),
+      github: "https://github.com/sarrabousnina/CyberIA_Hack_EagleScout",
+      demo: getAssetPath("/videos/cyber_demo.mp4")
+    },
+    {
+      id: 2,
+      title: safeT('projects', 'finnovo.title', 'BFF Loan Hub (Award-Winning)🥈​'),
+      subtitle: safeT('projects', 'finnovo.subtitle', 'AI-Powered Loan Application System - Finnovo 1.0 Hackathon'),
+      description: safeT('projects', 'finnovo.description', 'AI-powered loan application system with automated document verification, fraud detection, and compliance checking for Tunisian banking regulations. Won 2nd place at Finnovo 1.0 Hackathon.'),
+      longDescription: safeT('projects', 'finnovo.longDescription', '🥈 2nd Place at Finnovo 1.0 Hackathon!\n\nProject: BFF Loan Hub\n\nOur team built an intelligent loan application system that transforms the banking workflow in Tunisia. The platform addresses key challenges in the lending process by leveraging cutting-edge AI technology.\n\nKey Features:\n\n• AI-Powered Document Verification: Uses Groq\'s Llama-4-Scout to automatically verify applicant documents and detect inconsistencies\n• Fraud Detection: Cross-references all uploaded documents to identify potential fraud patterns and red flags\n• Regulatory Compliance: Ensures adherence to Tunisian banking regulations through automated compliance checks\n• Streamlined Processing: Real-time verification reduces loan application processing time from days to minutes\n• Secure Data Management: SQLite-based persistence with secure document handling and data privacy\n\nTechnical Implementation:\n\nThe system combines a modern React 19 frontend with Vite, Tailwind CSS, and TanStack Router for an intuitive user experience. The FastAPI backend hosts an AI agent that intelligently processes loan applications, verifies documentation, and generates compliance reports.\n\nImpact:\n\nThis solution significantly reduces manual review time for bank staff, minimizes fraud risk through AI-powered detection, and ensures regulatory compliance—making the lending process faster, safer, and more efficient for both banks and applicants.\n\nTeam Achievement:\n\nOur innovative approach and technical execution earned us 2nd place among competing teams, demonstrating strong collaboration, full-stack development skills, and AI integration capabilities in the fintech sector.'),
+      image: getAssetPath("/images/finnovo.png"),
+      technologies: [
+        "React 19",
+        "Vite",
+        "FastAPI",
+        "Groq SDK",
+        "Llama-4-Scout",
+        "SQLite",
+        "Tailwind CSS",
+        "TanStack Router",
+        "TypeScript",
+        "Python",
+        "AI Agent"
+      ],
+      category: "Fintech",
+      isHackathon: true,
+      features: getTranslatedFeatures('finnovo', [
+        "AI-powered document verification using Groq Llama-4-Scout",
+        "Automated fraud detection by cross-referencing uploaded documents",
+        "Compliance checking for Tunisian banking regulations",
+        "Real-time loan application processing",
+        "Secure document management with SQLite persistence",
+        "Modern React 19 frontend with Tailwind CSS styling",
+        "FastAPI backend with AI agent logic"
+      ]),
+      github: "https://github.com/Roua-Khalfet/bff-loan-hub",
+      demo: getAssetPath("/videos/demo bffb.mp4")
+    },
+    {
+      id: 3,
       title: safeT('projects', 'aiMinds.title', 'AI MINDS'),
       subtitle: safeT('projects', 'aiMinds.subtitle', 'Data Ingestion Layer for MemoryOS (Hackathon Project)'),
       description: safeT('projects', 'aiMinds.description', 'Multimodal personal knowledge assistant featuring privacy-first local storage, dual-vector semantic search, and ReAct agent framework for context-aware AI responses.'),
@@ -172,7 +237,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/demo ai minds ‐ memoryAI.mp4")
     },
     {
-      id: 2,
+      id: 4,
       title: safeT('projects', 'furniverse.title', 'Furniverse'),
       subtitle: safeT('projects', 'furniverse.subtitle', 'AI-Powered Furniture E-Commerce Platform'),
       description: safeT('projects', 'furniverse.description', 'Multimodal semantic search platform featuring room analysis, product comparison, and AR visualization powered by CLIP embeddings and Qdrant vector database.'),
@@ -205,7 +270,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/Pytorchi-Furniverse.mp4")
     },
     {
-      id: 3,
+      id: 5,
       title: safeT('projects', 'inspireAI.title', 'inspireAI'),
       subtitle: safeT('projects', 'inspireAI.subtitle', 'AI-Powered Content Studio (Personal Project)'),
       description: safeT('projects', 'inspireAI.description', 'A platform that helps creators generate, organize, and refine social media content and blog posts using AI and a ReAct-style AI agent for conversational interaction.'),
@@ -235,7 +300,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/inspire2.mp4")
     },
     {
-      id: 4,
+      id: 6,
       title: safeT('projects', 'correctMeAI.title', 'CorrectMe AI'),
       subtitle: safeT('projects', 'correctMeAI.subtitle', 'AI-powered Exam Corrector (Internship)'),
       description: safeT('projects', 'correctMeAI.description', 'Web application that automates exam correction using computer vision, LLMs, and a ReAct agent with RAG. Provides feedback per question and generates new exams from course material.'),
@@ -268,7 +333,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/CorrectMeAi-demo.mp4"),
     },
     {
-      id: 5,
+      id: 7,
       title: safeT('projects', 'timeForge.title', 'TimeForge (Award-Winning)🥇​'),
       subtitle: safeT('projects', 'timeForge.subtitle', 'AI-Powered Productivity App'),
       description: safeT('projects', 'timeForge.description', 'Plan tasks, track focus & mood, and boost productivity with gamification and AI insights.'),
@@ -298,7 +363,7 @@ export function ProjectsSection() {
       demo: getAssetPath("/videos/timeforge-demo.mp4")
     },
     {
-      id: 6,
+      id: 8,
       title: safeT('projects', 'employeeManager.title', 'Employee Manager'),
       subtitle: safeT('projects', 'employeeManager.subtitle', 'Employee Records (CRUD) System (Personal Project)'),
       description: safeT('projects', 'employeeManager.description', 'Simple full-stack CRUD app to manage employees with search by name.'),
@@ -315,7 +380,7 @@ export function ProjectsSection() {
       github: "https://github.com/sarrabousnina/EmployeeManagerApp",
     },
     {
-      id: 7,
+      id: 9,
       title: safeT('projects', 'university.title', 'University'),
       subtitle: safeT('projects', 'university.subtitle', 'Clubs & Campus Management (Symfony)'),
       description: safeT('projects', 'university.description', 'Full-stack university platform built in a team of four. I owned the Clubs module (CRUD, join/leave, ratings, SMS).'),
@@ -335,7 +400,7 @@ export function ProjectsSection() {
       github: "https://github.com/S1merbnb/ProjetSymfony",
     },
     {
-      id: 8,
+      id: 10,
       title: safeT('projects', 'myCTAMA.title', 'MyCTAMA Insurance App'),
       subtitle: safeT('projects', 'myCTAMA.subtitle', '.NET MAUI Mobile App (Internship)'),
       description: safeT('projects', 'myCTAMA.description', 'Cross-platform app to request insurance quotes and find nearby CTAMA agencies on a map.'),

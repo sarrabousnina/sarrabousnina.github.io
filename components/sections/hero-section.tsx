@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Download, Mail } from "lucide-react"
@@ -119,8 +119,8 @@ export function HeroSection() {
 
   // Continuous scroll animations
   const { scrollY, isScrolling, scrollDirection } = useContinuousScrollAnimation()
-  const bounceResult = useBounceAnimation(0.03)
-  const rotateResult = useRotateAnimation(2)
+  const { bounce } = useBounceAnimation(0.03)
+  const { rotateX, rotateY, rotateZ } = useRotateAnimation(2)
 
   // Parallax effects for different elements
   const backgroundY = useParallax([0, 1], 0.3)
@@ -150,7 +150,7 @@ export function HeroSection() {
       <ScrollProgress />
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      <motion.div
+        <motion.div
         variants={meshVariants}
         animate="animate"
         className="absolute inset-0 opacity-20 dark:opacity-10"
@@ -162,24 +162,36 @@ export function HeroSection() {
           `,
           backgroundSize: "100% 100%",
           y: backgroundY,
-          rotate: isScrolling ? rotateResult.rotateZ : 0,
-          scale: 1,
+          rotate: isScrolling ? rotateZ.get() * 2 : 0,
+          scale: isScrolling ? 1 + bounce.get() * 0.05 : 1,
         }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left">
+          <div
+            className="text-center lg:text-left"
+            style={{
+              y: textY,
+              rotateY: isScrolling && scrollDirection === 'down' ? rotateY.get() * 0.5 : 0,
+              scale: isScrolling ? 1 + bounce.get() * 0.02 : 1
+            }}
+          >
             <motion.div initial="hidden" animate="visible" variants={enhancedContainerVariants} className="space-y-6">
               <motion.h1
                 variants={enhancedItemVariants}
                 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight"
+                animate={{
+                  y: isScrolling ? bounce.get() * 3 : 0,
+                }}
               >
                 <motion.span
                   variants={enhancedItemVariants}
                   className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent inline-block"
-                  style={{ rotate: rotateResult.rotateZ }}
+                  animate={{
+                    rotate: isScrolling ? rotateZ.get() : 0,
+                  }}
                 >
                   Sarra
                 </motion.span>{" "}
@@ -187,7 +199,7 @@ export function HeroSection() {
                   variants={enhancedItemVariants}
                   className="block text-foreground"
                   animate={{
-                    x: isScrolling && scrollDirection.current === 'down' ? 5 : 0,
+                    x: isScrolling && scrollDirection === 'down' ? 5 : 0,
                   }}
                 >
                   Bousnina
@@ -254,11 +266,14 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
           </div>
-          </div>
 
           {/* Avatar Card */}
           <div
             className="flex justify-center lg:justify-end"
+            style={{
+              y: avatarY,
+              scale: isScrolling ? 1 + bounce.get() * 0.02 : 1
+            }}
           >
             <motion.div
               initial="hidden"
@@ -285,9 +300,9 @@ export function HeroSection() {
                   {/* Floating Elements */}
                   <motion.div
                     animate={{
-                      y: [0, -10, 0],
-                      rotate: [0, 5, 0],
-                      scale: 1,
+                      y: isScrolling ? bounce.get() * 15 : [0, -10, 0],
+                      rotate: isScrolling ? rotateZ.get() * 5 : [0, 5, 0],
+                      scale: isScrolling ? 1 + bounce.get() * 0.2 : 1,
                     }}
                     transition={{
                       duration: 3,
@@ -311,9 +326,9 @@ export function HeroSection() {
 
                   <motion.div
                     animate={{
-                      y: [0, 10, 0],
-                      rotate: [0, -5, 0],
-                      scale: 1,
+                      y: isScrolling ? bounce.get() * -15 : [0, 10, 0],
+                      rotate: isScrolling ? -rotateZ.get() * 5 : [0, -5, 0],
+                      scale: isScrolling ? 1 + bounce.get() * 0.2 : 1,
                     }}
                     transition={{
                       duration: 4,
@@ -368,7 +383,8 @@ export function HeroSection() {
             />
           </motion.div>
         </motion.div>
-      </section>
+      </div>
+    </section>
     </>
   )
 }
