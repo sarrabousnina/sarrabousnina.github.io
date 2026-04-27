@@ -250,33 +250,6 @@ const translations = {
           "Real-time loan application processing",
           "Secure document management with SQLite persistence"
         ]
-      },
-      eagleScout: {
-        title: "EagleScout",
-        subtitle: "AI-Powered Security Vulnerability Detection System (Hackathon Project)",
-        description: "Built EagleScout, an intelligent security vulnerability detection system that analyzes infrastructure architecture using AI. Our solution combines local VLM analysis with cloud-based vulnerability scanning to provide comprehensive security assessments with reasoning traces and compliance classification. Achieved 2nd place among 33 teams at ESPRIT.",
-        longDescription: "EagleScout is an innovative security vulnerability detection system that transforms how organizations identify and prioritize security risks. The platform combines multiple AI approaches to deliver comprehensive security analysis.\n\nKey Features:\n\n• Architecture Analysis: Users upload infrastructure architecture images analyzed by local VLM (foundation-sec-8b-reasoning) for privacy and security\n• Intelligent Vulnerability Scanning: Cloud-based scraper agent operates in sandboxed environment to detect vulnerabilities and outputs clean JSON results\n• AI-Powered Scoring: Foundation-sec-8b-reasoning model analyzes vulnerabilities alongside architecture and tech stack to generate risk scores with detailed reasoning traces\n• Smart Dashboard: Vulnerabilities sorted by score and priority with interactive visualization\n• Advanced Reasoning: Implements graph traversal and ReAct patterns for sophisticated security analysis\n• Compliance Classification: Categorizes vulnerabilities by compliance field (healthcare, banking, etc.) for regulatory adherence\n\nTechnical Implementation:\n\nThe system addresses local LLM context limitations by combining local VLM for sensitive data analysis with cloud-based scraping for comprehensive vulnerability detection. The AI layer provides detailed reasoning traces, making security analysis transparent and actionable.",
-        features: [
-          "Architecture image analysis with local VLM for privacy",
-          "Sandboxed cloud scraper agent for vulnerability detection",
-          "AI-powered risk scoring with reasoning traces",
-          "Interactive dashboard sorted by priority and score",
-          "Compliance classification (healthcare, banking, etc.)",
-          "Graph traversal and ReAct patterns for advanced analysis"
-        ]
-      },
-      bffLoanHub: {
-        title: "BFF Loan Hub",
-        subtitle: "AI-Powered Loan Application System (Hackathon Project)",
-        description: "Built BFF Loan Hub, an AI-powered loan application system with automated document verification, fraud detection, and compliance checking for Tunisian banking regulations. Achieved 2nd place at Finnovo 1.0 Hackathon.",
-        longDescription: "BFF Loan Hub is an intelligent loan application system that transforms the banking workflow in Tunisia. The platform addresses key challenges in the lending process by leveraging cutting-edge AI technology.\n\nKey Features:\n\n• AI-Powered Document Verification: Uses Groq's Llama-4-Scout to automatically verify applicant documents and detect inconsistencies\n• Fraud Detection: Cross-references all uploaded documents to identify potential fraud patterns and red flags\n• Regulatory Compliance: Ensures adherence to Tunisian banking regulations through automated compliance checks\n• Streamlined Processing: Real-time verification reduces loan application processing time from days to minutes\n• Secure Data Management: SQLite-based persistence with secure document handling and data privacy\n\nTechnical Implementation:\n\nThe system combines a modern React 19 frontend with Vite, Tailwind CSS, and TanStack Router for an intuitive user experience. The FastAPI backend hosts an AI agent that intelligently processes loan applications, verifies documentation, and generates compliance reports.",
-        features: [
-          "AI-powered document verification using Groq Llama-4-Scout",
-          "Automated fraud detection by cross-referencing uploaded documents",
-          "Compliance checking for Tunisian banking regulations",
-          "Real-time loan application processing",
-          "Secure document management with SQLite persistence"
-        ]
       }
     },
     experience: {
@@ -755,33 +728,6 @@ const translations = {
         ]
       },
       finnovo: {
-        title: "BFF Loan Hub",
-        subtitle: "Système de Demande de Prêt Alimenté par l'IA (Projet Hackathon)",
-        description: "Développement de BFF Loan Hub, un système de demande de prêt alimenté par l'IA avec vérification automatisée des documents, détection de fraude et vérification de conformité pour les réglementations bancaires tunisiennes. 2ème place au Hackathon Finnovo 1.0.",
-        longDescription: "BFF Loan Hub est un système intelligent de demande de prêt qui transforme le flux de travail bancaire en Tunisie. La plateforme répond aux défis clés du processus de prêt en tirant parti d'une technologie IA de pointe.\n\nFonctionnalités Clés :\n\n• Vérification de Documents Alimentée par l'IA : Utilise Llama-4-Scout de Groq pour vérifier automatiquement les documents des demandeurs et détecter les incohérences\n• Détection de Fraude : Compare tous les documents téléchargés pour identifier les modèles de fraude potentiels et les drapeaux rouges\n• Conformité Réglementaire : Assure l'adhésion aux réglementations bancaires tunisiennes via des vérifications de conformité automatisées\n• Traitement Rationalisé : La vérification en temps réel réduit le temps de traitement des demandes de prêt de jours à minutes\n• Gestion Sécurisée des Données : Persistance basée sur SQLite avec gestion sécurisée des documents et confidentialité des données\n\nImplémentation Technique :\n\nLe système combine un frontend React 19 moderne avec Vite, Tailwind CSS et TanStack Router pour une expérience utilisateur intuitive. Le backend FastAPI héberge un agent IA qui traite intelligemment les demandes de prêt, vérifie la documentation et génère des rapports de conformité.",
-        features: [
-          "Vérification de documents alimentée par l'IA utilisant Groq Llama-4-Scout",
-          "Détection automatisée de fraude par comparaison des documents téléchargés",
-          "Vérification de conformité pour les réglementations bancaires tunisiennes",
-          "Traitement de demandes de prêt en temps réel",
-          "Gestion sécurisée de documents avec persistance SQLite"
-        ]
-      },
-      eagleScout: {
-        title: "EagleScout",
-        subtitle: "Système de Détection de Vulnérabilités de Sécurité Alimenté par l'IA (Projet Hackathon)",
-        description: "Développement d'EagleScout, un système intelligent de détection de vulnérabilités de sécurité qui analyse l'architecture d'infrastructure utilisant l'IA. Notre solution combine l'analyse VLM locale avec l'analyse de vulnérabilités basée sur le cloud pour fournir des évaluations de sécurité complètes avec traces de raisonnement et classification de conformité. 2ème place parmi 33 équipes à l'ESPRIT.",
-        longDescription: "EagleScout est un système innovant de détection de vulnérabilités de sécurité qui transforme la façon dont les organisations identifient et hiérarchisent les risques de sécurité. La plateforme combine plusieurs approches IA pour fournir une analyse de sécurité complète.\n\nFonctionnalités Clés :\n\n• Analyse d'Architecture : Les utilisateurs téléchargent des images d'architecture d'infrastructure analysées par VLM local (foundation-sec-8b-reasoning) pour la confidentialité et la sécurité\n• Analyse Intelligente des Vulnérabilités : L'agent scraper basé sur le cloud opère dans un environnement sandbox pour détecter les vulnérabilités et produire des résultats JSON propres\n• Notation Alimentée par l'IA : Le modèle foundation-sec-8b-reasoning analyse les vulnérabilités avec l'architecture et la stack technologique pour générer des scores de risque avec traces de raisonnement détaillées\n• Tableau de Bord Intelligent : Vulnérabilités triées par score et priorité avec visualisation interactive\n• Raisonnement Avancé : Implémente le parcours de graphe et les motifs ReAct pour une analyse de sécurité sophistiquée\n• Classification de Conformité : Catégorise les vulnérabilités par domaine de conformité (santé, banque, etc.) pour l'adhésion réglementaire\n\nImplémentation Technique :\n\nLe système adresse les limitations de contexte du LLM local en combinant VLM local pour l'analyse de données sensibles avec le scraping basé sur le cloud pour une détection complète des vulnérabilités. La couche IA fournit des traces de raisonnement détaillées, rendant l'analyse de sécurité transparente et exploitable.",
-        features: [
-          "Analyse d'image d'architecture avec VLM local pour la confidentialité",
-          "Agent scraper cloud sandbox pour la détection de vulnérabilités",
-          "Notation de risque alimentée par l'IA avec traces de raisonnement",
-          "Tableau de bord interactif trié par priorité et score",
-          "Classification de conformité (santé, banque, etc.)",
-          "Parcours de graphe et motifs ReAct pour analyse avancée"
-        ]
-      },
-      bffLoanHub: {
         title: "BFF Loan Hub",
         subtitle: "Système de Demande de Prêt Alimenté par l'IA (Projet Hackathon)",
         description: "Développement de BFF Loan Hub, un système de demande de prêt alimenté par l'IA avec vérification automatisée des documents, détection de fraude et vérification de conformité pour les réglementations bancaires tunisiennes. 2ème place au Hackathon Finnovo 1.0.",
