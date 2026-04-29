@@ -5,9 +5,15 @@ import { translations, type Lang } from "@/lib/i18n";
 
 const exp = [
   {
+    role: "AI Engineer Intern (End of Studies)",
+    org: "Otraverse",
+    date: "Feb 2025 – Present",
+    desc: "Building production-grade 2D-to-3D environment generator: detect, mask, complete, generate, assemble with cost-aware AI orchestration. Developed complete pipeline using Grounding DINO + SAM2 for detection/masking, implemented conditional AI completion with Gemini API to reduce costs by 70%, integrated Hunyuan3D-2 for textured mesh generation, and deployed FastAPI microservices architecture on GCP with Docker. Tech stack: PyTorch, FastAPI, Docker, GCP Vertex AI, DepthAnything, PyTorch3D."
+  },
+  {
     role: "AI Software Development Intern",
     org: "Mahd.Group",
-    date: "Jul – Aug 2025",
+    date: "Jul – Aug 2024",
     desc: "Developed CorrectMeAI, an AI-powered web application for automated exam correction. Integrated OCR for text extraction, LLMs for intelligent grading, and RAG-powered chatbot with ReAct agent. Built full-stack platform from scratch with React.js and Flask backend."
   },
   {

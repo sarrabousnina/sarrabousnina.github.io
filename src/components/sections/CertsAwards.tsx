@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Award, Trophy } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Award, Trophy, X } from "lucide-react";
 import Section from "@/components/Section";
 import { translations, type Lang } from "@/lib/i18n";
 
@@ -54,7 +55,7 @@ const awards = [
     desc: "AI-Powered Security Vulnerability Detection",
     tech: ["VLM", "Foundation-sec-8b-reasoning", "ReAct Pattern"],
     tag: "Cybersecurity · AI Vulnerability Scanning",
-    image: "/images/cyberia.png",
+    image: "/images/cyberia.jpeg",
   },
   {
     medal: "🥈",
@@ -140,45 +141,93 @@ export const Awards = ({ lang }: { lang: Lang }) => (
   </Section>
 );
 
-export const Certifications = ({ lang }: { lang: Lang }) => (
-  <Section id="certifications" eyebrow="08 / credentials" title={translations[lang].certs.title}>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {certs.map((c, i) => (
-        <motion.div
-          key={c.title}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: i * 0.04 }}
-          whileHover={{ y: -4 }}
-          className="glass glass-hover rounded-2xl overflow-hidden flex flex-col"
-        >
-          {c.image && (
-            <div className="relative h-32 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-              <img
-                src={c.image}
-                alt={c.org}
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-            </div>
-          )}
-          <div className="p-5 flex gap-4 items-start flex-1">
-            <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/30 shrink-0">
-              <Award className="w-5 h-5 text-primary" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-medium leading-snug">{c.title}</div>
-              <div className="text-xs text-muted-foreground mt-1 font-mono">
-                {c.org} · {c.date}
+export const Certifications = ({ lang }: { lang: Lang }) => {
+  const [selectedCert, setSelectedCert] = useState<Cert | null>(null);
+
+  return (
+    <Section id="certifications" eyebrow="08 / credentials" title={translations[lang].certs.title}>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {certs.map((c, i) => (
+          <motion.div
+            key={c.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.04 }}
+            whileHover={{ y: -4 }}
+            className="glass glass-hover rounded-2xl overflow-hidden flex flex-col cursor-pointer"
+            onClick={() => c.image && setSelectedCert(c)}
+          >
+            {c.image && (
+              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center p-4">
+                <img
+                  src={c.image}
+                  alt={c.org}
+                  className="max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </div>
+            )}
+            <div className="p-5 flex gap-4 items-start flex-1">
+              <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/30 shrink-0">
+                <Award className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-medium leading-snug">{c.title}</div>
+                <div className="text-xs text-muted-foreground mt-1 font-mono">
+                  {c.org} · {c.date}
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </Section>
-);
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Modal for viewing certification */}
+      <AnimatePresence>
+        {selectedCert && selectedCert.image && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCert(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full glass rounded-3xl overflow-hidden border-gradient"
+            >
+              <button
+                onClick={() => setSelectedCert(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/80 hover:bg-background border border-border flex items-center justify-center transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">{selectedCert.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4 font-mono">
+                  {selectedCert.org} · {selectedCert.date}
+                </p>
+                <div className="relative bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 flex items-center justify-center min-h-[400px]">
+                  <img
+                    src={selectedCert.image}
+                    alt={selectedCert.org}
+                    className="max-w-full max-h-[500px] object-contain"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Section>
+  );
+};
 
 export const Community = ({ lang }: { lang: Lang }) => (
   <Section id="community" eyebrow="09 / impact" title={translations[lang].community.title}>
