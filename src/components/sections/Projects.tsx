@@ -97,22 +97,6 @@ const others: Project[] = [
     github: "https://github.com/BHAmna/PI"
   },
   {
-    title: "FindYourWay",
-    tag: "Project",
-    desc: "Indoor navigation system with real-time pathfinding inside complex venues like malls, hospitals, and universities. Uses Bluetooth Low Energy beacons for accurate positioning.",
-    longDesc: "Innovative indoor navigation solution using BLE beacons strategically placed throughout buildings. Users input destination and receive turn-by-turn directions through mobile app. Includes admin dashboard for beacon management and analytics on navigation patterns.",
-    tech: ["Bluetooth", "BLE Beacons", "Mobile App", "Admin Dashboard", "Analytics"],
-    image: "/images/university.jpg"
-  },
-  {
-    title: "EventHub",
-    tag: "Project",
-    desc: "Full-stack event management platform with ticketing, attendee engagement, QR code check-in, real-time analytics, and payment gateway integration.",
-    longDesc: "Streamlines entire event lifecycle from creation to execution. Features custom event pages, integrated ticketing, QR-based check-in, real-time analytics, and attendee engagement tools. Perfect for conferences, workshops, and social gatherings.",
-    tech: ["Spring Boot", "Angular", "Payment Gateway", "QR Codes", "Analytics"],
-    image: "/images/university.jpg"
-  },
-  {
     title: "Employee Manager",
     tag: "Project",
     desc: "CRUD HR system with role-based access and clean architecture. Built to practice Angular + Spring Boot with REST API and reactive UI.",
