@@ -61,7 +61,9 @@ const others: Project[] = [
     desc: "AI-driven furniture e-commerce with multimodal semantic search, room analysis, product comparison, and AR visualization. Powered by CLIP embeddings and Qdrant vector database.",
     longDesc: "Multimodal semantic search platform featuring room analysis with YOLOv8, product comparison with AI explanations, and AR visualization. Each product represented by 4 multimodal embeddings: CLIP text (512D), CLIP image (512D), Node2Vec graph (64D), K-means color clusters (548D).",
     tech: ["AI/ML", "VLM", "CLIP", "Qdrant", "YOLOv8", "Node2Vec", "Tripo AI", "Python"],
-    image: "/images/furniverse.png"
+    image: "/images/furniverse.png",
+    github: "https://github.com/sarrabousnina/Furniverse",
+    demo: "Pytorchi-Furniverse.mp4"
   },
   {
     title: "inspireAI",
@@ -69,7 +71,9 @@ const others: Project[] = [
     desc: "AI content studio — multi-modal generation hub for creators. Features ReAct-style AI agent for conversational interaction, content history with pin/delete, and image analysis integration.",
     longDesc: "Personal AI content assistant built with React and FastAPI. Generates tailored social media and blog content using Groq's LLMs, enhanced by image analysis via OpenRouter. All posts saved in history panel with pin, delete, and revisit functionality. ReAct-style chat agent answers natural questions about content.",
     tech: ["React", "TypeScript", "FastAPI", "Groq", "OpenRouter", "PostgreSQL", "JWT", "RAG"],
-    image: "/images/inspire.png"
+    image: "/images/inspire.png",
+    github: "https://github.com/sarrabousnina/InspireAI",
+    demo: "inspire2.mp4"
   },
   {
     title: "CorrectMe AI",
@@ -77,7 +81,9 @@ const others: Project[] = [
     desc: "AI exam correction system that grades open-ended answers with rubric awareness. Uses OCR for text extraction from scanned exams, LLMs for intelligent grading, and ReAct agents for complex workflows.",
     longDesc: "Advanced automated exam correction system leveraging OCR for text extraction, Large Language Models for intelligent grading and feedback generation, and ReAct agents for handling complex correction workflows. Built a full-stack AI exam correction platform from scratch.",
     tech: ["Python", "Flask", "React", "RAG", "OCR", "Qwen3 LLM", "ReAct Agents"],
-    image: "/images/correctme.png"
+    image: "/images/correctme.png",
+    github: "https://github.com/sarrabousnina/CorrectMeAi",
+    demo: "CorrectMeAi-demo.mp4"
   },
   {
     title: "TimeForge",
@@ -112,7 +118,8 @@ const others: Project[] = [
     desc: "CRUD HR system with role-based access and clean architecture. Built to practice Angular + Spring Boot with REST API and reactive UI.",
     longDesc: "Learning project built to practice Angular + Spring Boot. Exposes REST API for employees and reactive Angular UI to list, create, update, and delete records. Supports quick search by name with form validation and error handling.",
     tech: ["Angular", "Spring Boot", "REST API", "TypeScript", "Java"],
-    image: "/images/EmployeeManager.png"
+    image: "/images/EmployeeManager.png",
+    github: "https://github.com/sarrabousnina/EmployeeManagerApp"
   },
   {
     title: "University Platform",
@@ -120,7 +127,8 @@ const others: Project[] = [
     desc: "Clubs & activities management platform for ESPRIT students. Built in team of 4 using Symfony + MySQL. Owned the Clubs module with CRUD, join/leave, ratings, and Twilio SMS notifications.",
     longDesc: "Campus management web app developed by team of 4 using Symfony + MySQL. My scope was the Clubs module: create/edit clubs, view details, member counts, join/leave with Twilio SMS, search & filters, and club ratings. Also includes events, trainings, and library management.",
     tech: ["Symfony", "PHP", "MySQL", "Twilio SMS", "JavaScript"],
-    image: "/images/university.jpg"
+    image: "/images/university.jpg",
+    github: "https://github.com/S1merbnb/ProjetSymfony"
   },
   {
     title: "MyCTAMA",
@@ -128,7 +136,9 @@ const others: Project[] = [
     desc: "Cross-platform insurance mobile app for clients & agents. Users can request quotes, browse news feed, and locate agencies on interactive map.",
     longDesc: "Built with .NET MAUI for Android/iOS. Users can request quotes for Home, Car, Agriculture, and Health insurance. Features home screen news feed and GPS-based agency locator with interactive map. Some static pages implemented with embedded HTML/CSS.",
     tech: [".NET MAUI", "C#", "Azure Maps", "GPS", "Mobile", "Embedded HTML/CSS"],
-    image: "/images/ctama.png"
+    image: "/images/ctama.png",
+    github: "https://github.com/sarrabousnina/MyCTAMA",
+    demo: "https://github.com/user-attachments/assets/f62af4be-3fd2-490b-8661-78d6df427005"
   },
 ];
 
@@ -176,16 +186,18 @@ const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => 
           </span>
         )}
       </div>
-      {p.demo && (
+      {(p.demo || p.github) && (
         <div className="mt-2 flex items-center gap-3">
-          <a
-            href={p.demo.startsWith('http') ? p.demo : `/videos/${p.demo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs font-mono text-primary hover:text-primary/80 transition-colors"
-          >
-            <Play className="w-3 h-3" /> Demo
-          </a>
+          {p.demo && (
+            <a
+              href={p.demo.startsWith('http') ? p.demo : `/videos/${p.demo}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono text-primary hover:text-primary/80 transition-colors"
+            >
+              <Play className="w-3 h-3" /> Demo
+            </a>
+          )}
           {p.github && (
             <a
               href={p.github}
@@ -285,16 +297,18 @@ const Projects = ({ lang }: { lang: Lang }) => {
                   </div>
                 </div>
 
-                {selectedProject.demo && (
+                {(selectedProject.demo || selectedProject.github) && (
                   <div className="flex flex-wrap gap-3">
-                    <a
-                      href={selectedProject.demo.startsWith('http') ? selectedProject.demo : `/videos/${selectedProject.demo}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-aurora text-primary-foreground font-medium text-sm hover:scale-105 transition-transform"
-                    >
-                      <Play className="w-4 h-4" /> Watch Demo
-                    </a>
+                    {selectedProject.demo && (
+                      <a
+                        href={selectedProject.demo.startsWith('http') ? selectedProject.demo : `/videos/${selectedProject.demo}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-aurora text-primary-foreground font-medium text-sm hover:scale-105 transition-transform"
+                      >
+                        <Play className="w-4 h-4" /> Watch Demo
+                      </a>
+                    )}
                     {selectedProject.github && (
                       <a
                         href={selectedProject.github}
