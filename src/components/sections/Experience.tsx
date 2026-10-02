@@ -7,13 +7,13 @@ const exp = [
   {
     role: "AI Engineer Intern (End of Studies)",
     org: "Otraverse",
-    date: "Feb 2025 – Present",
-    desc: "Building production-grade 2D-to-3D environment generator: detect, mask, complete, generate, assemble with cost-aware AI orchestration. Developed complete pipeline using Grounding DINO + SAM2 for detection/masking, implemented conditional AI completion with Gemini API to reduce costs by 70%, integrated Hunyuan3D-2 for textured mesh generation, and deployed FastAPI microservices architecture on GCP with Docker. Tech stack: PyTorch, FastAPI, Docker, GCP Vertex AI, DepthAnything, PyTorch3D."
+    date: "Feb 2026 – Jul 2026",
+    desc: "Completed a six-month end-of-studies internship at Otraverse and built ImmersIA, a web application that transforms interior photos into interactive, textured 3D scenes. Developed an asynchronous AI reconstruction architecture using Grounding DINO, SAM2, Gemini, Depth Anything, Hunyuan3D, scene assembly, and REPARO, with reusable asset caching that reduced Gemini completion costs by 70%. The jury awarded the project mention excellent. The application also includes Next.js/FastAPI server routes, Clerk authentication, token-based usage, and PayPal payments."
   },
   {
     role: "AI Software Development Intern",
     org: "Mahd.Group",
-    date: "Jul – Aug 2024",
+    date: "Jul – Aug 2025",
     desc: "Developed CorrectMeAI, an AI-powered web application for automated exam correction. Integrated OCR for text extraction, LLMs for intelligent grading, and RAG-powered chatbot with ReAct agent. Built full-stack platform from scratch with React.js and Flask backend."
   },
   {
@@ -28,8 +28,8 @@ const edu = [
   {
     role: "Software Engineering",
     org: "ESPRIT (École Supérieure Privée d'Ingénierie et de Technologies)",
-    date: "2023 – Present",
-    desc: "Final-year student pursuing comprehensive Software Engineering degree with specialization in AI and Machine Learning. Active member of DeepFlow AI Club and mentor for junior students."
+    date: "2023 – 2026",
+    desc: "Graduated in Software Engineering with excellent honors and a specialization in AI and Machine Learning. Active member of DeepFlow AI Club and mentor for junior students."
   },
   {
     role: "Pre-Engineering Program (MP)",

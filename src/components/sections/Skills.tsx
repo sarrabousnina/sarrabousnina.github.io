@@ -3,7 +3,7 @@ import Section from "@/components/Section";
 import { translations, type Lang } from "@/lib/i18n";
 
 // Use simpleicons CDN — slug + hex color (no '#'). Fallback for items without an icon: text badge.
-type Item = { name: string; slug?: string; color?: string; local?: boolean };
+type Item = { name: string; slug?: string; color?: string };
 
 const groups: { title: string; items: Item[] }[] = [
   {
@@ -16,7 +16,7 @@ const groups: { title: string; items: Item[] }[] = [
       { name: "PHP", slug: "php", color: "777BB4" },
       { name: "C", slug: "c", color: "A8B9CC" },
       { name: "HTML5", slug: "html5", color: "E34F26" },
-      { name: "CSS3", slug: "css3", color: "1572B6", local: true },
+      { name: "CSS3", slug: "css3", color: "1572B6" },
     ],
   },
   {
@@ -60,21 +60,13 @@ const groups: { title: string; items: Item[] }[] = [
     ],
   },
   {
-    title: "Cloud & DevOps",
-    items: [
-      { name: "GCP", slug: "googlecloud", color: "4285F4" },
-      { name: "Vertex AI", slug: "vertex", color: "4285F4", local: true },
-      { name: "Terraform", slug: "terraform", color: "7B42BC" },
-      { name: "Docker", slug: "docker", color: "2496ED" },
-    ],
-  },
-  {
     title: "Tools",
     items: [
       { name: "Git", slug: "git", color: "F05032" },
       { name: "GitHub", slug: "github", color: "FFFFFF" },
       { name: "REST API", slug: "openapiinitiative", color: "6BA539" },
-      { name: "Power BI", slug: "powerbi", color: "F2C811", local: true },
+      { name: "Docker", slug: "docker", color: "2496ED" },
+      { name: "Power BI", slug: "powerbi", color: "F2C811" },
       { name: "Linux", slug: "linux", color: "FCC624" },
       { name: "FlutterFlow", slug: "flutter", color: "02569B" },
       { name: "Postman", slug: "postman", color: "FF6C37" },
@@ -111,10 +103,10 @@ const Skills = ({ lang }: { lang: Lang }) => {
                     className="group/chip flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-primary/60 hover:bg-primary/10 hover:scale-105 hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)]"
                   >
                     <img
-                      src={it.local ? `/images/${it.slug === 'css3' ? 'css' : it.slug}.jpg` : iconUrl(it.slug, it.color)}
+                      src={iconUrl(it.slug, it.color)}
                       alt={`${it.name} logo`}
                       loading="lazy"
-                      className="w-7 h-7 transition-transform group-hover/chip:scale-110"
+                      className="w-5 h-5 transition-transform group-hover/chip:scale-110"
                     />
                     <span className="text-xs text-foreground/85">{it.name}</span>
                   </div>

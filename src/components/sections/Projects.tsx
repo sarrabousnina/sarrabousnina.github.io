@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, ArrowUpRight, Play, Sparkles, X, ExternalLink, Github } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, Play } from "lucide-react";
 import Section from "@/components/Section";
 import { translations, type Lang } from "@/lib/i18n";
 
@@ -13,11 +12,24 @@ interface Project {
   medal?: string;
   demo?: string;
   image?: string;
+  architecture?: string;
   github?: string;
   featured?: boolean;
 }
 
 const featured: Project[] = [
+  {
+    title: "ImmersIA",
+    tag: "Otraverse PFE · Excellent Honors",
+    desc: "ImmersIA transforms a single interior photo into an interactive, textured 3D scene, reducing a manual workflow of roughly 15 days to around 20 minutes on cache-hit runs.",
+    longDesc: "ImmersIA is a web application that transforms one interior photo into a downloadable, web-ready 3D scene. Developed during my six-month end-of-studies internship at Otraverse, it combines an asynchronous AI reconstruction architecture powered by Grounding DINO, SAM2, Gemini, Depth Anything, Hunyuan3D, scene assembly, and REPARO with reusable asset caching. This reduces a manual workflow estimated at around 15 days to approximately 20 minutes on cache-hit runs, delivering a roughly 1000x improvement in turnaround. The project was awarded mention excellent by the jury. The application also includes Clerk authentication, token-based usage, PayPal payments, and protected Next.js/FastAPI server routes.",
+    tech: ["Python", "FastAPI", "Next.js", "Grounding DINO", "SAM2", "Gemini", "Depth Anything", "Hunyuan3D", "REPARO", "GCP", "Docker", "Redis", "GCS"],
+    medal: "✦",
+    demo: "immersia-demo.mp4",
+    image: "/images/immersia-ui.png",
+    architecture: "/images/immersia-architecture.png",
+    featured: true,
+  },
   {
     title: "EagleScout",
     tag: "CyberIA Hackathon · 2nd / 33 teams",
@@ -126,18 +138,19 @@ const others: Project[] = [
   },
 ];
 
-const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => void }) => (
+const allProjects = [...featured, ...others];
+
+const Card = ({ p }: { p: Project }) => (
   <motion.article
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.5 }}
     whileHover={{ y: -6 }}
-    onClick={onClick}
-    className={`group relative glass glass-hover rounded-3xl overflow-hidden flex flex-col cursor-pointer ${big ? "lg:p-9" : ""} ${p.featured ? "border-gradient" : ""}`}
+    className={`group relative glass glass-hover rounded-3xl overflow-hidden flex flex-col h-full ${p.featured ? "border-gradient" : ""}`}
   >
     {p.image && (
-      <div className={`relative overflow-hidden ${big ? "h-56" : "h-48"} bg-gradient-to-br from-primary/10 to-secondary/10`}>
+      <div className="relative overflow-hidden h-48 bg-gradient-to-br from-primary/10 to-secondary/10">
         <img
           src={p.image}
           alt={p.title}
@@ -153,7 +166,7 @@ const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => 
             {p.medal && <span className="text-xl">{p.medal}</span>}
             <span className="font-mono text-xs text-primary uppercase tracking-wider">{p.tag}</span>
           </div>
-          <h3 className={`font-bold tracking-tight ${big ? "text-3xl" : "text-xl"}`}>{p.title}</h3>
+          <h3 className="font-bold tracking-tight text-xl">{p.title}</h3>
         </div>
         <ArrowUpRight className="w-5 h-5 text-muted-foreground transition-all group-hover:text-primary group-hover:rotate-12" />
       </div>
@@ -170,7 +183,7 @@ const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => 
           </span>
         )}
       </div>
-      {(p.demo || p.github) && (
+      {(p.demo || p.architecture || p.github) && (
         <div className="mt-2 flex items-center gap-3">
           {p.demo && (
             <a
@@ -180,6 +193,17 @@ const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => 
               className="flex items-center gap-2 text-xs font-mono text-primary hover:text-primary/80 transition-colors"
             >
               <Play className="w-3 h-3" /> Demo
+            </a>
+          )}
+          {p.architecture && (
+            <a
+              href={p.architecture}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              className="text-xs font-mono text-primary hover:text-primary/80 transition-colors"
+            >
+              Architecture
             </a>
           )}
           {p.github && (
@@ -200,116 +224,11 @@ const Card = ({ p, big, onClick }: { p: Project; big?: boolean; onClick?: () => 
 
 const Projects = ({ lang }: { lang: Lang }) => {
   const t = translations[lang].projects;
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   return (
     <Section id="projects" eyebrow="03 / work" title={t.title}>
-      <div className="flex items-center gap-2 mb-6 text-sm font-mono text-muted-foreground">
-        <Trophy className="w-4 h-4 text-primary" /> {t.hackathons}
-      </div>
-      <div className="grid lg:grid-cols-2 gap-6 mb-14">
-        {featured.map((p) => <Card key={p.title} p={p} big onClick={() => setSelectedProject(p)} />)}
-      </div>
-
-      <div className="flex items-center gap-2 mb-6 text-sm font-mono text-muted-foreground">
-        <Sparkles className="w-4 h-4 text-secondary" /> {t.others}
-      </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {others.map((p) => <Card key={p.title} p={p} onClick={() => setSelectedProject(p)} />)}
+        {allProjects.map((p) => <Card key={p.title} p={p} />)}
       </div>
-
-      {/* Modal for viewing project details */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full glass rounded-3xl overflow-hidden border-gradient my-8"
-            >
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/80 hover:bg-background border border-border flex items-center justify-center transition-colors"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {selectedProject.image && (
-                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-                </div>
-              )}
-
-              <div className="p-6 sm:p-8">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      {selectedProject.medal && <span className="text-2xl">{selectedProject.medal}</span>}
-                      <span className="font-mono text-xs text-primary uppercase tracking-wider">{selectedProject.tag}</span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-bold">{selectedProject.title}</h2>
-                  </div>
-                </div>
-
-                <p className="text-foreground/75 mb-6 leading-relaxed">
-                  {selectedProject.longDesc || selectedProject.desc}
-                </p>
-
-                <div className="mb-6">
-                  <h4 className="font-mono text-xs text-secondary mb-3 tracking-widest uppercase">// Tech Stack</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.tech.map((t) => (
-                      <span key={t} className="text-xs font-mono px-3 py-1.5 rounded-lg bg-secondary/15 text-secondary-glow border border-secondary/20">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {(selectedProject.demo || selectedProject.github) && (
-                  <div className="flex flex-wrap gap-3">
-                    {selectedProject.demo && (
-                      <a
-                        href={selectedProject.demo.startsWith('http') ? selectedProject.demo : `/videos/${selectedProject.demo}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-aurora text-primary-foreground font-medium text-sm hover:scale-105 transition-transform"
-                      >
-                        <Play className="w-4 h-4" /> Watch Demo
-                      </a>
-                    )}
-                    {selectedProject.github && (
-                      <a
-                        href={selectedProject.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass glass-hover font-medium text-sm"
-                      >
-                        <Github className="w-4 h-4" /> GitHub
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Section>
   );
 };
