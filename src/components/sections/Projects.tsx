@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight, Play } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, Play, X, Github, Trophy, Sparkles, Layers } from "lucide-react";
 import Section from "@/components/Section";
 import { translations, type Lang } from "@/lib/i18n";
 
@@ -138,19 +139,35 @@ const others: Project[] = [
   },
 ];
 
-const allProjects = [...featured, ...others];
+const getDemoUrl = (demo: string) => {
+  if (demo.startsWith("http://") || demo.startsWith("https://")) {
+    return demo;
+  }
+  return encodeURI(`/videos/${demo}`);
+};
 
-const Card = ({ p }: { p: Project }) => (
+const Card = ({
+  p,
+  big,
+  onClick,
+}: {
+  p: Project;
+  big?: boolean;
+  onClick: () => void;
+}) => (
   <motion.article
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.5 }}
     whileHover={{ y: -6 }}
-    className={`group relative glass glass-hover rounded-3xl overflow-hidden flex flex-col h-full ${p.featured ? "border-gradient" : ""}`}
+    onClick={onClick}
+    className={`group relative glass glass-hover rounded-3xl overflow-hidden flex flex-col h-full cursor-pointer transition-all duration-300 ${
+      big ? "border-gradient shadow-lg" : ""
+    } ${p.featured ? "border-gradient" : ""}`}
   >
     {p.image && (
-      <div className="relative overflow-hidden h-48 bg-gradient-to-br from-primary/10 to-secondary/10">
+      <div className={`relative overflow-hidden ${big ? "h-56" : "h-48"} bg-gradient-to-br from-primary/10 to-secondary/10`}>
         <img
           src={p.image}
           alt={p.title}
@@ -166,9 +183,11 @@ const Card = ({ p }: { p: Project }) => (
             {p.medal && <span className="text-xl">{p.medal}</span>}
             <span className="font-mono text-xs text-primary uppercase tracking-wider">{p.tag}</span>
           </div>
-          <h3 className="font-bold tracking-tight text-xl">{p.title}</h3>
+          <h3 className={`font-bold tracking-tight ${big ? "text-2xl" : "text-xl"}`}>{p.title}</h3>
         </div>
-        <ArrowUpRight className="w-5 h-5 text-muted-foreground transition-all group-hover:text-primary group-hover:rotate-12" />
+        <div className="p-2 rounded-full glass group-hover:bg-primary/20 transition-colors">
+          <ArrowUpRight className="w-4 h-4 text-muted-foreground transition-all group-hover:text-primary group-hover:rotate-12" />
+        </div>
       </div>
       <p className="text-foreground/75 mb-5 leading-relaxed text-sm">{p.desc}</p>
       <div className="mt-auto flex flex-wrap gap-2 mb-4">
@@ -187,12 +206,13 @@ const Card = ({ p }: { p: Project }) => (
         <div className="mt-2 flex items-center gap-3">
           {p.demo && (
             <a
-              href={p.demo.startsWith('http') ? p.demo : `/videos/${p.demo}`}
+              href={getDemoUrl(p.demo)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-primary hover:text-primary/80 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1.5 text-xs font-mono text-primary hover:text-primary/80 transition-colors"
             >
-              <Play className="w-3 h-3" /> Demo
+              <Play className="w-3.5 h-3.5" /> Demo
             </a>
           )}
           {p.architecture && (
@@ -200,7 +220,7 @@ const Card = ({ p }: { p: Project }) => (
               href={p.architecture}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(event) => event.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
               className="text-xs font-mono text-primary hover:text-primary/80 transition-colors"
             >
               Architecture
@@ -211,7 +231,8 @@ const Card = ({ p }: { p: Project }) => (
               href={p.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
             >
               GitHub →
             </a>
@@ -224,13 +245,171 @@ const Card = ({ p }: { p: Project }) => (
 
 const Projects = ({ lang }: { lang: Lang }) => {
   const t = translations[lang].projects;
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedProject(null);
+      }
+    };
+
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedProject]);
+
   return (
     <Section id="projects" eyebrow="03 / work" title={t.title}>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {allProjects.map((p) => <Card key={p.title} p={p} />)}
+      {/* Featured / Flagship & Hackathon Wins */}
+      <div className="flex items-center gap-2 mb-6 text-sm font-mono text-muted-foreground">
+        <Trophy className="w-4 h-4 text-primary" /> {t.hackathons}
       </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+        {featured.map((p) => (
+          <Card key={p.title} p={p} big onClick={() => setSelectedProject(p)} />
+        ))}
+      </div>
+
+      {/* Other Projects */}
+      <div className="flex items-center gap-2 mb-6 text-sm font-mono text-muted-foreground">
+        <Sparkles className="w-4 h-4 text-secondary" /> {t.others}
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {others.map((p) => (
+          <Card key={p.title} p={p} onClick={() => setSelectedProject(p)} />
+        ))}
+      </div>
+
+      {/* Modal for viewing project details */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 overflow-y-auto"
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-3xl w-full glass rounded-3xl overflow-hidden border-gradient my-auto max-h-[90vh] flex flex-col shadow-2xl"
+            >
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-background/80 hover:bg-background border border-border flex items-center justify-center transition-colors text-foreground shadow-md hover:scale-105"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="overflow-y-auto">
+                {selectedProject.demo ? (
+                  <div className="relative w-full bg-black/95 aspect-video flex items-center justify-center overflow-hidden border-b border-border/40">
+                    <video
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster={selectedProject.image}
+                      src={getDemoUrl(selectedProject.demo)}
+                      className="w-full h-full object-contain"
+                    >
+                      Your browser does not support HTML5 video.
+                    </video>
+                  </div>
+                ) : selectedProject.image ? (
+                  <div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                  </div>
+                ) : null}
+
+                <div className="p-6 sm:p-8">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        {selectedProject.medal && <span className="text-2xl">{selectedProject.medal}</span>}
+                        <span className="font-mono text-xs text-primary uppercase tracking-wider">{selectedProject.tag}</span>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{selectedProject.title}</h2>
+                    </div>
+                  </div>
+
+                  <p className="text-foreground/85 mb-6 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+                    {selectedProject.longDesc || selectedProject.desc}
+                  </p>
+
+                  <div className="mb-8">
+                    <h4 className="font-mono text-xs text-secondary mb-3 tracking-widest uppercase">// Tech Stack</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="text-xs font-mono px-3 py-1.5 rounded-lg bg-secondary/15 text-secondary-glow border border-secondary/20"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 pt-4 border-t border-border/40">
+                    {selectedProject.demo && (
+                      <a
+                        href={getDemoUrl(selectedProject.demo)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-aurora text-primary-foreground font-medium text-sm hover:scale-105 transition-transform shadow-md"
+                      >
+                        <Play className="w-4 h-4" /> Open Video in New Tab
+                      </a>
+                    )}
+                    {selectedProject.architecture && (
+                      <a
+                        href={selectedProject.architecture}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass glass-hover text-primary font-medium text-sm border border-primary/30 hover:scale-105 transition-transform"
+                      >
+                        <Layers className="w-4 h-4" /> View Architecture Diagram
+                      </a>
+                    )}
+                    {selectedProject.github && (
+                      <a
+                        href={selectedProject.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass glass-hover font-medium text-sm hover:scale-105 transition-transform"
+                      >
+                        <Github className="w-4 h-4" /> GitHub Repository
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   );
 };
 
 export default Projects;
+
