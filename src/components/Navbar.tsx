@@ -21,22 +21,23 @@ const Navbar = ({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) =
     { href: "#projects", label: t.projects },
     { href: "#experience", label: t.experience },
     { href: "#awards", label: t.awards },
+    { href: "#certifications", label: t.certs },
     { href: "#contact", label: t.contact },
   ];
 
   return (
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "py-3" : "py-5"}`}>
-      <div className={`container mx-auto px-6 ${scrolled ? "max-w-5xl" : ""}`}>
+      <div className={`container mx-auto px-6 ${scrolled ? "max-w-6xl" : ""}`}>
         <nav className={`flex items-center justify-between rounded-full px-5 py-2.5 transition-all ${scrolled ? "glass" : ""}`}>
           <a href="#home" className="flex items-center gap-2 font-mono font-bold text-lg">
             <span className="h-2.5 w-2.5 rounded-full bg-gradient-aurora glow-cyan" />
             <span className="text-gradient">SB</span>
           </a>
 
-          <ul className="hidden lg:flex items-center gap-1 text-sm">
+          <ul className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs xl:text-sm">
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors">
+                <a href={l.href} className="px-3 xl:px-4 py-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors whitespace-nowrap">
                   {l.label}
                 </a>
               </li>

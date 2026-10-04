@@ -2,7 +2,7 @@ export type Lang = "en" | "fr";
 
 export const translations = {
   en: {
-    nav: { about: "About", skills: "Skills", projects: "Projects", experience: "Experience", awards: "Awards", contact: "Contact" },
+    nav: { about: "About", skills: "Skills", projects: "Projects", experience: "Experience", awards: "Awards", certs: "Certifications", contact: "Contact" },
     hero: {
       role: "AI Software Engineer",
       sub: "Software Engineering Graduate · ESPRIT · Excellent Honors",
@@ -24,10 +24,10 @@ export const translations = {
     certs: { title: "Certifications" },
     awards: { title: "Prizes & Awards" },
     community: { title: "Community" },
-    contact: { title: "Let's Connect", desc: "Open to AI/ML internships, collaborations and bold ideas.", resume: "Download Resume", send: "Send Message", name: "Name", email: "Email", message: "Message" },
+    contact: { title: "Let's Connect", desc: "Open to AI/ML engineering opportunities, research collaborations and bold ideas.", resume: "Download Resume", send: "Send Message", name: "Name", email: "Email", message: "Message" },
   },
   fr: {
-    nav: { about: "À propos", skills: "Compétences", projects: "Projets", experience: "Expérience", awards: "Prix", contact: "Contact" },
+    nav: { about: "À propos", skills: "Compétences", projects: "Projets", experience: "Expérience", awards: "Prix", certs: "Certifications", contact: "Contact" },
     hero: {
       role: "Ingénieure IA",
       sub: "Diplômée en Ingénierie Logicielle · ESPRIT · Mention excellente",
@@ -49,6 +49,6 @@ export const translations = {
     certs: { title: "Certifications" },
     awards: { title: "Prix & Récompenses" },
     community: { title: "Communauté" },
-    contact: { title: "Restons en contact", desc: "Ouverte aux stages en IA/ML, collaborations et idées audacieuses.", resume: "Télécharger le CV", send: "Envoyer", name: "Nom", email: "Email", message: "Message" },
+    contact: { title: "Restons en contact", desc: "Ouverte aux opportunités en ingénierie IA/ML, collaborations de recherche et projets ambitieux.", resume: "Télécharger le CV", send: "Envoyer", name: "Nom", email: "Email", message: "Message" },
   },
 } as const;
