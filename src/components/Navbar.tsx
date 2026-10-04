@@ -29,9 +29,11 @@ const Navbar = ({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) =
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "py-3" : "py-5"}`}>
       <div className={`container mx-auto px-6 ${scrolled ? "max-w-6xl" : ""}`}>
         <nav className={`flex items-center justify-between rounded-full px-5 py-2.5 transition-all ${scrolled ? "glass" : ""}`}>
-          <a href="#home" className="flex items-center gap-2 font-mono font-bold text-lg">
-            <span className="h-2.5 w-2.5 rounded-full bg-gradient-aurora glow-cyan" />
-            <span className="text-gradient">SB</span>
+          <a href="#home" className="flex items-center gap-2.5 group whitespace-nowrap">
+            <span className="h-2.5 w-2.5 rounded-full bg-gradient-aurora glow-cyan shrink-0" />
+            <span className="font-semibold text-sm sm:text-base tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
+              Sarra Bousnina <span className="text-muted-foreground font-normal text-xs sm:text-sm hidden sm:inline">| AI Software Engineer</span>
+            </span>
           </a>
 
           <ul className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs xl:text-sm">
