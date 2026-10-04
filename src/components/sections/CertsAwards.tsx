@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Award, Trophy } from "lucide-react";
+import { Award, Trophy, ExternalLink } from "lucide-react";
 import Section from "@/components/Section";
 import { translations, type Lang } from "@/lib/i18n";
 
@@ -13,21 +13,128 @@ interface Award {
   image?: string;
 }
 
-const certs = [
-  { title: "Building RAG Agents with LLMs", org: "NVIDIA", date: "Nov 2025" },
-  { title: "AWS Academy Graduate – Cloud Foundations", org: "AWS Academy", date: "Nov 2025" },
-  { title: "Applications of AI for Anomaly Detection", org: "NVIDIA", date: "Nov 2025" },
-  { title: "Attendance Hashgraph Developer Course", org: "The Hashgraph Association", date: "Oct 2025" },
-  { title: "Rapid Application Development with LLMs", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building AI Agents with Multimodal Models", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building LLM Applications with Prompt Engineering", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Building Transformer-Based NLP Applications", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Evaluation and Light Customization of LLMs", org: "NVIDIA", date: "Jun 2025" },
-  { title: "Fundamentals of Deep Learning", org: "NVIDIA", date: "Mar 2025" },
-  { title: "Scrum Fundamentals Certified", org: "SCRUMstudy", date: "Dec 2024" },
-  { title: "The Git & GitHub BootCamp", org: "Udemy", date: "Nov 2024" },
-  { title: "Supervised ML: Regression and Classification", org: "DeepLearning.AI / Coursera", date: "Mar 2024" },
-  { title: "Introduction to Front-End Development", org: "Meta / Coursera", date: "Apr 2024" },
+interface Cert {
+  title: string;
+  issuer: string;
+  date: string;
+  logo: string;
+  tags: string[];
+  credentialUrl: string;
+}
+
+const certs: Cert[] = [
+  {
+    title: "Building RAG Agents with LLMs",
+    issuer: "NVIDIA",
+    date: "11/2025",
+    logo: "/logos/RAG.png",
+    tags: ["Generative AI", "RAG", "LLMs"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=4AXuu_46RJOCFJ6kStXG9A#",
+  },
+  {
+    title: "AWS Academy Graduate – Cloud Foundations",
+    issuer: "AWS Academy",
+    date: "11/2025",
+    logo: "/logos/aws badge.png",
+    tags: ["AWS", "Cloud"],
+    credentialUrl: "https://www.credly.com/badges/3f4af3e0-7d15-43b8-bb52-0f002b11ca8d/print",
+  },
+  {
+    title: "Applications of AI for Anomaly Detection",
+    issuer: "NVIDIA",
+    date: "11/2025",
+    logo: "/logos/anomaly detection.png",
+    tags: ["XGBoost", "AI", "Anomaly Detection"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=uOx2JSYPRembVJns9mY88Q",
+  },
+  {
+    title: "Attendance Hashgraph Developer Course",
+    issuer: "The Hashgraph Association",
+    date: "10/2025",
+    logo: "/logos/blockchain.png",
+    tags: ["Blockchain", "Hashgraph"],
+    credentialUrl: "https://certs.hashgraphdev.com/de967611-56da-48f9-91b3-621e6f7ef8a4.pdf",
+  },
+  {
+    title: "Rapid Application Development with Large Language Models (LLMs)",
+    issuer: "NVIDIA",
+    date: "06/2025",
+    logo: "/logos/rapidLLM.png",
+    tags: ["LLMs", "Prototyping", "RAG"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=uMJ7N_LVSkubv8t3mJ6Iag",
+  },
+  {
+    title: "Building AI Agents with Multimodal Models",
+    issuer: "NVIDIA",
+    date: "06/2025",
+    logo: "/logos/AIagent.png",
+    tags: ["Agents", "Multimodal", "Vision+LLM"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=14xeyRKPQXi5rxi4FhLpmA",
+  },
+  {
+    title: "Building LLM Applications with Prompt Engineering",
+    issuer: "NVIDIA",
+    date: "06/2025",
+    logo: "/logos/LLMprompt.png",
+    tags: ["Prompt Engineering", "LLMs"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=7Sdwdy9yS3-_RazfdvF-kg",
+  },
+  {
+    title: "Building Transformer-Based Natural Language Processing Applications",
+    issuer: "NVIDIA",
+    date: "06/2025",
+    logo: "/logos/transformerNLP.png",
+    tags: ["Transformers", "NLP"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=tUl-7lrXT_6VYQ61bdEbWA",
+  },
+  {
+    title: "Evaluation and Light Customization of Large Language Models",
+    issuer: "NVIDIA",
+    date: "06/2025",
+    logo: "/logos/evalLLM.png",
+    tags: ["Evaluation", "Fine-tuning", "LoRA"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=g2RO6yzzQ2SzOvpWb7bcag",
+  },
+  {
+    title: "Fundamentals of Deep Learning",
+    issuer: "NVIDIA",
+    date: "03/2025",
+    logo: "/logos/DL.png",
+    tags: ["Deep Learning", "Neural Networks", "AI"],
+    credentialUrl: "https://learn.nvidia.com/certificates?id=KBA4J8RJS-a7BrB5DLoswQ",
+  },
+  {
+    title: "Scrum Fundamentals Certified (SFC)",
+    issuer: "SCRUMstudy",
+    date: "12/2024",
+    logo: "/logos/SCRUM.png",
+    tags: ["Scrum", "Agile", "Project Management"],
+    credentialUrl: "https://www.scrumstudy.com/certification/verify?type=SFC&number=1059261",
+  },
+  {
+    title: "The Git & GitHub BootCamp",
+    issuer: "Udemy",
+    date: "11/2024",
+    logo: "/logos/Git.png",
+    tags: ["Git", "GitHub", "Version Control"],
+    credentialUrl: "https://www.udemy.com/certificate/UC-2b4a1591-7027-487c-8832-1e6577da90fa/",
+  },
+  {
+    title: "Supervised Machine Learning: Regression and Classification",
+    issuer: "DeepLearning.AI (Stanford) / Coursera",
+    date: "03/2024",
+    logo: "/logos/ML.png",
+    tags: ["Machine Learning", "Python", "Algorithms"],
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/R5HUEBEZXLBV",
+  },
+  {
+    title: "Introduction to Front-End Development",
+    issuer: "Meta / Coursera",
+    date: "04/2024",
+    logo: "/logos/front.png",
+    tags: ["HTML", "CSS", "JavaScript", "React"],
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/26W5W3GA7WR4",
+  },
 ];
 
 const awards = [
@@ -135,7 +242,7 @@ export const Awards = ({ lang }: { lang: Lang }) => (
 
 export const Certifications = ({ lang }: { lang: Lang }) => (
   <Section id="certifications" eyebrow="08 / credentials" title={translations[lang].certs.title}>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {certs.map((c, i) => (
         <motion.div
           key={c.title}
@@ -143,17 +250,50 @@ export const Certifications = ({ lang }: { lang: Lang }) => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: i * 0.04 }}
-          whileHover={{ y: -4 }}
-          className="glass glass-hover rounded-2xl p-5 flex gap-4 items-start"
+          whileHover={{ y: -6 }}
+          className="border-gradient rounded-3xl overflow-hidden glass group flex flex-col h-full"
         >
-          <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/30">
-            <Award className="w-5 h-5 text-primary" />
+          {/* Logo container */}
+          <div className="relative h-36 w-full flex items-center justify-center bg-card/60 border-b border-border/40 p-4 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <img
+              src={c.logo}
+              alt={`${c.issuer} logo`}
+              className="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-300 group-hover:scale-105 relative z-10"
+              loading="lazy"
+            />
           </div>
-          <div className="flex-1">
-            <div className="font-medium leading-snug">{c.title}</div>
-            <div className="text-xs text-muted-foreground mt-1 font-mono">
-              {c.org} · {c.date}
+
+          {/* Content */}
+          <div className="p-6 flex flex-col flex-1 justify-between">
+            <div>
+              <div className="font-semibold text-foreground group-hover:text-primary transition-colors text-base leading-snug mb-1">
+                {c.title}
+              </div>
+              <div className="text-xs text-muted-foreground font-mono mb-3">
+                {c.issuer} · {c.date}
+              </div>
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {c.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
+
+            <a
+              href={c.credentialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-secondary transition-colors mt-auto pt-3 border-t border-border/30 group/link"
+            >
+              <span>{lang === "fr" ? "Vérifier le certificat" : "Verify Credential"}</span>
+              <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            </a>
           </div>
         </motion.div>
       ))}
