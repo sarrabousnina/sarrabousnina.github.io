@@ -316,20 +316,7 @@ const Projects = ({ lang }: { lang: Lang }) => {
               </button>
 
               <div className="overflow-y-auto">
-                {selectedProject.demo ? (
-                  <div className="relative w-full bg-black/95 aspect-video flex items-center justify-center overflow-hidden border-b border-border/40">
-                    <video
-                      controls
-                      playsInline
-                      preload="metadata"
-                      poster={selectedProject.image}
-                      src={getDemoUrl(selectedProject.demo)}
-                      className="w-full h-full object-contain"
-                    >
-                      Your browser does not support HTML5 video.
-                    </video>
-                  </div>
-                ) : selectedProject.image ? (
+                {selectedProject.image ? (
                   <div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
                     <img
                       src={selectedProject.image}
@@ -377,7 +364,7 @@ const Projects = ({ lang }: { lang: Lang }) => {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-aurora text-primary-foreground font-medium text-sm hover:scale-105 transition-transform shadow-md"
                       >
-                        <Play className="w-4 h-4" /> Open Video in New Tab
+                        <Play className="w-4 h-4" /> Watch Demo
                       </a>
                     )}
                     {selectedProject.architecture && (
