@@ -16,8 +16,8 @@ const Index = () => {
   const [lang, setLang] = useState<Lang>("en");
 
   useEffect(() => {
-    document.title = "Sarra Bousnina — AI Software Engineer | Portfolio";
-    const desc = "AI Software Engineer & ESPRIT final-year student. Agentic AI, RAG, LLMs & full-stack. Multi-time hackathon medalist.";
+    document.title = "Sarra Bousnina | AI Software Engineer";
+    const desc = "AI Software Engineer graduated from ESPRIT with excellent honors. Specializing in Agentic AI, RAG pipelines, LLMs, and modern full-stack systems.";
     let m = document.querySelector('meta[name="description"]');
     if (!m) { m = document.createElement("meta"); m.setAttribute("name", "description"); document.head.appendChild(m); }
     m.setAttribute("content", desc);
